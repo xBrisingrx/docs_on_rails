@@ -89,6 +89,10 @@ $.validator.addMethod( "alphanumeric", function( value, element ) {
 	return this.optional( element ) || /^\w+$/i.test( value );
 }, "Letters, numbers, and underscores only please" );
 
+$.validator.addMethod("alfanumOespacio", function(value, element) {
+  	return /^[ a-záéíóúüñ]*$/i.test(value);
+}, "Ingrese sólo letras.");
+
 /*
  * Dutch bank account numbers (not 'giro' numbers) have 9 digits
  * and pass the '11 check'.

@@ -14,6 +14,9 @@
 //= require vendor/select2/select2.full
 //= require custom
 
+//= require vendor/jquery-validate/jquery.validate
+//= require vendor/jquery-validate/additional-methods
+
 //= require companies
 
 $(document).on('ready', function () {

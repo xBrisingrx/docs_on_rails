@@ -14,6 +14,9 @@
     <%= render('shared/nav') %>
     <main class="container-fluid">
       <%= yield %>
+      <div class="modal fade" id="modal" role="dialog"
+           aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      </div>
     </main>
   </body>
 </html>

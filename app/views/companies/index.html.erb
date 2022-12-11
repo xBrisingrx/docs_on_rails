@@ -1,0 +1,33 @@
+<h1>Empresas</h1>
+<%= link_to "<i class='fa fa-plus'></i> Registrar empresa".html_safe, new_company_path( d_type: params[:d_type] ),remote: true, data: { toggle: :modal, target: '#modal' }, 
+  class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'companies', 
+                      color: 'blue', 
+                      title: "Empresas registradas de #{@company_type}", 
+                      col_names: [ 'Nombre', 'Descripcion', 'Acciones' ] }) %>
+
+<input type="hidden" id="companies_d_type" value=<%= params[:d_type] %> >
+
+<!-- Modal para eliminar company -->
+<div class="modal fade" id="modal-disable-company" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿ Esta seguro de dar de baja esta empresa ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(url: disable_company_path, id: 'form-disable-company') do |form| %>
+          <%= form.hidden_field :company_id %>
+          <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
+          <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal eliminar company -->

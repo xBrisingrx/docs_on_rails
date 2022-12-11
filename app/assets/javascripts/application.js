@@ -9,10 +9,12 @@
 //= require unify/hs.core
 //= require unify/components/hs.header
 //= require unify/helpers/hs.hamburgers
-//= require vendor/datatables
+//= require vendor/datatables/datatables
 //= require vendor/noty/noty.min
 //= require vendor/select2/select2.full
+//= require custom
 
+//= require companies
 
 $(document).on('ready', function () {
   // initialization of header

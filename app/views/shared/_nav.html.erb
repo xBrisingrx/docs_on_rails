@@ -31,26 +31,31 @@
             </button>
             <!-- End Responsive Toggle Button -->
             <!-- Logo -->
-            <%= link_to root_path, class: 'navbar-brand' do %>
+            <%= link_to root_path, class: 'navbar-brand mr-4' do %>
               <%= image_tag('logo.png', alt: 'Logo') %>
             <% end %>
             <!-- End Logo -->
 
             <!-- Navigation -->
-            <div class="collapse navbar-collapse align-items-center flex-sm-row g-pt-10" id="navBar">
-              <ul class="navbar-nav ml-auto text-uppercase g-font-weight-600 u-main-nav-v5 u-sub-menu-v1">
-                <li class="nav-item hs-has-sub-menu g-mx-20--lg g-mb-5 g-mb-0--lg">
-                  <a href="#" class="nav-link" id="nav-personas" aria-haspopup="true" aria-expanded="false" aria-controls="nav-submenu-1">Personal
-                  </a>
+            <div class="collapse navbar-collapse align-items-center flex-sm-row g-pt-10 " id="navBar">
+              <ul class="navbar-nav mr-auto text-uppercase g-font-weight-600 u-main-nav-v5 u-sub-menu-v1">
+                <li class="nav-item hs-has-sub-menu g-mx-20--lg g-mb-5 g-mb-0--lg"> 
+                  <%= link_to 'Personal', people_path, class: 'nav-link', id: 'nav-people', 
+                    aria: { haspopup: "true", expanded: 'false', controls: 'nav-submenu-1' } %>
                   <!-- Submenu personas -->
-                  <ul class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" id="nav-submenu-personas" aria-labelledby="nav-personas">
+                  <ul class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" id="nav-submenu-people" aria-labelledby="nav-people">
                     <li>
-                      <a href="#">Ver personas</a>
+                      <li><%= link_to 'Listar personas', people_path %></li>
                       <li><%= link_to 'Admin. empresas', companies_path( d_type: :people ) %></li>
                     </li>
+                  </ul>
+                </li>
               </ul>
             </div>
             <!-- End Navigation -->
+            <div class="">
+              <button class="btn u-btn-primary float-left"> User</button>
+            </div>
           </div>
         </nav>
       </div>

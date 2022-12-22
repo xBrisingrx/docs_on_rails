@@ -25,7 +25,6 @@ $(document).ready(function(){
     noty_alert(msj.status, msj.msg)
     $("#modal-disable-company").modal('hide')
   }).on("ajax:error", function(event) {
-    console.log('error')
     let msj = JSON.parse( event.detail[2].response )
     $.each( msj, function( key, value ) {
       $(`#form-company #company_${key}`).addClass('is-invalid')

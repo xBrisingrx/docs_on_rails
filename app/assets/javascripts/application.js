@@ -18,6 +18,7 @@
 //= require vendor/jquery-validate/additional-methods
 
 //= require companies
+//= require people
 
 $(document).on('ready', function () {
   // initialization of header

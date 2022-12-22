@@ -525,7 +525,7 @@ $.validator.addMethod( "dateNL", function( value, element ) {
 $.validator.addMethod( "extension", function( value, element, param ) {
 	param = typeof param === "string" ? param.replace( /,/g, "|" ) : "png|jpe?g|gif";
 	return this.optional( element ) || value.match( new RegExp( "\\.(" + param + ")$", "i" ) );
-}, $.validator.format( "Please enter a value with a valid extension." ) );
+}, $.validator.format( "Formateo de archivo inválido." ) );
 
 /**
  * Dutch giro account numbers (not bank numbers) have max 7 digits

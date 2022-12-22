@@ -64,19 +64,5 @@ $("#form-person").on("ajax:success", function(event) {
     $("#modal").modal('hide')
   }).on("ajax:error", function(event) {
 	let msj = JSON.parse( event.detail[2].response )
-	$.each( msj, function( key, value ) {
-		let inputs = document.querySelectorAll('#form-person .form-control')
-		let list_ids = 
-		for(let input of inputs) {
-			if ( input.id == `person_${key}` ) {
-				$(`#form-person #person_${key}`).addClass('is-invalid')
-				$(`#form-person .person_${key}`).text( value ).show('slow')
-			} else {
-				if ( input.value != '' ) {
-					$(`#form-person #${input.id}`).addClass('is-valid')
-					$(`#form-person #${input.id}`).text('')
-				}
-			}
-		}
-	})
+	set_input_status_form('form-person', 'person')
 })

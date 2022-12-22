@@ -22,7 +22,6 @@ class PeopleController < ApplicationController
     @person.set_company
     respond_to do |format|
       if @person.save
-        format.html { redirect_to people_path, notice: "Persona registrada con éxito." }
         format.json { render json: { status: :success, msg: 'Persona registrada con éxito.'}, status: :created }
       else
         format.json { render json: @person.errors, status: :unprocessable_entity }

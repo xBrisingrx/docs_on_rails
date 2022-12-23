@@ -1,4 +1,4 @@
-$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg' } ) %>")
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form' } ) %>")
 $("#modal").modal('show')
 
 $("#form-company").on("ajax:success", function(event) {

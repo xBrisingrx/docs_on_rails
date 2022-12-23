@@ -11,7 +11,7 @@ function noty_alert(type, message, time = 7000) {
   }).show();
 }
 
-function set_input_status_form(form_id, object_name){
+function set_input_status_form( form_id, object_name, msg ){
   // form_id es el id del form
   // object_name es el nombre del modelo 
   let inputs = document.querySelectorAll(`#${form_id} .form-control`)
@@ -19,7 +19,7 @@ function set_input_status_form(form_id, object_name){
   for (let i = 0; i< inputs.length; i++) {
       list_ids[i] = inputs[i].id
   }
-  $.each( msj, function( key, value ) {
+  $.each( msg, function( key, value ) {
     $(`#${form_id} #${object_name}_${key}`).addClass('is-invalid')
     $(`#${form_id} .${object_name}_${key}`).text( value ).show('slow')
     list_ids = list_ids.filter( element => element != `${object_name}_${key}`)

@@ -14,6 +14,7 @@ $(document).ready(function(){
     'columns': [
     {'data': 'name'},
     {'data': 'start_date'},
+    {'data': 'end_date'},
     {'data': 'description'},
     {'data': 'actions'}
     ],
@@ -22,11 +23,15 @@ $(document).ready(function(){
 
   $("#form-disable-profile").on("ajax:success", function(event) {
     profiles_table.ajax.reload(null,false)
-    let msj = JSON.parse(event.detail[2].response)
-    noty_alert(msj.status, msj.msg)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
     $("#modal-disable-profile").modal('hide')
   }).on("ajax:error", function(event) {
-    noty_alert(msj.status, msj.msg)
+    let msg = JSON.parse( event.detail[2].response )
+    $.each( msg, function( key, value ) {
+      $('#form-disable-profile #end_date').addClass('is-invalid')
+      $('#form-disable-profile .end_date').text( value ).show('slow')
+    })
   })
 })
 

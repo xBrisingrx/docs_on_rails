@@ -7,7 +7,7 @@
                       color: 'blue', 
                       icon: 'fa-gear',
                       title: "Perfiles registrados", 
-                      col_names: [ 'Nombre', 'Inicio vigencia' ,'Descripcion', 'Acciones' ] }) %>
+                      col_names: [ 'Nombre', 'Inicio vigencia', 'Fin vigencia','Descripcion', 'Acciones' ] }) %>
 
 <input type="hidden" id="companies_d_type" value=<%= params[:d_type] %> >
 
@@ -24,6 +24,11 @@
       <div class="modal-body">
         <%= form_with(url: disable_profile_path, id: 'form-disable-profile') do |form| %>
           <%= form.hidden_field :profile_id %>
+          <div class="form-group g-mb-10">
+            <%= form.label :end_date, 'Fecha finalización vigencia:', class: "col-form-label" %>
+            <%= form.date_field :end_date, class: "form-control u-form-control"%>
+            <small class="form-control-feedback text-danger end_date"></small>
+          </div>
           <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
           <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
         <% end %>

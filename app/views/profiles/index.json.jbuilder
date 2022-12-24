@@ -1,0 +1,10 @@
+json.data @profiles do |profile|
+	json.name profile.name
+	json.start_date (profile.start_date) ? date_format(profile.start_date) : ''
+	json.description profile.description
+	json.actions "#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_profile_path(profile), remote: :true, class: 'btn btn-sm u-btn-primary text-white', title: 'Editar' } 
+								<button class='btn btn-sm u-btn-red text-white' 
+  								title='Eliminar' 
+  								onclick='modal_disable_profile( #{ profile.id } )'>
+									<i class='fa fa-trash-o' aria-hidden='true'></i></button> "
+end

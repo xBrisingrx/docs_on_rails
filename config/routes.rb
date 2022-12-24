@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   post 'disable_person', to: 'people#disable', as: 'disable_person'
   resources :companies, except: [:destroy, :show]
   post 'disable_company', to: 'companies#disable', as: 'disable_company'
+  resources :profiles, except: [:destroy, :show]
+  post 'disable_profile', to: 'profiles#disable', as: 'disable_profile'
 end

@@ -18,7 +18,7 @@
 //= require vendor/jquery-validate/additional-methods
 
 //= require companies
-// require people
+//= require people
 //= require profiles
 
 $(document).on('ready', function () {

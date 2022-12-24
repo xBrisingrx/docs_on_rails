@@ -16,7 +16,6 @@ class CreatePeople < ActiveRecord::Migration[5.2]
       t.string :phone
       t.date :start_activity
       t.boolean :active, null:false ,default: true
-      t.references :company, foreign_key: true
 
       t.timestamps
     end

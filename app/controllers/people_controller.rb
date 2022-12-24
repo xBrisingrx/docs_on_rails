@@ -5,12 +5,11 @@ class PeopleController < ApplicationController
     @people = Person.actives
   end
 
-  def show
-  end
+  def show;end
 
   def new
-    @title_modal = 'Alta de persona'
     @person = Person.new
+    @title_modal = 'Alta de persona'
   end
 
   def edit
@@ -19,12 +18,14 @@ class PeopleController < ApplicationController
 
   def create
     @person = Person.new(person_params)
-    @person.set_company
+
     respond_to do |format|
       if @person.save
         format.json { render json: { status: :success, msg: 'Persona registrada con éxito.'}, status: :created }
+        format.html { redirect_to person_url(@person), notice: "Person was successfully created." }
       else
         format.json { render json: @person.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
@@ -32,10 +33,11 @@ class PeopleController < ApplicationController
   def update
     respond_to do |format|
       if @person.update(person_params)
-        format.html { redirect_to person_url(@person), notice: "Person was successfully updated." }
         format.json { render json: { status: :success, msg: 'Datos actualizados.'}, status: :ok }
+        format.html { redirect_to people_path, notice: "Person was successfully updated." }
       else
         format.json { render json: @person.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
       end
     end
   end
@@ -58,30 +60,19 @@ class PeopleController < ApplicationController
     @file = params[:file]
   end
 
-  def dato_disponible
-    # Verificamos que el dato no este en uso
+  def dato_disponible # Verificamos que el dato no este en uso
     person = Person.where("#{params['attribute']}" => params['value']).first
 
     if person.nil?
-      pp 'no se encontro ninguna persona con este legajo'
       render json: 'true'
     else
       if !params['person_id'].blank?
-        puts 'Estamos editando'
-        # Estamos editando
         if params['person_id'].to_i == person.id
-          # El id encontrado es el de la persona que estamos editando
-          pp 'El id encontrado es el de la persona que estamos editando'
           render json: 'true'
         else
-          puts " desiguales:  #{params['person_id'] == person.id}"
-          # El ID encontrado no es el de la persona que editamos
-          pp 'El ID encontrado no es el de la persona que editamos'
           render json: 'false'
         end
       else
-        # Estamos creando una persona y el legajo pertenece a alguien mas
-        pp 'Estamos creando una persona y el legajo pertenece a alguien mas'
         render json: 'false'
       end
     end

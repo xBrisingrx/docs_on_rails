@@ -1,5 +1,4 @@
-let form_new_person
-let people_table
+let form_person, people_table
 
 function modal_disable_person(id) {
   $('#modal-disable-person #person_id').val(id)
@@ -41,4 +40,3 @@ $(document).ready(function(){
   })
 
 })
-

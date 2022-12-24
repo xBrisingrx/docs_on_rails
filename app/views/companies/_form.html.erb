@@ -1,4 +1,4 @@
-<%= form_with(model: @company, remote: true, id: 'form-company', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+<%= form_with(model: @company, id: 'form-company', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
   <%= form.hidden_field :d_type, value: params[:d_type] %>
   <div class="form-group row">
     <%= form.label :name, 'Nombre: ', class: 'col-form-label col-sm-3 col-md-4' %>

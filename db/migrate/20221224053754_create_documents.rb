@@ -5,7 +5,6 @@ class CreateDocuments < ActiveRecord::Migration[5.2]
       t.string :name, null:false
       t.string :description
       t.boolean :expires, default: false
-      t.string :expiration_type
       t.integer :days_of_validity
       t.boolean :allow_modify_expiration
       t.text :observations
@@ -16,6 +15,7 @@ class CreateDocuments < ActiveRecord::Migration[5.2]
       t.boolean :active, default: true
 
       t.references :document_category, foreign_key: true
+      t.references :expiration_type, foreign_key: true
       t.timestamps
     end
   end

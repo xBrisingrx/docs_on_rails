@@ -1,4 +1,5 @@
 <%= form_with(model: @document,id: 'form-document', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+  <%= form.hidden_field :d_type, value: params[:d_type] %>
   <div class="form-group row">
     <%= form.label :name, 'Nombre (*) ', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
@@ -33,9 +34,9 @@
   </div>
 
  <div class="form-group row" style="display: none">
-    <%= form.label :expiration_type, 'Periodo de vencimiento' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <%= form.label :expiration_type_id, 'Periodo de vencimiento' ,class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:expiration_type, @expiration_types.collect { |e| [e.name, e.id, data: { days: e.days }] }, { include_blank: true},
+      <%= form.select(:expiration_type_id, @expiration_types.collect { |e| [e.name, e.id, data: { days: e.days }] }, { include_blank: true},
                       onchange: 'check_expiration_type()',
                       class: 'form-control select-2-document-expiration') %>
     </div>
@@ -66,14 +67,14 @@
   </div>
 
   <div class="form-group row">
-    <%= form.label :renewal_methodology, class:'col-form-label col-sm-3 col-md-4' %>
+    <%= form.label :renewal_methodology,'Metodología de renovación', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6 ">
       <%= form.text_area :renewal_methodology, class: 'form-control u-textarea-expandable g-resize-none', rows: 3 %>
     </div>
   </div>
 
   <div class="form-group row">
-    <%= form.label :start_date, 'Inicio vigencia' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <%= form.label :start_date, 'Inicio vigencia' ,class:'col-form-label col-sm-3 col-md-4', title: 'Cuando se empezo a pedir este documento' %>
     <div class="col-9 col-md-6 input-group g-brd-primary--focus">
       <%= form.date_field :start_date, class: 'form-control' %>
     </div>

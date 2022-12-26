@@ -13,6 +13,7 @@ expiration_types = {
 	'Otro': 0
 }
 
+ExpirationType.create( name: 'No vence', days: 0, active: false )
 expiration_types.each do |expiration|
 	ExpirationType.create( name: expiration[0], days: expiration[1] )
 end

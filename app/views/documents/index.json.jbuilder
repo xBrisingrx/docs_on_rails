@@ -1,9 +1,9 @@
 json.data @documents do |document|
     json.name document.name
     json.description document.description
-    json.category document.category.name
+    json.category document.document_category.name
     json.expires ( document.expires ) ? 'Si' : 'No'
-    json.expiration_type ( document.expires ) ? document.expiration_type : ''
+    json.expiration_type ( document.expires ) ? document.expiration_type.name : ''
     json.days_of_validity ( document.expires ) ? document.days_of_validity : ''
     json.allow_modify_expiration  ( document.allow_modify_expiration ) ? 'Si' : 'No'
     json.observations document.observations

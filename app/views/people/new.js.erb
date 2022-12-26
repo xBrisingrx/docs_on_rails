@@ -57,10 +57,10 @@ form_person.validate({
 
 $("#form-person").on("ajax:success", function(event) {
     people_table.ajax.reload(null,false)
-    let msj = JSON.parse(event.detail[2].response)
-    noty_alert(msj.status, msj.msg)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
     $("#modal").modal('hide')
   }).on("ajax:error", function(event) {
-	let msj = JSON.parse( event.detail[2].response )
-	set_input_status_form('form-person', 'person')
+	let msg = JSON.parse( event.detail[2].response )
+	set_input_status_form('form-person', 'person', msg)
 })

@@ -2,7 +2,7 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[ show edit update destroy ]
 
   def index
-    @profiles = Profile.actives
+    @profiles = Profile.all
     @profile_type = ( params[:d_type] == 'people' ) ? 'personal' : 'vehiculos'
   end
 

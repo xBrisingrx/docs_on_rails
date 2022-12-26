@@ -3,14 +3,10 @@ $("#modal").modal('show')
 
 $("#form-company").on("ajax:success", function(event) {
     companies_table.ajax.reload(null,false)
-    let msj = JSON.parse(event.detail[2].response)
-    noty_alert(msj.status, msj.msg)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
     $("#modal").modal('hide')
   }).on("ajax:error", function(event) {
-	let msj = JSON.parse( event.detail[2].response )
-	$.each( msj, function( key, value ) {
-		$(`#form-company #company_${key}`).addClass('is-invalid')
-		$(`#form-company #company_${key}`).addClass('is-invalid').append('<p>erroraso</p>')
-		$(`#form-company .company_${key}`).text( value ).show('slow')
-	})
+	let msg = JSON.parse( event.detail[2].response )
+	set_input_status_form('form-company', 'company', msg)
 })

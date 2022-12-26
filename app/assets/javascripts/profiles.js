@@ -2,6 +2,9 @@ let profiles_table
 let profiles_type = ''
 function modal_disable_profile(id) {
   $('#modal-disable-profile #profile_id').val(id)
+  setInputDate('#form-disable-profile #end_date')
+  $('#form-disable-profile #end_date').removeClass('is-invalid')
+  $('#form-disable-profile .end_date').text('')
   $('#modal-disable-profile').modal('show')
 }
 
@@ -15,6 +18,7 @@ $(document).ready(function(){
     {'data': 'name'},
     {'data': 'start_date'},
     {'data': 'end_date'},
+    {'data': 'status'},
     {'data': 'description'},
     {'data': 'actions'}
     ],

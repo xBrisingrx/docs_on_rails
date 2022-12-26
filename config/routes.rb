@@ -10,4 +10,8 @@ Rails.application.routes.draw do
   post 'disable_company', to: 'companies#disable', as: 'disable_company'
   resources :profiles, except: [:destroy, :show]
   post 'disable_profile', to: 'profiles#disable', as: 'disable_profile'
+  resources :documents
+  post 'disable_document', to: 'documents#disable', as: 'disable_document'
+  resources :document_categories
+  resources :expiration_types
 end

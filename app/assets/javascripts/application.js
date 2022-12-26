@@ -20,6 +20,7 @@
 //= require companies
 //= require people
 //= require profiles
+//= require documents
 
 $(document).on('ready', function () {
   // initialization of header

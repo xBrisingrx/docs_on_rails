@@ -9,8 +9,8 @@ function modal_disable_document(id) {
 }
 
 $(document).ready(function(){
-  if ( document.getElementById('documents_d_type') != undefined ) {
-    documents_type = document.getElementById('documents_d_type').value
+  if ( document.getElementById('d_type') != undefined ) {
+    documents_type = document.getElementById('d_type').value
   }
 	documents_table = $("#documents_table").DataTable({
     'ajax': `documents?d_type=${documents_type}`,

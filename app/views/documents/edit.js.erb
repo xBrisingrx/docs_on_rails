@@ -7,13 +7,13 @@ document.querySelector('#form-document #document_d_type').value = document.getEl
 
 check_expiration_type()
 
+documents.check_is_expire( document.getElementById('document_expires') )
+
 $("#modal").modal('show')
 
 document.getElementById('document_expires').addEventListener('click', (e) => {
-  check_expires(e.target)
+  documents.check_is_expire(e.target)
 })
-
-check_is_expire( document.getElementById('document_expires') )
 
 function check_expiration_type(){
   let expiration_type = document.getElementById('document_expiration_type_id')
@@ -24,16 +24,6 @@ function check_expiration_type(){
   } else {
     document.getElementById('document_days_of_validity').parentNode.parentNode.style.display = 'none'
     document.getElementById('document_days_of_validity').value = days
-  }
-}
-
-function check_is_expire(checkbox) {
-  if (checkbox.checked) {
-    document.getElementById('document_expiration_type_id').parentNode.parentNode.style.display = ''
-    document.getElementById('document_allow_modify_expiration').parentNode.parentNode.style.display = ''
-  } else {
-    document.getElementById('document_expiration_type_id').parentNode.parentNode.style.display = 'none'
-    document.getElementById('document_allow_modify_expiration').parentNode.parentNode.style.display = 'none'
   }
 }
 

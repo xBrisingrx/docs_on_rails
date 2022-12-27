@@ -1,5 +1,19 @@
 let documents_table
 let documents_type = ''
+
+const documents = {
+  check_is_expire: (checkbox) => {
+    if (checkbox.checked) {
+      document.getElementById('document_expiration_type_id').parentNode.parentNode.style.display = ''
+      document.getElementById('document_allow_modify_expiration').parentNode.parentNode.style.display = ''
+    } else {
+      document.getElementById('document_expiration_type_id').parentNode.parentNode.style.display = 'none'
+      document.getElementById('document_allow_modify_expiration').parentNode.parentNode.style.display = 'none'
+      document.getElementById('document_allow_modify_expiration').value = ''
+    }
+  }
+}
+
 function modal_disable_document(id) {
   $('#modal-disable-document #document_id').val(id)
   setInputDate('#form-disable-document #end_date')

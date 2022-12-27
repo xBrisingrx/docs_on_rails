@@ -12,11 +12,19 @@ json.data @documents do |document|
     json.start_date date_format(document.start_date)
     json.end_date date_format(document.end_date)
     json.status status_format( document.active )
-    json.actions "#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_document_path(document), data: {toggle: 'tooltip'}, remote: :true, 
-                                class: 'btn btn-sm u-btn-primary text-white', title: 'Editar' } 
-                                <button class='btn btn-sm u-btn-red text-white' 
-                                data-toggle='tooltip'
-                                title='Eliminar'
-                                onclick='modal_disable_document( #{ document.id } )'>
-                                    <i class='fa fa-trash-o' aria-hidden='true'></i></button> "
+
+    if document.active
+      json.actions "#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_document_path(document), data: {toggle: 'tooltip'}, remote: :true, 
+                        class: 'btn btn-sm u-btn-primary text-white', title: 'Editar' } 
+                        <button class='btn btn-sm u-btn-red text-white' 
+                        data-toggle='tooltip'
+                        title='Eliminar'
+                        onclick='modal_disable_document( #{ document.id } )'>
+                        <i class='fa fa-trash-o' aria-hidden='true'></i></button> "
+    else 
+      json.actions "<button class='btn btn-sm u-btn-orange text-white' 
+                      data-toggle='tooltip'
+                      title='Reactivar'
+                      onclick=''> <i class='fa fa-refresh' aria-hidden='true'></i></button>"
+    end
 end

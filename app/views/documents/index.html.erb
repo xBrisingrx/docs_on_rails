@@ -1,12 +1,12 @@
-<h1>Atributos de <%= @document_type %></h1>
-<%= link_to "<i class='fa fa-plus'></i> Registrar atributo".html_safe, new_document_path( d_type: params[:d_type] ),remote: true, 
+<h1>Documentos de <%= @document_type %></h1>
+<%= link_to "<i class='fa fa-plus'></i> Registrar documento".html_safe, new_document_path( d_type: params[:d_type] ),remote: true, 
             class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
 
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'documents', 
                       color: 'purple', 
                       icon: 'fa-folder-open-o',
-                      title: "Atributos registrados", 
+                      title: "Documentos registrados", 
                       col_names: [ 'Nombre','Descripción','Categoría','Tiene venc.', 'Tipo venc.', 'Periodo venc.', 'Permite editar prox. venc.', 'Observaciones', 'Metodología de renovación', 'Presenta resumen mensual','Inicio vigencia', 'Fin vigencia' , 'Estado','Acciones' ] }) %>
 
 <!-- Modal para eliminar document -->
@@ -14,7 +14,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">¿ Esta seguro de dar de baja este atributo ?</h5>
+        <h5 class="modal-title">¿ Esta seguro de dar de baja este documento ?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

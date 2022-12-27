@@ -8,7 +8,13 @@ class Document < ApplicationRecord
 	validates :name, presence: true, 
 		uniqueness: { scope: :d_type, case_sensitive: false, message: "Ya existe un atributo registrado con este nombre" }
 	validates :d_type, presence: true
-	validates :days_of_validity, presence: { message: 'Debe ingresar los días de duración del atributo' }, if: :document_expire?
+
+	validates :days_of_validity, numericality: { only_integer: true, message: 'Debe ingresar un número.' },
+		presence: { message: 'Debe ingresar los días de duración del atributo.' }, if: :document_expire?
+
+	validates :expiration_type_id, presence: { message: 'Seleccione un periodo de vencimiento'}, if: :document_expire?
+
+	validates :end_date, presence: { message: 'Para dar de baja un documento se necesita ingresar la fecha de finalización.'}, if: :document_inactive?
 
 	before_create :set_data_if_no_expire
 
@@ -30,6 +36,10 @@ class Document < ApplicationRecord
 
 	def document_expire?
 		self.expires?
+	end
+
+	def document_inactive?
+		!self.active
 	end
 
 end

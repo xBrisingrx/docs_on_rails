@@ -19,12 +19,11 @@ function check_expiration_type(){
   let expiration_type = document.getElementById('document_expiration_type_id')
   let days = expiration_type.options[expiration_type.selectedIndex].dataset.days
   if (days == 0) {
-    document.getElementById('document_days_of_validity').value == ''
+    document.getElementById('document_days_of_validity').value = ''
     document.getElementById('document_days_of_validity').parentNode.parentNode.style.display = ''
   } else {
     document.getElementById('document_days_of_validity').parentNode.parentNode.style.display = 'none'
     document.getElementById('document_days_of_validity').value = days
-    console.log(document.getElementById('document_days_of_validity').value)
   }
 }
 

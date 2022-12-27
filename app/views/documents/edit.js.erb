@@ -3,6 +3,10 @@ $("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', co
 $('.select-2-document-category').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione categoría (*)" });
 $('.select-2-document-expiration').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione período de vencimiento (*)" });
 
+document.querySelector('#form-document #document_d_type').value = document.getElementById('d_type').value
+
+check_expiration_type()
+
 $("#modal").modal('show')
 
 document.getElementById('document_expires').addEventListener('click', (e) => {
@@ -15,12 +19,11 @@ function check_expiration_type(){
   let expiration_type = document.getElementById('document_expiration_type_id')
   let days = expiration_type.options[expiration_type.selectedIndex].dataset.days
   if (days == 0) {
-    document.getElementById('document_days_of_validity').value == ''
+    document.getElementById('document_days_of_validity').value = <%= @document.days_of_validity %>
     document.getElementById('document_days_of_validity').parentNode.parentNode.style.display = ''
   } else {
     document.getElementById('document_days_of_validity').parentNode.parentNode.style.display = 'none'
     document.getElementById('document_days_of_validity').value = days
-    console.log(document.getElementById('document_days_of_validity').value)
   }
 }
 

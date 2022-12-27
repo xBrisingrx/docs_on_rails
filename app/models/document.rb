@@ -8,6 +8,7 @@ class Document < ApplicationRecord
 	validates :name, presence: true, 
 		uniqueness: { scope: :d_type, case_sensitive: false, message: "Ya existe un atributo registrado con este nombre" }
 	validates :d_type, presence: true
+	validates :days_of_validity, presence: { message: 'Debe ingresar los días de duración del atributo' }, if: :document_expire?
 
 	before_create :set_data_if_no_expire
 
@@ -16,6 +17,10 @@ class Document < ApplicationRecord
 		vehicles: 2
 	}
 
+	scope :actives, -> { where(active: true) }
+
+	private 
+
 	def set_data_if_no_expire
 		if !self.expires?
 			expiration_type = ExpirationType.where(active: false, name: 'No vence').first
@@ -23,6 +28,8 @@ class Document < ApplicationRecord
 		end
 	end
 
-	scope :actives, -> { where(active: true) }
+	def document_expire?
+		self.expires?
+	end
 
 end

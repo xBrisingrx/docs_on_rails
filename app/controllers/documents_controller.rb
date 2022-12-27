@@ -18,6 +18,9 @@ class DocumentsController < ApplicationController
   end
 
   def edit
+    @expiration_types = ExpirationType.actives
+    @categories = DocumentCategory.actives
+    @title_modal = 'Registro de atributo'
   end
 
   def create

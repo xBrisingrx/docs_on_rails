@@ -4,7 +4,7 @@ json.data @documents do |document|
     json.category document.document_category.name
     json.expires ( document.expires ) ? 'Si' : 'No'
     json.expiration_type ( document.expires ) ? document.expiration_type.name : ''
-    json.days_of_validity ( document.expires ) ? document.days_of_validity : ''
+    json.days_of_validity ( document.expires ) ? document.days_of_validity : "<h4>∞</h4>"
     json.allow_modify_expiration  ( document.allow_modify_expiration ) ? 'Si' : 'No'
     json.observations document.observations
     json.renewal_methodology document.renewal_methodology
@@ -12,5 +12,11 @@ json.data @documents do |document|
     json.start_date date_format(document.start_date)
     json.end_date date_format(document.end_date)
     json.status status_format( document.active )
-    json.actions 'btn'
+    json.actions "#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_document_path(document), data: {toggle: 'tooltip'}, remote: :true, 
+                                class: 'btn btn-sm u-btn-primary text-white', title: 'Editar' } 
+                                <button class='btn btn-sm u-btn-red text-white' 
+                                data-toggle='tooltip'
+                                title='Eliminar'
+                                onclick='modal_disable_document( #{ document.id } )'>
+                                    <i class='fa fa-trash-o' aria-hidden='true'></i></button> "
 end

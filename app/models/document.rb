@@ -9,11 +9,19 @@ class Document < ApplicationRecord
 		uniqueness: { scope: :d_type, case_sensitive: false, message: "Ya existe un atributo registrado con este nombre" }
 	validates :d_type, presence: true
 
+	before_create :set_data_if_no_expire
 
 	enum d_type: {
 		people: 1, 
 		vehicles: 2
 	}
+
+	def set_data_if_no_expire
+		if !self.expires?
+			expiration_type = ExpirationType.where(active: false, name: 'No vence').first
+			self.expiration_type_id = expiration_type.id
+		end
+	end
 
 	scope :actives, -> { where(active: true) }
 

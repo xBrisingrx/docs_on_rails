@@ -9,6 +9,7 @@ class Profile < ApplicationRecord
 	}
 	scope :actives, -> { where(active: true) }
 
+	private
 	def profile_inactive?
 		self.active == false
 	end

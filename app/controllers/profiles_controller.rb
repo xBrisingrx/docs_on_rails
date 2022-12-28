@@ -2,7 +2,7 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[ show edit update destroy ]
 
   def index
-    @profiles = Profile.all
+    @profiles = Profile.where(d_type: params[:d_type])
     @profile_type = ( params[:d_type] == 'people' ) ? 'personal' : 'vehiculos'
   end
 
@@ -65,6 +65,6 @@ class ProfilesController < ApplicationController
     end
 
     def profile_params
-      params.require(:profile).permit(:d_type, :name, :start_date, :description)
+      params.require(:profile).permit(:d_type, :name, :start_date, :end_date, :description)
     end
 end

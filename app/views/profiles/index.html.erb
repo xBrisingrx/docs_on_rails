@@ -9,6 +9,18 @@
                       title: "Perfiles registrados", 
                       col_names: [ 'Nombre', 'Inicio vigencia', 'Fin vigencia','Estado','Descripcion','Acciones' ] }) %>
 
+
+
+<%= link_to "<i class='fa fa-plus'></i> Agregar documento a un perfil".html_safe, new_documents_profile_path( d_type: params[:d_type] ),remote: true, 
+            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'documents_profiles', 
+                      color: 'blue', 
+                      icon: 'fa-gear',
+                      title: "Documentos asignados a perfiles", 
+                      col_names: [ 'Perfil', 'Documento', 'Inicio vigencia','Inicio vigencia','Estado','Acciones' ] }) %>
+
 <input type="hidden" id="companies_d_type" value=<%= params[:d_type] %> >
 
 <!-- Modal para eliminar profile -->

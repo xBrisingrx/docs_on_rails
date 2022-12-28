@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Documents Profiles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Profile</th>
+      <th>Document</th>
+      <th>Active</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @documents_profiles.each do |documents_profile| %>
+      <tr>
+        <td><%= documents_profile.profile %></td>
+        <td><%= documents_profile.document %></td>
+        <td><%= documents_profile.active %></td>
+        <td><%= link_to 'Show', documents_profile %></td>
+        <td><%= link_to 'Edit', edit_documents_profile_path(documents_profile) %></td>
+        <td><%= link_to 'Destroy', documents_profile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Documents Profile', new_documents_profile_path %>

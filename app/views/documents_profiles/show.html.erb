@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Profile:</strong>
+  <%= @documents_profile.profile %>
+</p>
+
+<p>
+  <strong>Document:</strong>
+  <%= @documents_profile.document %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @documents_profile.active %>
+</p>
+
+<%= link_to 'Edit', edit_documents_profile_path(@documents_profile) %> |
+<%= link_to 'Back', documents_profiles_path %>

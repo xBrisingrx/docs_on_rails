@@ -1,0 +1,23 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: '', content: 'form' } ) %>")
+
+$('.select-profile-document').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione perfil (*)" });
+$('.select-document-profile').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione document (*)" });
+
+setInputDate('#form-document-profile #documents_profile_start_date')
+
+$("#modal").modal('show')
+
+$("#form-document-profile").on("ajax:success", function(event) {
+  documents_profiles_table.ajax.reload(null,false)
+  let msg = JSON.parse(event.detail[2].response)
+  noty_alert(msg.status, msg.msg)
+  $("#modal").modal('hide')
+}).on("ajax:error", function(event) {
+  let msg = JSON.parse( event.detail[2].response )
+  let msg_errors = document.querySelector('#form-document-profile #msg_errors')
+  msg_errors.innerHTML = ''
+    cosito = msg
+    if (msg.uniqueness != null) {
+      msg_errors.innerHTML = msg.uniqueness[0]
+    } 
+})

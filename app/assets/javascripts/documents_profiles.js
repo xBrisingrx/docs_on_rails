@@ -1,5 +1,5 @@
-let profiles_table
-let profiles_type = ''
+let documents_profiles_table
+let documents_profiles_type = ''
 function modal_disable_profile(id) {
   $('#modal-disable-profile #profile_id').val(id)
   setInputDate('#form-disable-profile #end_date')
@@ -10,23 +10,23 @@ function modal_disable_profile(id) {
 
 $(document).ready(function(){
   if ( document.getElementById('d_type') != undefined ) {
-    profiles_type = document.getElementById('d_type').value
+    documents_profiles_type = document.getElementById('d_type').value
   }
-	profiles_table = $("#profiles_table").DataTable({
-    'ajax': `profiles?d_type=${profiles_type}`,
+	documents_profiles_table = $("#documents_profiles_table").DataTable({
+    'ajax': `documents_profiles?d_type=${documents_profiles_type}`,
     'columns': [
-    {'data': 'name'},
+    {'data': 'profile'},
+    {'data': 'document'},
     {'data': 'start_date'},
     {'data': 'end_date'},
     {'data': 'status'},
-    {'data': 'description'},
     {'data': 'actions'}
     ],
     'language': {'url': datatables_lang}
 	})
 
   $("#form-disable-profile").on("ajax:success", function(event) {
-    profiles_table.ajax.reload(null,false)
+    documents_profiles_table.ajax.reload(null,false)
     let msg = JSON.parse(event.detail[2].response)
     noty_alert(msg.status, msg.msg)
     $("#modal-disable-profile").modal('hide')
@@ -38,4 +38,3 @@ $(document).ready(function(){
     })
   })
 })
-

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
   root 'main#welcome'
   get 'main/welcome'
 
@@ -14,4 +15,6 @@ Rails.application.routes.draw do
   post 'disable_document', to: 'documents#disable', as: 'disable_document'
   resources :document_categories
   resources :expiration_types
+  resources :documents_profiles, except: [:destroy, :show]
+  post 'disable_document_profile', to: 'documents_profiles#disable', as: 'disable_document_profile'
 end

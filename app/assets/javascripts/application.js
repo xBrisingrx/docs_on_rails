@@ -21,6 +21,7 @@
 //= require people
 //= require profiles
 //= require documents
+//= require documents_profiles
 
 $(document).on('ready', function () {
   // initialization of header

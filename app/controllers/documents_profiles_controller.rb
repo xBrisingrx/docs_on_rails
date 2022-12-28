@@ -11,14 +11,14 @@ class DocumentsProfilesController < ApplicationController
   def new
     @documents_profile = DocumentsProfile.new
     @title_modal = 'Agregar documento a un perfil'
-    @profiles = Profile.where( d_type: params[:d_type])
-    @documents = Document.where( d_type: params[:d_type])
+    @profiles = Profile.where( d_type: params[:d_type]).actives
+    @documents = Document.where( d_type: params[:d_type]).actives
   end
 
   def edit
     @title_modal = 'Editar'
-    @profiles = Profile.where( d_type: @documents_profile.d_type)
-    @documents = Document.where( d_type: @documents_profile.d_type)
+    @profiles = Profile.where( d_type: @documents_profile.d_type).actives
+    @documents = Document.where( d_type: @documents_profile.d_type).actives
   end
 
   def create

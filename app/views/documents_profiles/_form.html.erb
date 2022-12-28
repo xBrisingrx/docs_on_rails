@@ -1,6 +1,6 @@
 <%= form_with(model: @documents_profile, class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: 'form-document-profile') do |form| %>
   <%= form.hidden_field :d_type, value: params[:d_type] %>
-  <div id="msg_errors"></div>
+  <div id="msg_errors" class="alert g-bg-red-opacity-0_1 g-color-lightred mb-2" style="display:none"></div>
   <div class="form-group row">
     <%= form.label :profile_id, 'Perfil (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">

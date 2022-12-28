@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   post 'disable_document', to: 'documents#disable', as: 'disable_document'
   resources :document_categories
   resources :expiration_types
+  
+  get 'documents_profiles/:id/modal_disable', to: 'documents_profiles#modal_disable', as: 'modal_disable_document_profile'
   resources :documents_profiles, except: [:destroy, :show]
   post 'disable_document_profile', to: 'documents_profiles#disable', as: 'disable_document_profile'
 end

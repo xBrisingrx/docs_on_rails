@@ -1,9 +1,7 @@
 $("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: '', content: 'form' } ) %>")
 
-$('.select-profile-document').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione perfil (*)" });
-$('.select-document-profile').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione document (*)" });
-
-setInputDate('#form-document-profile #documents_profile_start_date')
+document.querySelector('#form-document-profile #documents_profile_profile_id').disabled = true
+document.querySelector('#form-document-profile #documents_profile_document_id').disabled = true
 
 $("#modal").modal('show')
 

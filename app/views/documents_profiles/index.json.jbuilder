@@ -7,12 +7,10 @@ json.data @documents_profiles do |document_profile|
 
     if document_profile.active
       json.actions "#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_documents_profile_path(document_profile), data: {toggle: 'tooltip'}, remote: :true, 
-                        class: 'btn btn-sm u-btn-primary text-white', title: 'Editar' } 
-                        <button class='btn btn-sm u-btn-red text-white' 
-                        data-toggle='tooltip'
-                        title='Eliminar'
-                        onclick='modal_disable_document_profile( #{ document_profile.id } )'>
-                        <i class='fa fa-trash-o' aria-hidden='true'></i></button> "
+                        class: 'btn btn-sm u-btn-primary text-white', title: 'Editar' }
+                    #{ link_to '<i class="fa fa-trash-o"></i>'.html_safe, modal_disable_document_profile_path(document_profile), 
+                        data: {toggle: 'tooltip'}, remote: :true, 
+                        class: 'btn btn-sm u-btn-red text-white', title: 'Eliminar' }"
     else 
       json.actions "<button class='btn btn-sm u-btn-orange text-white' 
                       data-toggle='tooltip'

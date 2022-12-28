@@ -2,7 +2,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">¿ Esta seguro de desvincular este documento del perfil ?</h5>
+        <h5 class="modal-title">¿ Esta seguro de desvincular este documento ?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -11,7 +11,7 @@
       	<div id="document_profile_data"></div>
 
         <div class="alert g-bg-red-opacity-0_1 g-color-lightred mb-2">
-          Tenga en cuenta que se eliminara tambien el documento y renovaciones de personas/vehiculos que tengan este perfil. 
+          Tenga en cuenta que se eliminara tambien el documento y renovaciones de personas/vehiculos que tengan este perfil. <br>
           Si la persona/vehiculo tiene mas de un perfil con este documento, no sera afectado.
         </div>
         <%= form_with(url: disable_document_profile_path, id: 'form-disable-document-profile') do |form| %>

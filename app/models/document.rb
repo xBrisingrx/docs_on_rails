@@ -6,7 +6,7 @@ class Document < ApplicationRecord
 	belongs_to :expiration_type, optional: true
 
 	validates :name, presence: true, 
-		uniqueness: { scope: :d_type, case_sensitive: false, message: "Ya existe un atributo registrado con este nombre" }
+		uniqueness: { scope: :d_type, case_sensitive: false, message: "Este documento ya se encuentra registrado" }
 	validates :d_type, presence: true
 
 	validates :days_of_validity, numericality: { only_integer: true, message: 'Debe ingresar un número.' },

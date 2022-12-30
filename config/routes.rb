@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  
   root 'main#welcome'
   get 'main/welcome'
 
@@ -19,4 +18,7 @@ Rails.application.routes.draw do
   get 'documents_profiles/:id/modal_disable', to: 'documents_profiles#modal_disable', as: 'modal_disable_document_profile'
   resources :documents_profiles, except: [:destroy, :show]
   post 'disable_document_profile', to: 'documents_profiles#disable', as: 'disable_document_profile'
+  
+  resources :people_profiles, except: [:destroy, :show]
+  get 'people_profiles/:id/modal_disable', to: 'people_profiles#modal_disable', as: 'modal_disable_person_profile'
 end

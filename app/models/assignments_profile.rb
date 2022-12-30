@@ -15,13 +15,17 @@ class AssignmentsProfile < ApplicationRecord
     @documents = DocumentsProfile.where( profile_id: self.profile_id, active: true )
     ActiveRecord::Base.transaction do
       @documents.each do |document|
-        @entry = AssignmentsDocument.find_by( assignated_id: self.assignated_id, assignated_type: self.assignated_type, document_id: document.document_id )
+        @entry = AssignmentsDocument.find_by( assignated_id: self.assignated_id, 
+          assignated_type: self.assignated_type, 
+          document_id: document.document_id,
+          start_date: self.start_date )
         if @entry.nil?
           @entry = AssignmentsDocument.new(assignated_id: self.assignated_id, assignated_type: self.assignated_type, document_id: document.document_id)
           @entry.save
-        elsif !@entry.nil? && !@entry.active
+        elsif !@entry.active && !@entry.custom
           # La persona pudo haber tenido un perfil con este documento y se dio de baja la relacion
           # La persona pudo haber tenido un perfil con este documento y al perfil se le quito el documento
+          # Los documentos des/asignados manualmente (custom) no se pueden alterar
           @entry.update(active: true) 
         end
       end

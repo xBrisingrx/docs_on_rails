@@ -1,11 +1,11 @@
-<%= form_with(url: people_profiles_path, class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: 'form-person-profile') do |form| %>
+<%= form_with(model: @people_profile, class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: 'form-person-profile') do |form| %>
     
   <div id="msg_errors" class="alert g-bg-red-opacity-0_1 g-color-lightred mb-2" style="display:none"></div>
-
+  <%= form.hidden_field :assignated_type %>
   <div class="form-group row">
-    <%= form.label :person_id, 'Persona (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <%= form.label :assignated_id, 'Persona (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:person_id, @people.collect {|p| [p.fullname, p.id]}, { include_blank: true},
+      <%= form.select(:assignated_id, @people.collect {|p| [p.fullname, p.id]}, { include_blank: true},
                       class: 'form-control select-person-profile', required: true) %>
       <small class="form-control-feedback text-danger profile"></small>
     </div>

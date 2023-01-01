@@ -1,4 +1,7 @@
 $("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: '', content: 'form' } ) %>")
+
+setInputDate('#form-profile #profile_start_date')
+
 $("#modal").modal('show')
 
 $("#form-profile").on("ajax:success", function(event) {

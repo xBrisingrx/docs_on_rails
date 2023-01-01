@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   resources :documents_profiles, except: [:destroy, :show]
   post 'disable_document_profile', to: 'documents_profiles#disable', as: 'disable_document_profile'
   
-  resources :people_profiles, except: [:destroy, :show]
-  get 'people_profiles/:id/modal_disable', to: 'people_profiles#modal_disable', as: 'modal_disable_person_profile'
+  resources :people_profiles, except: [:destroy, :show] do 
+    get 'modal_disable'
+  end
+  resources :assignments_profiles, except: [:index, :show, :destroy]
+  post 'disable_assignment_profile', to: 'assignments_profiles#disable', as: 'disable_assignment_profile'
 end

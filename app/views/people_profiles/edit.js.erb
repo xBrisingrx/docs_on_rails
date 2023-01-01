@@ -1,14 +1,12 @@
 $("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: '', content: 'form' } ) %>")
 
-$('.select-person-profile').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione persona (*)" })
-$('.select-profile-person').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione perfil (*)" })
-
-setInputDate('#form-person-profile #assignments_profile_start_date')
+document.querySelector('#form-person-profile #assignments_profile_assignated_id').disabled = true
+document.querySelector('#form-person-profile #assignments_profile_profile_id').disabled = true
 
 $("#modal").modal('show')
 
 $("#form-person-profile").on("ajax:success", function(event) {
-    people_profiles_table.ajax.reload(null,false)
+    profiles_table.ajax.reload(null,false)
     let msg = JSON.parse(event.detail[2].response)
     noty_alert(msg.status, msg.msg)
     $("#modal").modal('hide')

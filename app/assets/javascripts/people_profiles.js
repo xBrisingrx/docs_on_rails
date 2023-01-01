@@ -1,6 +1,4 @@
 let people_profiles_table
-let people_profiles_type = ''
-
 
 $(document).ready(function(){
 	people_profiles_table = $("#people_profiles_table").DataTable({

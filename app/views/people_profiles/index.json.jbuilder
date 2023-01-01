@@ -10,7 +10,7 @@ json.data @people_profiles do |person_profile|
     if person_profile.active
       json.actions "#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_people_profile_path(person_profile), data: {toggle: 'tooltip'}, remote: :true, 
                         class: 'btn btn-sm u-btn-primary text-white', title: 'Editar' }
-                    #{ link_to '<i class="fa fa-trash-o"></i>'.html_safe, modal_disable_person_profile_path(person_profile), 
+                    #{ link_to '<i class="fa fa-trash-o"></i>'.html_safe, people_profile_modal_disable_path(person_profile), 
                         data: {toggle: 'tooltip'}, remote: :true, 
                         class: 'btn btn-sm u-btn-red text-white', title: 'Eliminar' }"
     else 

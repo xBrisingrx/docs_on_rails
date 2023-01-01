@@ -2,7 +2,10 @@ class Person < ApplicationRecord
   has_one_attached :dni_file
   has_one_attached :cuil_file
   has_one_attached :start_activity_file
-  has_many :profiles, as: :assignated # relacion entre perfil y persona
+  has_many :assignments_profiles, as: :assignated # relacion entre perfil y persona
+  has_many :profiles, through: :assignments_profiles
+  has_many :assignments_documents, as: :assignated
+  has_many :documents, through: :assignments_documents
 
   validates :file, presence: true, uniqueness: { message: "Este legajo pertenece a otra persona" }
   validates :name, presence: true, length: { minimum: 3, too_short: "Minimo son %{count} caracteres." }

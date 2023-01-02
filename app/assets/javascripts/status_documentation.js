@@ -55,8 +55,9 @@ const status_documentation = {
 			document.getElementById("form_people_documentation").reset()
 			assignments_person_profiles.ajax.url(`/assignments_profiles/${person_id}?assignated=person`)
 			assignments_person_profiles.ajax.reload(null,false)
+			
 			assignments_person_documents.ajax.url(`/assignments_documents/${person_id}?assignated=person`)
-			assignments_person_documents.reload(null,false)
+			assignments_person_documents.ajax.reload(null,false)
 		})
 		.catch( error => {
 			console.log('Hubo un problema con la petición Fetch:' + error.message);

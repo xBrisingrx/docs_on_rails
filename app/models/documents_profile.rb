@@ -9,12 +9,33 @@ class DocumentsProfile < ApplicationRecord
   
   scope :actives, -> { where(active: true) }
 
+  after_create :assign_document 
+
   enum d_type: {
     people: 1, 
     vehicles: 2
   }
   
   private 
+
+  def assign_document
+    # Si al perfil se le agregar un documento hay que revisar los registros asociados
+    assginateds = AssignmentsProfile.where( profile_id: self.profile_id )
+    ActiveRecord::Base.transaction do
+      assginateds.each do |assignated|
+        entry = AssignmentsDocument.find_by( assignated_id: assignated.assignated_id, 
+                                             assignated_type: assignated.assignated_type,
+                                             document_id: self.document_id )
+        if entry.nil?
+          assignated_document = AssignmentsDocument.create(assignated_id: assignated.assignated_id, 
+                                             assignated_type: assignated.assignated_type,
+                                             document_id: self.document_id)
+        elsif !entry.custom && !entry.active
+          entry.update( active: true )
+        end
+      end
+    end
+  end
 
   def document_profile_inactive?
     self.active == false

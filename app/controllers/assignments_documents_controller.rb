@@ -1,4 +1,4 @@
-class AssignmentsDocumentController < ApplicationController
+class AssignmentsDocumentsController < ApplicationController
 	def show
     if params[:assignated] == 'person'
       data = Person.find params[:id]

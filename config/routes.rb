@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   end
   resources :assignments_profiles, except: [:index, :destroy]
   post 'disable_assignment_profile', to: 'assignments_profiles#disable', as: 'disable_assignment_profile'
+  resources :assignments_documents, except: [:index, :destroy]
 
   get 'status_documentation/people'
   get 'status_documentation/vehicules'

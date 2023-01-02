@@ -1,6 +1,7 @@
 class AssignmentsDocument < ApplicationRecord
   belongs_to :assignated, polymorphic: true
   belongs_to :document
+  has_many :document_renovations
 
   validate :unique_association, on: :create
 
@@ -21,6 +22,10 @@ class AssignmentsDocument < ApplicationRecord
       end
     end
     return @count > 1
+  end
+
+  def last_renovation
+    self.document_renovations.order(expiration_date: :DESC).first
   end
 
   private

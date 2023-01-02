@@ -96,6 +96,14 @@
   </div>
 
   <div class="form-group row g-mb-10">
+    <%= form.label :nationality, 'Nacionalidad:', class: "col-sm-4 col-md-2 col-form-label g-mb-10" %><br>
+    <div class="col-sm-6 col-md-4">
+      <%= form.text_field :nationality, class: "form-control u-form-control", placeholder: 'Nacionalidad'  %>
+      <small class="form-control-feedback text-danger person_direction"></small>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
     <%= form.label :direction, 'Domicilio:', class: "col-sm-4 col-md-2 col-form-label g-mb-10" %><br>
     <div class="col-sm-6 col-md-4">
       <%= form.text_field :direction, class: "form-control u-form-control", placeholder: 'Domicilio particular'  %>

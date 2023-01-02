@@ -1,0 +1,42 @@
+<%= form_with(model: document_renovation, local: true) do |form| %>
+  <% if document_renovation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(document_renovation.errors.count, "error") %> prohibited this document_renovation from being saved:</h2>
+
+      <ul>
+      <% document_renovation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :renovation_date %>
+    <%= form.date_select :renovation_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :expiration_date %>
+    <%= form.date_select :expiration_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :active %>
+    <%= form.check_box :active %>
+  </div>
+
+  <div class="field">
+    <%= form.label :comment %>
+    <%= form.text_field :comment %>
+  </div>
+
+  <div class="field">
+    <%= form.label :assignments_document %>
+    <%= form.text_field :assignments_document %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

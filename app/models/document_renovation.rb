@@ -1,0 +1,2 @@
+class DocumentRenovation < ApplicationRecord
+end

@@ -13,6 +13,7 @@ $(document).ready(function(){
     {'data': 'last_name'},
     {'data': 'name'},
     {'data': 'dni'},
+    {'data': 'tramit_number'},
     {'data': 'dni_file'},
     {'data': 'cuil'},
     {'data': 'cuil_file'},
@@ -21,6 +22,7 @@ $(document).ready(function(){
     {'data': 'start_activity_file'},
     {'data': 'direction'},
     {'data': 'phone'},
+    {'data': 'nationality'},
     {'data': 'actions'}
     ],
     'language': {'url': datatables_lang}

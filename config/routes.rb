@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :document_renovations
   root 'main#welcome'
   get 'main/welcome'
 
@@ -22,6 +23,10 @@ Rails.application.routes.draw do
   resources :people_profiles, except: [:destroy, :show] do 
     get 'modal_disable'
   end
-  resources :assignments_profiles, except: [:index, :show, :destroy]
+  resources :assignments_profiles, except: [:index, :destroy]
   post 'disable_assignment_profile', to: 'assignments_profiles#disable', as: 'disable_assignment_profile'
+
+  get 'status_documentation/people'
+  get 'status_documentation/vehicules'
+
 end

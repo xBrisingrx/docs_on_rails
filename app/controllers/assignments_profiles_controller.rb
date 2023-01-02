@@ -1,6 +1,15 @@
 class AssignmentsProfilesController < ApplicationController
 	before_action :set_assignments_profile, only: %i[ edit update ]
 
+  def show
+    if params[:assignated] == 'person'
+      data = Person.find params[:id]
+    else 
+      data = ''
+    end
+    @profiles = data.assignments_profiles
+  end
+
 	def create
     @assignments_profile = AssignmentsProfile.new(assignments_profile_params)
     respond_to do |format|

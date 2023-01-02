@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Document Renovations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Renovation date</th>
+      <th>Expiration date</th>
+      <th>Active</th>
+      <th>Comment</th>
+      <th>Assignments document</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @document_renovations.each do |document_renovation| %>
+      <tr>
+        <td><%= document_renovation.renovation_date %></td>
+        <td><%= document_renovation.expiration_date %></td>
+        <td><%= document_renovation.active %></td>
+        <td><%= document_renovation.comment %></td>
+        <td><%= document_renovation.assignments_document %></td>
+        <td><%= link_to 'Show', document_renovation %></td>
+        <td><%= link_to 'Edit', edit_document_renovation_path(document_renovation) %></td>
+        <td><%= link_to 'Destroy', document_renovation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Document Renovation', new_document_renovation_path %>

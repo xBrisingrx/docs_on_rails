@@ -44,14 +44,20 @@
                     aria: { haspopup: "true", expanded: 'false', controls: 'nav-submenu-1' } %>
                   <!-- Submenu personas -->
                   <ul class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" id="nav-submenu-people" aria-labelledby="nav-people">
-                    <li>
-                      <li><%= link_to 'Listar personas', people_path %></li>
-                      <li><%= link_to 'Admin. empresas', companies_path( d_type: :people ) %></li>
-                      <li><%= link_to 'Admin. perfiles', profiles_path( d_type: :people ) %></li>
-                      <li><%= link_to 'Admin. documentos', documents_path( d_type: :people ) %></li>
-                      <li><%= link_to 'Asignación de perfiles', people_profiles_path() %></li>
-                    </li>
+                    <li><%= link_to 'Listar personas', people_path %></li>
+                    <li><%= link_to 'Admin. empresas', companies_path( d_type: :people ) %></li>
+                    <li><%= link_to 'Admin. perfiles', profiles_path( d_type: :people ) %></li>
+                    <li><%= link_to 'Admin. documentos', documents_path( d_type: :people ) %></li>
+                    <li><%= link_to 'Asignación de perfiles', people_profiles_path() %></li>
                   </ul>
+                </li>
+                <li class="nav-item hs-has-sub-menu g-mx-20--lg g-mb-5 g-mb-0--lg">
+                  <%= link_to 'Documentos', status_documentation_people_path, class: 'nav-link', id: 'nav-people', 
+                    aria: { haspopup: "true", expanded: 'false', controls: 'nav-submenu-1' } %>
+                    <ul class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" id="nav-submenu-documents" aria-labelledby="nav-documents">
+                      <li><%= link_to 'Registros de personal', status_documentation_people_path %></li>
+                      <li><%= link_to 'Registros de vehiculos', status_documentation_vehicules_path %></li>
+                    </ul>
                 </li>
               </ul>
             </div>

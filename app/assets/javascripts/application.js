@@ -23,6 +23,7 @@
 //= require documents
 //= require documents_profiles
 //= require people_profiles
+//= require status_documentation
 
 $(document).on('ready', function () {
   // initialization of header

@@ -5,7 +5,11 @@ class PeopleController < ApplicationController
     @people = Person.actives
   end
 
-  def show;end
+  def show
+    respond_to do |format|
+      format.json { render :show, status: :ok }
+    end
+  end
 
   def new
     @person = Person.new

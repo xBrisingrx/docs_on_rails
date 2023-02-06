@@ -1,3 +1,25 @@
+# == Schema Information
+#
+# Table name: documents
+#
+#  id                      :bigint           not null, primary key
+#  d_type                  :integer          not null
+#  name                    :string(255)      not null
+#  description             :string(255)
+#  expires                 :boolean          default(FALSE)
+#  days_of_validity        :integer
+#  allow_modify_expiration :boolean
+#  observations            :text(65535)
+#  renewal_methodology     :text(65535)
+#  monthly_summary         :boolean          default(TRUE)
+#  start_date              :date
+#  end_date                :date
+#  active                  :boolean          default(TRUE)
+#  document_category_id    :bigint
+#  expiration_type_id      :bigint
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#
 class Document < ApplicationRecord
 	# la expiracion la manejo con una tabla expiration_type, en base a esa tabla sacamos cuantos dias vale el documento
 	# tengo explicito un campo de dias xq si eligen "personalizado" deben seterar la cantidad de dias a mano

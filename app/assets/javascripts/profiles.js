@@ -16,6 +16,7 @@ $(document).ready(function(){
     'ajax': `profiles?d_type=${profiles_type}`,
     'columns': [
     {'data': 'name'},
+    {'data': 'zone_jobs'},
     {'data': 'start_date'},
     {'data': 'end_date'},
     {'data': 'status'},

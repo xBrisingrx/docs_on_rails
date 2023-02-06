@@ -9,6 +9,17 @@ json.data @profiles do |profile|
   								title='Eliminar' 
   								onclick='modal_disable_profile( #{ profile.id } )'>
 									<i class='fa fa-trash-o' aria-hidden='true'></i></button> "
+
+	zone_jobs = ''
+	if !profile.zone_job_profiles.empty?
+		zone_jobs << '<ul>'
+		profile.zone_job_profiles.each do |entry|
+			zone_jobs << "<li>#{entry.zone.name} - #{entry.job.name}</li>"
+		end
+		zone_jobs << '</ul>'
+	end
+
+	json.zone_jobs zone_jobs
 end
 
 

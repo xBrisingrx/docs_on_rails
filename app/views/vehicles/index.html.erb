@@ -1,0 +1,10 @@
+<h1>Vehículos registados en el sistema</h1>
+<%= link_to "<i class='fa fa-plus'></i> Registrar vehículo".html_safe, new_vehicle_path( d_type: params[:d_type] ),remote: true, 
+            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'vehicles', 
+                      color: 'blue', 
+                      icon: 'fa-gear',
+                      title: "Vehículos registrados", 
+                      col_names: [ 'Interno', 'Dominio', 'Año','Marca','Modelo','Tipo','Nº chasis','Nº motor','Asientos','Empresa','Observaciones','Acciones' ] }) %>

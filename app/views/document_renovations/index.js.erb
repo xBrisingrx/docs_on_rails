@@ -1,0 +1,61 @@
+$("#modal").html("<%= j (render partial: 'modal_renovations') %>")
+
+document_renovations_table = $("#document_renovations_table").DataTable({
+  'ajax': '/document_renovations?assignments_document_id=<%= @assigned_document.id%>',
+  'columns': [
+    {'data': 'renovation_date'},
+    {'data': 'expiration_date'},
+    {'data': 'file'},
+    {'data': 'actions'}
+  ],
+  'language': {'url': datatables_lang}
+})
+
+$("#modal").modal('show')
+
+document.querySelector('#form-document-renovation #document_renovation_renovation_date').addEventListener('change', (e)=>{
+  let expiration_date = new Date( `${e.target.value}T00:00:00` )
+  expiration_date.setDate( expiration_date.getDate() + <%= @assigned_document.document.days_of_validity %> )
+  setInputDateWithValue('#form-document-renovation #document_renovation_expiration_date',expiration_date)
+})
+
+
+function renovation_form_submit() {
+  event.preventDefault()
+  let renovation_form = document.querySelector('#form-document-renovation')
+  let formData = new FormData()
+
+  formData.append('document_renovation[assignments_document_id]', <%= @assigned_document.id %> )
+  formData.append('document_renovation[renovation_date]', renovation_form.querySelector('#document_renovation_renovation_date').value )
+  formData.append('document_renovation[expiration_date]', renovation_form.querySelector('#document_renovation_expiration_date').value )
+  let files = renovation_form.querySelector('#document_renovation_file')
+  if (files !== null) {
+    let totalFiles = files.files.length
+    if (totalFiles > 0) {
+      for (let n = 0; n < totalFiles; n++) {
+        formData.append(`document_renovation[file][]`, files.files[n])
+      }
+    }
+  }
+  fetch('/document_renovations/', {
+      method: 'POST',
+      headers: {           
+        'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+      },
+      body: formData
+    }
+  )
+  .then( response => response.json() )
+  .then( response => {
+    if (response.status === 'success') {
+      clean_form('form-document-renovation')
+      document_renovations_table.ajax.reload(null,false)
+      assignments_person_documents.ajax.reload(null,false)
+    }
+    noty_alert(response.status, response.msg)
+  } )
+  .catch( error => {
+    noty_alert('error', error)
+    console.log(error)
+  } )
+}

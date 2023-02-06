@@ -3,7 +3,10 @@ class DocumentRenovationsController < ApplicationController
 
   # GET /document_renovations or /document_renovations.json
   def index
-    @document_renovations = DocumentRenovation.all
+    @assigned_document = AssignmentsDocument.find( params[:assignments_document_id] )
+    @document_renovations = @assigned_document.document_renovations.actives 
+    @document_renovation = DocumentRenovation.new
+    @title_modal = "Renovaciones del documento #{@assigned_document.document.name}"
   end
 
   # GET /document_renovations/1 or /document_renovations/1.json
@@ -22,14 +25,13 @@ class DocumentRenovationsController < ApplicationController
   # POST /document_renovations or /document_renovations.json
   def create
     @document_renovation = DocumentRenovation.new(document_renovation_params)
-
     respond_to do |format|
       if @document_renovation.save
+        format.json { render json: { status: 'success', msg: 'Renovacion cargada' }, status: :created }
         format.html { redirect_to document_renovation_url(@document_renovation), notice: "Document renovation was successfully created." }
-        format.json { render :show, status: :created, location: @document_renovation }
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @document_renovation.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
@@ -57,6 +59,11 @@ class DocumentRenovationsController < ApplicationController
     end
   end
 
+  def show_files
+    @document_renovation = DocumentRenovation.find(params[:document_renovation_id])
+    @title_modal = 'Archivos de renovaciones'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_document_renovation
@@ -65,6 +72,6 @@ class DocumentRenovationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def document_renovation_params
-      params.require(:document_renovation).permit(:renovation_date, :expiration_date, :active, :comment, :assignments_document)
+      params.require(:document_renovation).permit(:renovation_date, :expiration_date, :comment, :assignments_document_id, file: [])
     end
 end

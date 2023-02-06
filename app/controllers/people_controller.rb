@@ -1,8 +1,9 @@
 class PeopleController < ApplicationController
-  before_action :set_person, only: %i[ show edit update upload_person_file ]
+  before_action :set_person, only: %i[ show edit update upload_person_file show_person_history modal_enable_person ]
 
   def index
     @people = Person.actives
+    @reasons_to_disable = ReasonsToDisable.people.actives
   end
 
   def show
@@ -22,7 +23,6 @@ class PeopleController < ApplicationController
 
   def create
     @person = Person.new(person_params)
-
     respond_to do |format|
       if @person.save
         format.json { render json: { status: :success, msg: 'Persona registrada con éxito.'}, status: :created }
@@ -48,7 +48,10 @@ class PeopleController < ApplicationController
 
   def disable
     @person = Person.find(params[:person_id])
-    if @person.update(active:false)
+    activity_history = ActivityHistory.new( action: :disable, description: params[:description], 
+      record: @person, date: params[:date], user: current_user, reasons_to_disable_id: params[:reasons_to_disable_id] )
+
+    if @person.update(active:false) && activity_history.save
       render json: { status: 'success', msg: 'Persona eliminada' }, status: :ok
     else
       render json: { status: 'error', msg: 'Ocurrio un error al realizar la operación' }, status: :unprocessable_entity
@@ -79,6 +82,30 @@ class PeopleController < ApplicationController
       else
         render json: 'false'
       end
+    end
+  end
+
+  def inactives
+    @people = Person.inactives
+  end
+
+  def show_person_history
+    @title_modal = "Historial de #{@person.fullname}"
+    @activity = @person.activity_histories.where(action: :disable).or( @person.activity_histories.where(action: :enable) ).order( date: 'DESC' )
+  end
+
+  def modal_enable_person
+    @title_modal = 'Reactivando persona'
+  end
+
+  def enable_person
+    person = Person.find params[:person_id]
+    activity = ActivityHistory.new( action: :enable, description: params[:description], 
+      record: person, date: params[:date], user: current_user )
+    if person.enable && activity.save
+      render json: { status: 'success', msg: 'Persona reactivada' }, status: :ok
+    else
+      render json: { status: 'error', msg: 'Ocurrio un error al realizar la operación' }, status: :unprocessable_entity
     end
   end
 

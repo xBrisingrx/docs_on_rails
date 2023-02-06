@@ -1,5 +1,5 @@
 const datatables_lang = "/assets/vendor/datatables/datatables_lang_spa.json";
- let cosito 
+
 function noty_alert(type, message, time = 7000) {
   const newNoty = new Noty({
     type: type,
@@ -70,4 +70,28 @@ function setInputDate(_id){
 
     data = y+"-"+m+"-"+d;
     _dat.value = data;
+}
+
+function setInputDateWithValue(_id, _date){
+    var _dat = document.querySelector(_id);
+    var d = _date.getDate(),
+        m = _date.getMonth()+1, 
+        y = _date.getFullYear(),
+        data;
+
+    if(d < 10){
+        d = "0"+d;
+    };
+    if(m < 10){
+        m = "0"+m;
+    };
+
+    data = y+"-"+m+"-"+d;
+    _dat.value = data;
+}
+
+function clean_form(form_id) {
+  $(`#${form_id} .form-control`).removeClass('is-invalid')
+  $(`#${form_id} .form-control`).removeClass('is-valid')
+  $(`#${form_id}`)[0].reset()
 }

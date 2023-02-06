@@ -1,0 +1,35 @@
+<%= form_with(url: '', id: 'form-zone-job-profile', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+  <%= form.hidden_field :job_id, value: @job_id %>
+  <div class="form-group  row">
+    <div class="col-4">
+      <%= form.select(:zone_id, @zones.collect {|p| [p.name, p.id]}, { include_blank: true},
+                      class: 'form-control select-zones', required: true) %>
+      <small class="form-control-feedback text-danger person"></small>
+    </div>
+    <div class="col-4">
+      <%= form.select(:profile_id, @profiles.collect {|p| [p.name, p.id]}, { include_blank: true},
+                      class: 'form-control select-profiles', required: true) %>
+      <small class="form-control-feedback text-danger person"></small>
+    </div>
+    <div class="col-2">
+      <button id='add_zone_profile' type="button" class="btn u-btn-purple"><i class="fa fa-plus"></i></button>
+    </div>
+  </div>
+
+  <table class="table table-sm table-hover col-10 mt-4 mb-4">
+    <thead class="thead-light"> 
+      <tr>
+        <th> Zona </th>
+        <th> Perfil </th>
+      </tr>
+      <tbody id="zone_profile_table">
+        
+      </tbody>
+    </thead>
+  </table>
+
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

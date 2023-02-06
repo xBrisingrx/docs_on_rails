@@ -11,13 +11,17 @@
   </head>
 
   <body>
+    <% if logged_in? %>
     <%= render('shared/nav') %>
-    <main class="container-fluid">
+      <main class="container-fluid">
+        <%= yield %>
+        <input type="hidden" id="d_type" value=<%= params[:d_type] %> >
+        <div class="modal fade" id="modal" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        </div>
+      </main>
+    <% else %>
       <%= yield %>
-      <input type="hidden" id="d_type" value=<%= params[:d_type] %> >
-      <div class="modal fade" id="modal" role="dialog"
-           aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-      </div>
-    </main>
+    <% end %>
   </body>
 </html>

@@ -1,42 +1,30 @@
-<%= form_with(model: document_renovation, local: true) do |form| %>
-  <% if document_renovation.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(document_renovation.errors.count, "error") %> prohibited this document_renovation from being saved:</h2>
-
-      <ul>
-      <% document_renovation.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= form_with(model: document_renovation, multipart: true,class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', 
+              id: 'form-document-renovation') do |form| %>
+  <%= form.hidden_field :assignments_document_id, value: assignments_document %>
+  <div class="form-group row g-mb-10">
+    <%= form.label :renovation_date, 'Fecha renovación:',class: 'col-4' %>
+    <div class="col-12 col-sm-6">
+      <%= form.date_field :renovation_date, class: 'form-control', required: document_expire, disabled: !document_expire %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :renovation_date %>
-    <%= form.date_select :renovation_date %>
   </div>
 
-  <div class="field">
-    <%= form.label :expiration_date %>
-    <%= form.date_select :expiration_date %>
+  <div class="form-group row g-mb-10">
+    <%= form.label :expiration_date, 'Fecha vencimiento:',class: 'col-4' %>
+    <div class="col-12 col-sm-6">
+      <%= form.date_field :expiration_date, class: 'form-control', required: document_expire, disabled: !enable_expiration_date %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :active %>
-    <%= form.check_box :active %>
-  </div>
-
-  <div class="field">
-    <%= form.label :comment %>
-    <%= form.text_field :comment %>
-  </div>
-
-  <div class="field">
-    <%= form.label :assignments_document %>
-    <%= form.text_field :assignments_document %>
+  <div class="form-group">
+    <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+      <%= form.file_field :file, multiple: true %>
+      <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+      <span class="js-value">Anexar documento de la renovacion</span>
+      <small class="form-control-feedback text-danger person_start_activity_file"></small>
+    </label>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Cargar renovación' ,class: 'btn u-btn-primary mr-2', onclick: 'renovation_form_submit()' %>
   </div>
 <% end %>

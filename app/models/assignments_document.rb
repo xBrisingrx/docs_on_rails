@@ -1,7 +1,24 @@
+# == Schema Information
+#
+# Table name: assignments_documents
+#
+#  id              :bigint           not null, primary key
+#  assignated_type :string(255)
+#  assignated_id   :bigint
+#  document_id     :bigint
+#  start_date      :date
+#  end_date        :date
+#  custom          :boolean          default(FALSE)
+#  active          :boolean          default(TRUE)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 class AssignmentsDocument < ApplicationRecord
   belongs_to :assignated, polymorphic: true
   belongs_to :document
   has_many :document_renovations
+
+  accepts_nested_attributes_for :document_renovations
 
   validate :unique_association, on: :create
 
@@ -26,6 +43,10 @@ class AssignmentsDocument < ApplicationRecord
 
   def last_renovation
     self.document_renovations.order(expiration_date: :DESC).first
+  end
+
+  def has_renovations?
+    self.document_renovations.count > 0
   end
 
   private

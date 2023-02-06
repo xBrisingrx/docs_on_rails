@@ -1,23 +1,5 @@
     <!-- Header -->
     <header id="js-header" class="u-header" data-header-fix-moment="500" data-header-fix-effect="slide">
-      <!-- Top Bar -->
-      <div class="u-header__section g-brd-bottom g-brd-gray-light-v4 g-bg-black g-transition-0_3">
-        <div class="container">
-          <div class="row justify-content-between align-items-center g-mx-0--lg">
-            <div class="col-sm-auto g-pos-rel g-py-8">
-                <div class="text-white">
-                  <!-- username -->
-                </div>
-            </div>
-
-            <div class="col-sm-auto g-pr-15 g-pr-0--sm">
-              <a href="#" class="btn btn-sm btn-info my-1">Cerrar sesion</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- End Top Bar -->
-
       <div class="u-header__section u-header__section--light g-bg-white g-transition-0_3 g-py-10" data-header-fix-moment-exclude="g-bg-white g-py-10" data-header-fix-moment-classes="g-bg-white-opacity-0_7 u-shadow-v18 g-py-0">
         <nav class="js-mega-menu navbar navbar-expand-lg">
           <div class="container">
@@ -46,9 +28,24 @@
                   <ul class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" id="nav-submenu-people" aria-labelledby="nav-people">
                     <li><%= link_to 'Listar personas', people_path %></li>
                     <li><%= link_to 'Admin. empresas', companies_path( d_type: :people ) %></li>
+                    <li><%= link_to 'Admin. puestos laborales', jobs_path( d_type: :people ) %></li>
                     <li><%= link_to 'Admin. perfiles', profiles_path( d_type: :people ) %></li>
                     <li><%= link_to 'Admin. documentos', documents_path( d_type: :people ) %></li>
                     <li><%= link_to 'Asignación de perfiles', people_profiles_path() %></li>
+                    <li><%= link_to 'Admin. motivos de baja', reasons_to_disables_path(d_type: :people) %></li>
+                  </ul>
+                </li>
+                <li class="nav-item hs-has-sub-menu g-mx-20--lg g-mb-5 g-mb-0--lg"> 
+                  <%= link_to 'Vehiculos', vehicles_path, class: 'nav-link', id: 'nav-vehicles', 
+                    aria: { haspopup: "true", expanded: 'false', controls: 'nav-submenu-1' } %>
+                  <!-- Submenu personas -->
+                  <ul class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" id="nav-submenu-vehicles" aria-labelledby="nav-vehicles">
+                    <li><%= link_to 'Listar personas', people_path %></li>
+                    <li><%= link_to 'Admin. empresas', companies_path( d_type: :people ) %></li>
+                    <li><%= link_to 'Admin. perfiles', profiles_path( d_type: :people ) %></li>
+                    <li><%= link_to 'Admin. documentos', documents_path( d_type: :people ) %></li>
+                    <li><%= link_to 'Asignación de perfiles', people_profiles_path() %></li>
+                    <li><%= link_to 'Admin. motivos de baja', reasons_to_disables_path(d_type: :people) %></li>
                   </ul>
                 </li>
                 <li class="nav-item hs-has-sub-menu g-mx-20--lg g-mb-5 g-mb-0--lg">
@@ -62,9 +59,48 @@
               </ul>
             </div>
             <!-- End Navigation -->
-            <div class="">
-              <button class="btn u-btn-primary float-left"> User</button>
+
+            <div class="col-auto d-flex g-pt-5 g-pt-0--sm g-pl-10 g-pl-20--sm">
+            <div class="g-pos-rel g-px-10--lg hs-has-sub-menu">
+              <a id="profileMenuInvoker" class="d-block" href="#" aria-controls="profileMenu" aria-haspopup="true" aria-expanded="false" data-dropdown-event="click" data-dropdown-target="#profileMenu" data-dropdown-type="css-animation" data-dropdown-duration="300"
+              data-dropdown-animation-in="fadeIn" data-dropdown-animation-out="fadeOut">
+                <span class="g-pos-rel">
+                  <span class="u-badge-v2--xs u-badge--top-right g-hidden-sm-up g-bg-secondary g-mr-5"></span>
+                  <%= image_tag('user.png', alt: "User description" ,class: 'g-width-30 g-width-40--md g-height-30 g-height-40--md rounded-circle g-mr-10--sm' ) %>
+                </span>
+              </a>
+              <!-- Top User Menu -->
+              <ul id="profileMenu" class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" aria-labelledby="profileMenuInvoker">
+                <li class="g-hidden-sm-up g-mb-10 ">
+                  <a class="media g-py-5 g-px-20" href="#">
+                    <span class="d-flex align-self-center g-mr-12">
+                      <i class="hs-admin-bell"></i>
+                    </span>
+                    <span class="media-body align-self-center">Notifications</span>
+                  </a>
+                </li>
+                <li class="g-mb-10">
+                  <a class="media g-color-primary--hover g-py-5 g-px-20" href="#">
+                    <span class="d-flex align-self-center g-mr-12">
+                      <i class="hs-admin-user"></i>
+                    </span>
+                    <span class="media-body align-self-center">Mi perfil</span>
+                  </a>
+                </li>
+                <li class="mb-0">
+                  <%= link_to logout_path, class: 'media g-color-primary--hover g-py-5 g-px-20' do %>
+                    <span class="d-flex align-self-center g-mr-12">
+                      <i class="hs-admin-shift-right"></i>
+                    </span>
+                    <span class="media-body align-self-center"> Cerrar sessión</span>
+                  <% end %>
+                </li>
+              </ul>
+              <!-- End Top User Menu -->
             </div>
+          </div>
+          <!-- End Top User -->
+        </div>
           </div>
         </nav>
       </div>

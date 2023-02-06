@@ -41,6 +41,7 @@ $(document).ready(function(){
     {'data': 'monthly_summary'},
     {'data': 'start_date'},
     {'data': 'end_date'},
+    {'data': 'apply_all'},
     {'data': 'status'},
     {'data': 'actions'}
     ],

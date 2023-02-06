@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: documents_profiles
+#
+#  id          :bigint           not null, primary key
+#  d_type      :integer          not null
+#  profile_id  :bigint
+#  document_id :bigint
+#  start_date  :date
+#  end_date    :date
+#  active      :boolean          default(TRUE)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
 class DocumentsProfile < ApplicationRecord
   # Documents in profile
   belongs_to :profile

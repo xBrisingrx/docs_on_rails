@@ -24,6 +24,11 @@
 //= require documents_profiles
 //= require people_profiles
 //= require status_documentation
+//= require document_renovations
+//= require reasons_to_disables
+//= require vehicles
+//= require jobs
+//= require zone_job_profiles
 
 $(document).on('ready', function () {
   // initialization of header

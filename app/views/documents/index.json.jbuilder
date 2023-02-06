@@ -11,8 +11,8 @@ json.data @documents do |document|
     json.monthly_summary ( document.monthly_summary ) ? 'Si' : 'No'
     json.start_date date_format(document.start_date)
     json.end_date date_format(document.end_date)
+    json.apply_all '-'
     json.status status_format( document.active )
-
     if document.active
       json.actions "#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_document_path(document), data: {toggle: 'tooltip'}, remote: :true, 
                         class: 'btn btn-sm u-btn-primary text-white', title: 'Editar' } 

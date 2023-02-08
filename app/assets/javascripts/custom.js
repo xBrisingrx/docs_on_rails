@@ -90,6 +90,11 @@ function setInputDateWithValue(_id, _date){
     _dat.value = data;
 }
 
+function formatDateAR(_date){
+  let data = new Date(`${_date}T00:00:00`)
+  return data.toLocaleDateString('es-AR')
+}
+
 function clean_form(form_id) {
   $(`#${form_id} .form-control`).removeClass('is-invalid')
   $(`#${form_id} .form-control`).removeClass('is-valid')

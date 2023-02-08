@@ -21,6 +21,9 @@
                       title: "Documentos asignados a perfiles", 
                       col_names: [ 'Perfil', 'Documento', 'Inicio vigencia','Inicio vigencia','Estado','Acciones' ] }) %>
 
+<%= link_to "<i class='fa fa-plus'></i> Agregar documento a un perfil".html_safe, new_zone_job_profile_doc_path( d_type: params[:d_type] ),remote: true, 
+            class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2' %>
+
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'zone_job_profile_docs', 
                       color: 'purple', 

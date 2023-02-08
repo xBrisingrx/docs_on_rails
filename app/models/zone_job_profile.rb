@@ -16,4 +16,10 @@ class ZoneJobProfile < ApplicationRecord
   belongs_to :zone
   belongs_to :job
   belongs_to :profile
+
+  scope :actives, -> { where(active: true) }
+
+  def name
+    "#{self.job.name} - #{self.zone.name} - #{self.profile.name}"
+  end
 end

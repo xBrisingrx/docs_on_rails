@@ -3,7 +3,7 @@ class ZoneJobProfilesController < ApplicationController
 
   # GET /jobs or /jobs.json
   def index
-    @zone_job_profiles = ZoneJobProfile.all
+    @zone_job_profiles = ZoneJobProfile.where( d_type: params[:d_type])
   end
 
   # GET /jobs/1 or /jobs/1.json
@@ -29,7 +29,6 @@ class ZoneJobProfilesController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
       for i in 1..params[:count].to_i do 
-        currency_id = params["currency_id_#{i}".to_sym].to_i
         ZoneJobProfile.create(
           job_id: params[:job_id],
           zone_id: params["zone_#{i}".to_sym].to_i,

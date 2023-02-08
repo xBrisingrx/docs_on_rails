@@ -4,7 +4,7 @@ class ZoneJobProfileDoc < ApplicationRecord
   # y a que zona 
   belongs_to :zone_job_profile
   has_many :document
-
+  
   has_one :profile, through: :zone_job_profile
   has_one :zone, through: :zone_job_profile
   has_one :job, through: :zone_job_profile

@@ -1,3 +1,8 @@
+let zone_job_profile_doc = {
+  count_documents: 0,
+  
+}
+
 let zone_job_profile_docs_table
 $(document).ready(function(){
 	zone_job_profile_docs_table = $("#zone_job_profile_docs_table").DataTable({

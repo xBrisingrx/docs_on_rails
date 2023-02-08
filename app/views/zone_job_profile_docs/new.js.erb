@@ -1,24 +1,61 @@
-$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: '', content: 'form' } ) %>")
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form' } ) %>")
 
-$('.select-profile-document').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione perfil (*)" });
-$('.select-document-profile').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione document (*)" });
+$('.select-profile-document').select2({ width: '100%',theme: "bootstrap4", placeholder: "Puesto - Zona - Perfil (*)" });
+$('.select-document-profile').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione documento (*)" });
 
-setInputDate('#form-document-profile #documents_profile_start_date')
-
+setInputDate('#form-zone-job-prof-doc #zone_job_profile_doc_start_date')
+zone_job_profile_doc.count_documents = 0
 $("#modal").modal('show')
 
-$("#form-document-profile").on("ajax:success", function(event) {
-  documents_profiles_table.ajax.reload(null,false)
-  let msg = JSON.parse(event.detail[2].response)
-  noty_alert(msg.status, msg.msg)
-  $("#modal").modal('hide')
-}).on("ajax:error", function(event) {
-  let msg = JSON.parse( event.detail[2].response )
-  let msg_errors = $('#form-document-profile #msg_errors')
-  msg_errors.hide(500)
-  msg_errors.empty()
-  $.each( msg, function( key, value ) {
-    msg_errors.append(`${value}`)
-  })
-  msg_errors.show('slow')
+document.getElementById('add_document_job_profile').addEventListener('click', (e) => {
+  e.preventDefault()
+  let start_date = document.querySelector('#zone_job_profile_doc_start_date').value
+  let document_selected = $("#zone_job_profile_doc_document_id option:selected")
+  if (start_date != '' && document_selected.val() != '') {
+    zone_job_profile_doc.count_documents++
+    document.getElementById('table_list_documents_body').innerHTML += `
+      <tr id='tr_${zone_job_profile_doc.count_documents}'>
+        <td id='td_document' data-value=${document_selected.val()}>${document_selected.text()}</td>
+        <td id='td_start_date' data-value=${start_date}>${ formatDateAR( start_date ) }</td>
+      </tr>
+    `
+    $('#zone_job_profile_doc_document_id option:selected').attr('disabled', 'disabled')
+    $('.select-document-profile').val('').trigger('change')
+  }
+})
+
+document.getElementById('form-zone-job-prof-doc').addEventListener('submit', (event) =>{
+  event.preventDefault()
+  event.stopPropagation()
+  let form = new FormData()
+  let data = document.getElementById('table_list_documents')
+
+  form.append( 'count', zone_job_profile_doc.count_documents )
+  form.append( 'zone_job_profile_id', event.target.querySelector('#zone_job_profile_doc_zone_job_profile_id').value )
+  form.append( 'd_type', event.target.querySelector('#zone_job_profile_doc_d_type').value )
+  for (let i = 1; i <= zone_job_profile_doc.count_documents; i++) {
+    let tr = data.querySelector( `#tr_${i}` )
+    form.append( `document_${i}`, tr.querySelector(`#td_document`).dataset.value )
+    form.append( `start_date_${i}`, tr.querySelector(`#td_start_date`).dataset.value )
+  }
+  fetch('/zone_job_profile_docs/', {
+      method: 'POST',
+      headers: {           
+        'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+      },
+      body: form
+    }
+  )
+  .then( response => response.json() )
+  .then( response => {
+    if (response.status === 'success') {
+      zone_job_profile_docs_table.ajax.reload(null,false)
+      $("#modal").modal('hide')
+    }
+    noty_alert(response.status, response.msg)
+  } )
+  .catch( error => {
+    noty_alert('error', error)
+    console.log(error)
+  } )
 })

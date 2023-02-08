@@ -13,9 +13,7 @@ class ZoneJobProfilesController < ApplicationController
   # GET /jobs/new
   def new
     job = Job.find params[:job_id]
-    @title_modal = "Asignar zona y perfil #{job.name}"
     @zone_job_profile = ZoneJobProfile.new()
-    @job_id = params[:job_id]
     @zones = Zone.actives
     @profiles = Profile.where( d_type: params[:d_type])
   end
@@ -31,6 +29,7 @@ class ZoneJobProfilesController < ApplicationController
       for i in 1..params[:count].to_i do 
         ZoneJobProfile.create(
           job_id: params[:job_id],
+          d_type: params[:d_type],
           zone_id: params["zone_#{i}".to_sym].to_i,
           profile_id: params["profile_#{i}".to_sym].to_i
         )
@@ -72,6 +71,6 @@ class ZoneJobProfilesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def zone_job_profile_params
-      params.require(:zone_job_profile).permit(:zone_id, :job_id, :profile_id)
+      params.require(:zone_job_profile).permit(:zone_id, :job_id, :profile_id,:d_type)
     end
 end

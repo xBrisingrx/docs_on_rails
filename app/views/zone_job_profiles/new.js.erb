@@ -27,6 +27,7 @@ document.getElementById('form-zone-job-profile').addEventListener('submit', (eve
 
   form.append( 'count', zone_job_profile.count_zone_profile )
   form.append( 'job_id', event.target.querySelector('#job_id').value )
+  form.append( 'd_type', event.target.querySelector('#d_type').value )
   for (var i = 1; i <= zone_job_profile.count_zone_profile; i++) {
     let tr = data.querySelector( `#tr_${i}` )
     form.append( `zone_${i}`, tr.querySelector(`#td_zone`).dataset.value )

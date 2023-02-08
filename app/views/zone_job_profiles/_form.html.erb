@@ -1,5 +1,6 @@
 <%= form_with(url: '', id: 'form-zone-job-profile', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
-  <%= form.hidden_field :job_id, value: @job_id %>
+  <%= form.hidden_field :job_id, value: @job.id %>
+  <%= form.hidden_field :d_type, value: @job.d_type %>
   <div class="form-group  row">
     <div class="col-4">
       <%= form.select(:zone_id, @zones.collect {|p| [p.name, p.id]}, { include_blank: true},

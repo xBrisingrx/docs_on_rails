@@ -29,6 +29,7 @@
 //= require vehicles
 //= require jobs
 //= require zone_job_profiles
+//= require zone_job_profile_docs
 
 $(document).on('ready', function () {
   // initialization of header

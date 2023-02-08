@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :jobs
   resources :zones
   resources :zone_job_profiles, only: [:new, :create, :edit, :update]
+  resources :zone_job_profile_docs, only: [:index,:new, :create, :edit, :update]
   resources :vehicles
   resources :vehicle_locations
   resources :vehicle_models

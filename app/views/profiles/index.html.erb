@@ -21,6 +21,13 @@
                       title: "Documentos asignados a perfiles", 
                       col_names: [ 'Perfil', 'Documento', 'Inicio vigencia','Inicio vigencia','Estado','Acciones' ] }) %>
 
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'zone_job_profile_docs', 
+                      color: 'purple', 
+                      icon: 'fa-gear',
+                      title: "Documentos asignados a perfiles", 
+                      col_names: [ 'Puesto','Zona','Perfil', 'Documento', 'Inicio vigencia','Inicio vigencia','Estado','Acciones' ] }) %>
+
 <input type="hidden" id="companies_d_type" value=<%= params[:d_type] %> >
 
 <!-- Modal para eliminar profile -->

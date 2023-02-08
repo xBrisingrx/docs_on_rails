@@ -12,7 +12,8 @@ class ZoneJobProfilesController < ApplicationController
 
   # GET /jobs/new
   def new
-    @title_modal = 'Asignar zona y perfil'
+    job = Job.find params[:job_id]
+    @title_modal = "Asignar zona y perfil #{job.name}"
     @zone_job_profile = ZoneJobProfile.new()
     @job_id = params[:job_id]
     @zones = Zone.actives

@@ -11,7 +11,7 @@ class PeopleProfilesController < ApplicationController
   def new
     @people_profile = AssignmentsProfile.new( assignated_type: :Person )
     @people = Person.actives.order(:last_name)
-    @profiles = Profile.where(d_type: :people, active: true).order(:name)
+    @profiles = ZoneJobProfile.where( d_type: :people).actives
     @title_modal = 'Asignar perfil a una persona'
   end
 

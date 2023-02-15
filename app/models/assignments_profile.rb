@@ -14,7 +14,8 @@
 #
 class AssignmentsProfile < ApplicationRecord
   belongs_to :assignated, polymorphic: true
-  belongs_to :profile
+  belongs_to :zone_job_profiles
+  has_one :profile, through: :profile
   has_many :documents, through: :profile
 
   validate :unique_association, on: :create
@@ -27,7 +28,8 @@ class AssignmentsProfile < ApplicationRecord
   def assign_profile
     # Si le asigno un perfil a una persona tengo que tambien asociarles los documentos que tiene el perfil
     # Obtengo los documentos que tiene el perfil
-    @documents = DocumentsProfile.where( profile_id: self.profile_id, active: true )
+    # @documents = DocumentsProfile.where( profile_id: self.profile_id, active: true )
+    @document = ZoneJobProfileDoc.where( zone_job_profile: self.zone_job_profile, active: true )
     ActiveRecord::Base.transaction do
       @documents.each do |document|
         @entry = AssignmentsDocument.find_by( assignated_id: self.assignated_id, 

@@ -38,14 +38,15 @@
                 <li class="nav-item hs-has-sub-menu g-mx-20--lg g-mb-5 g-mb-0--lg"> 
                   <%= link_to 'Vehiculos', vehicles_path, class: 'nav-link', id: 'nav-vehicles', 
                     aria: { haspopup: "true", expanded: 'false', controls: 'nav-submenu-1' } %>
-                  <!-- Submenu personas -->
+                  <!-- Submenu vehiculos -->
                   <ul class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" id="nav-submenu-vehicles" aria-labelledby="nav-vehicles">
-                    <li><%= link_to 'Listar personas', people_path %></li>
-                    <li><%= link_to 'Admin. empresas', companies_path( d_type: :people ) %></li>
-                    <li><%= link_to 'Admin. perfiles', profiles_path( d_type: :people ) %></li>
-                    <li><%= link_to 'Admin. documentos', documents_path( d_type: :people ) %></li>
+                    <li><%= link_to 'Listar vehiculos', vehicles_path %></li>
+                    <li><%= link_to 'Admin. empresas', companies_path( d_type: :vehicles ) %></li>
+                    <li><%= link_to 'Admin. puestos laborales', jobs_path( d_type: :vehicles ) %></li>
+                    <li><%= link_to 'Admin. perfiles', profiles_path( d_type: :vehicles ) %></li>
+                    <li><%= link_to 'Admin. documentos', documents_path( d_type: :vehicles ) %></li>
                     <li><%= link_to 'Asignación de perfiles', people_profiles_path() %></li>
-                    <li><%= link_to 'Admin. motivos de baja', reasons_to_disables_path(d_type: :people) %></li>
+                    <li><%= link_to 'Admin. motivos de baja', reasons_to_disables_path(d_type: :vehicles) %></li>
                   </ul>
                 </li>
                 <li class="nav-item hs-has-sub-menu g-mx-20--lg g-mb-5 g-mb-0--lg">

@@ -22,4 +22,9 @@ class ZoneJobProfile < ApplicationRecord
   def name
     "#{self.job.name} - #{self.zone.name} - #{self.profile.name}"
   end
+
+  def self.profile_type type
+    self.joins(:profile)
+      .where(profiles: { d_type: type })
+  end
 end

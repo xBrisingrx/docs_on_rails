@@ -100,3 +100,15 @@ function clean_form(form_id) {
   $(`#${form_id} .form-control`).removeClass('is-valid')
   $(`#${form_id}`)[0].reset()
 }
+
+function hide_table( table_id ) {
+  console.log('click')
+  const table = document.getElementById(table_id)
+  if (table.dataset.show == 'show' ) {
+    $(`#${table_id}`).hide('slow')
+    table.dataset.show = 'hide'
+  } else {
+     $(`#${table_id}`).show('slow')
+     table.dataset.show = 'show'
+  }
+}

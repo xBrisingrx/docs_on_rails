@@ -12,10 +12,11 @@ class ZoneJobProfilesController < ApplicationController
 
   # GET /jobs/new
   def new
-    job = Job.find params[:job_id]
+    @job = Job.find params[:job_id]
     @zone_job_profile = ZoneJobProfile.new()
     @zones = Zone.actives
     @profiles = Profile.where( d_type: params[:d_type])
+    @title_modal = "Asignar convenio a #{@job.name}"
   end
 
   # GET /jobs/1/edit

@@ -14,6 +14,10 @@ json.data @documents do |document|
 		json.actions  "#{ link_to '<i class="fa fa-eye"></i>'.html_safe, document_renovations_path( assignments_document_id: document.id ), 
                   					class: 'btn u-btn-orange btn-sm',  
                   					data: {toggle: 'tooltip'}, title: 'Ver renovaciones', remote: true }
+                  	#{ link_to '<i class="fa fa-trash"></i>'.html_safe, 
+                  		modal_disable_assignments_documents_path(id: document.id), 
+                        data: {toggle: 'tooltip'}, remote: :true, 
+                        class: 'btn btn-sm u-btn-red text-white', title: 'Eliminar' }
                   "
 	else
 		json.actions  "#{ link_to '<i class="fa fa-plus"></i>'.html_safe, document_renovations_path( assignments_document_id: document.id ), 
@@ -22,6 +26,6 @@ json.data @documents do |document|
                   #{ link_to '<i class="fa fa-trash"></i>'.html_safe, 
                   		modal_disable_assignments_documents_path(id: document.id), 
                         data: {toggle: 'tooltip'}, remote: :true, 
-                        class: 'btn btn-sm u-btn-orange text-white', title: 'Eliminar' }"
+                        class: 'btn btn-sm u-btn-red text-white', title: 'Eliminar' }"
 	end
 end

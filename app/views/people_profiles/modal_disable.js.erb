@@ -9,7 +9,7 @@ document.querySelector('#person_profile_data').innerHTML = `
 
 document.getElementById('disable_info').innerHTML = `
   <ul>
-    <% @person_profile.documents.order(:name).each do |document| %>
+    <% @documents.order(:name).each do |document| %>
       <% if !@person_profile.shared_document(document.id) %>
         <li><%= document.name %></li>
       <% end %>

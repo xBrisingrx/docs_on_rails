@@ -23,7 +23,7 @@ class PeopleProfilesController < ApplicationController
 
   def modal_disable
     @person_profile = AssignmentsProfile.find(params[:people_profile_id])
-    @person_documents = AssignmentsDocument.where( assignated_type: :Person, assignated_id: @person_profile.assignated_id )
+    @documents = @person_profile.zone_job_profile.documents
   end
 
   private

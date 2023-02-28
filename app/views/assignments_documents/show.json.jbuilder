@@ -3,9 +3,9 @@ json.data @documents do |document|
 	json.category document.document.document_category.name
 	json.expire document.document.expires? ? 'Si' : 'No'
 	json.expire_date (document.last_renovation) ? date_format(document.last_renovation.expiration_date) : ''
-	if !document.last_renovation.nil? && document.last_renovation.file.attached?
-		json.file "#{link_to '<i class="fa fa-file-pdf-o fa-2x"></i>'.html_safe, 
-									document_renovation_show_files_path( document_renovation_id: document.last_renovation.id), remote:true}"
+	
+	if !document.last_renovation.nil?
+		json.file show_files(document.last_renovation)
 	else
 		json.file "<p><i class='fa fa-file-pdf-o fa-2x'></i></p>"
 	end

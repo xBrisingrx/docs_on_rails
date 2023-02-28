@@ -1,5 +1,4 @@
 const datatables_lang = "/assets/vendor/datatables/datatables_lang_spa.json";
-
 function noty_alert(type, message, time = 7000) {
   const newNoty = new Noty({
     type: type,

@@ -13,6 +13,20 @@
 #
 class DocumentRenovation < ApplicationRecord
 	has_many_attached :file
+	belongs_to :assignments_document
+	has_one :document, through: :assignments_document
+
+	validates :renovation_date, presence: {message: 'Debe ingresar la fecha de renovación'}, if: :document_expire?
+	validates :expiration_date, presence: {message: 'Debe ingresar la fecha de expiración'}, if: :document_expire?
 
 	scope :actives, ->{ where(active:true) }
+
+	def document_expire?
+		assignments_document = AssignmentsDocument.find self.assignments_document_id
+		assignments_document.document.expires
+	end
+
+	def disable
+		self.update(active:false)
+	end
 end

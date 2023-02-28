@@ -30,7 +30,7 @@ class DocumentRenovationsController < ApplicationController
         format.json { render json: { status: 'success', msg: 'Renovacion cargada' }, status: :created }
         format.html { redirect_to document_renovation_url(@document_renovation), notice: "Document renovation was successfully created." }
       else
-        format.json { render json: @document_renovation.errors, status: :unprocessable_entity }
+        format.json { render json: {status: 'error', msg: @document_renovation.errors}, status: :unprocessable_entity }
         format.html { render :new, status: :unprocessable_entity }
       end
     end
@@ -40,11 +40,9 @@ class DocumentRenovationsController < ApplicationController
   def update
     respond_to do |format|
       if @document_renovation.update(document_renovation_params)
-        format.html { redirect_to document_renovation_url(@document_renovation), notice: "Document renovation was successfully updated." }
-        format.json { render :show, status: :ok, location: @document_renovation }
+        format.json { render json: { status: 'success', msg: 'Renovacion actualizada' }, status: :created }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @document_renovation.errors, status: :unprocessable_entity }
+        format.json { render json: {status: 'error', msg: @document_renovation.errors}, status: :unprocessable_entity }
       end
     end
   end
@@ -62,6 +60,21 @@ class DocumentRenovationsController < ApplicationController
   def show_files
     @document_renovation = DocumentRenovation.find(params[:document_renovation_id])
     @title_modal = 'Archivos de renovaciones'
+  end
+
+  def disable
+    @document_renovation = DocumentRenovation.find(params[:document_renovation_id])
+    respond_to do |format|
+      if @document_renovation.disable
+        format.json { render json: { status: 'success', msg: 'Renovacion eliminada' }, status: :ok }
+      else
+        format.json { render json: {status: 'error', msg: @document_renovation.errors},status: :unprocessable_entity }
+      end
+    end
+
+    rescue => e
+      @response = e.message.split(':')
+      render json: { @response[0] => @response[1] }, status: 402
   end
 
   private

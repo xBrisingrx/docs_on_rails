@@ -50,7 +50,7 @@ class ProfilesController < ApplicationController
       if @profile.update(active:false, end_date: params[:end_date])
         format.json { render json: { status: 'success', msg: 'Perfil eliminado' }, status: :ok }
       else
-        format.json { render json: @profile.errors, status: :unprocessable_entity, status: :unprocessable_entity }
+        format.json { render json: @profile.errors, status: :unprocessable_entity }
       end
     end
 

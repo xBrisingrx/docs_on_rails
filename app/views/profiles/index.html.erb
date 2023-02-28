@@ -10,12 +10,8 @@
                       title: "Perfiles registrados", 
                       col_names: [ 'Nombre', 'Zonas/Trabajos' ,'Inicio vigencia', 'Fin vigencia','Estado','Descripcion','Acciones' ] }) %>
 
-
-
-<%= link_to "<i class='fa fa-plus'></i> Agregar documento a un perfil".html_safe, new_documents_profile_path( d_type: params[:d_type] ),remote: true, 
-            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
-<button class="btn u-btn-teal mb-2" onclick="hide_table('documents_profiles_table')"> <i class="fa fa-eye"></i> </button>
-<%= render( partial: 'shared/table', 
+<!-- <button class="btn u-btn-teal mb-2" onclick="hide_table('documents_profiles_table')"> <i class="fa fa-eye"></i> </button> -->
+<%# render( partial: 'shared/table', 
             locals: { table_id: 'documents_profiles', 
                       color: 'blue', 
                       icon: 'fa-gear',

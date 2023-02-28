@@ -20,9 +20,10 @@ class AssignmentsDocument < ApplicationRecord
 
   accepts_nested_attributes_for :document_renovations
 
-  validate :unique_association, on: :create
+  # validate :unique_association, on: :create
+  validates :document_id, uniqueness: { scope: [:assignated_id, :assignated_type], message: 'El documento ya se encuentra asignado' }
 
-  scope :actives, ->where{ active:true }
+  scope :actives, -> { where(active: true) }
 
   def disable
     if !document_is_shared_with_other_profile? && !self.custom
@@ -42,23 +43,31 @@ class AssignmentsDocument < ApplicationRecord
   end
 
   def last_renovation
-    self.document_renovations.order(expiration_date: :DESC).first
+    self.document_renovations.actives.order(expiration_date: :DESC).first
   end
 
   def has_renovations?
-    self.document_renovations.count > 0
+    self.document_renovations.actives.count > 0
+  end
+
+  def assign
+    entry = AssignmentsDocument.find_by(assignated_id: self.assignated_id, assignated_type: self.assignated_type ,document_id: self.document_id)
+    if entry.nil?
+      self.save
+    elsif !entry.active 
+      entry.update(active: true)
+    elsif entry.active 
+      self.errors.add(:base, "Ya tiene asignado este documento.")
+    else 
+      self.errors.add(:base, "No se puede realizar esta asignacion.")
+    end
   end
 
   private
   def unique_association
     entry = AssignmentsDocument.find_by(assignated_id: self.assignated_id, assignated_type: self.assignated_type ,document_id: self.document_id)
-    if self.id.nil?
-      # Validacion para creacion
-      if !entry.nil? && entry.active
-        errors.add(:uniqueness, "La asignacion ya existe.")
-      elsif !entry.nil? && !entry.active
-        errors.add(:uniqueness, "La asignacion ya existe, se encuentra dada de baja.")
-      end
+    if !entry.nil? && entry.active
+        errors.add(:uniqueness, "Ya tiene asignado este documento.")
     end
   end
 

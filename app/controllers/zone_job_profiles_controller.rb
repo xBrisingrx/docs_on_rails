@@ -38,7 +38,7 @@ class ZoneJobProfilesController < ApplicationController
       render json: { status: :success, msg: 'Asociacion exitosa' }, status: :ok
     end
     rescue ActiveRecord::RecordInvalid
-      render json: { status: :error, msg: 'No al agregar los perfiles y zonas' }, status: :unprocessable_entity
+      render json: { status: :error, msg: 'Error al asociar el perfil' }, status: :unprocessable_entity
   end
 
   # PATCH/PUT /jobs/1 or /jobs/1.json

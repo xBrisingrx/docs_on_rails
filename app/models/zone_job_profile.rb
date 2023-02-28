@@ -16,9 +16,16 @@ class ZoneJobProfile < ApplicationRecord
   belongs_to :zone
   belongs_to :job
   belongs_to :profile
+  has_many :zone_job_profile_docs
+  has_many :documents, through: :zone_job_profile_docs
 
   scope :actives, -> { where(active: true) }
 
+  enum d_type: {
+    people: 1, 
+    vehicles: 2
+  }
+  
   def name
     "#{self.job.name} - #{self.zone.name} - #{self.profile.name}"
   end

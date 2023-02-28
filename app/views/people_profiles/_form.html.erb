@@ -7,16 +7,16 @@
     <div class="col-sm-8 col-lg-6">
       <%= form.select(:assignated_id, @people.collect {|p| [p.fullname, p.id]}, { include_blank: true},
                       class: 'form-control select-person-profile', required: true) %>
-      <small class="form-control-feedback text-danger profile"></small>
+      <small class="form-control-feedback text-danger assignated"></small>
     </div>
   </div>
 
   <div class="form-group  row">
-    <%= form.label :profile_id, 'Perfil (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <%= form.label :zone_job_profile_id, 'Perfil (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:profile_id, @profiles.collect {|p| [p.name, p.id]}, { include_blank: true},
+      <%= form.select(:zone_job_profile_id, @profiles.collect {|p| [p.name, p.id]}, { include_blank: true},
                       class: 'form-control select-profile-person', required: true) %>
-      <small class="form-control-feedback text-danger person"></small>
+      <small class="form-control-feedback text-danger zone_job_profile"></small>
     </div>
   </div>
 

@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resources :zones
   resources :zone_job_profiles, only: [:new, :create, :edit, :update]
   resources :zone_job_profile_docs, only: [:index,:new, :create, :edit, :update]
+  get 'zone_job_profile_docs/:id/modal_disable', to: 'zone_job_profile_docs#modal_disable', as: 'modal_disable_zone_job_profile_docs'
+  post 'disable_zone_job_profile_docs', to: 'zone_job_profile_docs#disable', as: 'disable_zone_job_profile_docs'
   resources :vehicles
   resources :vehicle_locations
   resources :vehicle_models
@@ -52,6 +54,7 @@ Rails.application.routes.draw do
   resources :document_renovations do 
     get 'show_files'
   end
+  post 'disable_document_renovation', to: 'document_renovations#disable', as: 'disable_document_renovation'
 
   resources :reasons_to_disables, except: [:destroy, :show]
   post 'disable_reason', to: 'reasons_to_disables#disable', as: 'disable_reason'

@@ -2,6 +2,7 @@ let assignments_person_profiles, assignments_person_documents
 const status_documentation = {
 	populate_with_peron_data: ()=> {
 	let person_id = document.getElementById("person_select").value
+	document.getElementById('assignated_id').value = person_id
 	fetch(`/people/${person_id}`)
 		.then( response => {
 			return response.json()

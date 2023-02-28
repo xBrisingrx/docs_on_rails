@@ -8,6 +8,8 @@
     </div>
     <div class="modal-body">
       <%= render partial: 'form', locals: { 
+                                    form_id: 'form-document-renovation',
+                                    method: 'POST',
       															document_renovation: @document_renovation, 
       															assignments_document: @assigned_document.id,
       															document_expire: @assigned_document.document.expires?,

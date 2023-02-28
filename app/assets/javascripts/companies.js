@@ -1,5 +1,5 @@
-let companies_table
-let companies_type = ''
+let companies_table,companies_type
+
 function modal_disable_company(id) {
   $('#modal-disable-company #company_id').val(id)
   $('#modal-disable-company').modal('show')

@@ -1,7 +1,5 @@
-$("#renovations_modal").html("<%= j (render partial: 'modal_files', locals:{ document_renovation: @document_renovation } ) %>")
-
-$("#renovations_modal").modal('show')
-
+$("#files_renovation_modal").html("<%= j (render partial: 'modal_files', locals:{ document_renovation: @document_renovation } ) %>")
+	$("#files_renovation_modal").modal('show')
 // $("#form-profile").on("ajax:success", function(event) {
 //     profiles_table.ajax.reload(null,false)
 //     let msg = JSON.parse(event.detail[2].response)

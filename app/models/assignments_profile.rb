@@ -21,23 +21,23 @@ class AssignmentsProfile < ApplicationRecord
   validate :unique_association, on: :create
   validates :start_date, presence: true
 
-  after_create :assign_profile
+  after_create :assign_documents
 
   scope :actives, ->{ where(active:true) }
 
-  def assign_profile
+  def assign_documents
     # Si le asigno un perfil a una persona tengo que tambien asociarles los documentos que tiene el perfil
     # Obtengo los documentos que tiene el perfil
     # @documents = DocumentsProfile.where( profile_id: self.profile_id, active: true )
-    @document = ZoneJobProfileDoc.where( zone_job_profile: self.zone_job_profile, active: true )
+    @documents = ZoneJobProfileDoc.where( zone_job_profile_id: self.zone_job_profile_id, active: true )
     ActiveRecord::Base.transaction do
       @documents.each do |document|
         @entry = AssignmentsDocument.find_by( assignated_id: self.assignated_id, 
           assignated_type: self.assignated_type, 
-          document_id: document.document_id,
-          start_date: self.start_date )
+          document_id: document.document_id)
         if @entry.nil?
-          @entry = AssignmentsDocument.create(assignated_id: self.assignated_id, assignated_type: self.assignated_type, document_id: document.document_id)
+          AssignmentsDocument.create(assignated_id: self.assignated_id, 
+            assignated_type: self.assignated_type, document_id: document.document_id, start_date: self.start_date)
         elsif !@entry.active && !@entry.custom
           # La persona pudo haber tenido un perfil con este documento y se dio de baja la relacion
           # La persona pudo haber tenido un perfil con este documento y al perfil se le quito el documento
@@ -60,13 +60,14 @@ class AssignmentsProfile < ApplicationRecord
 
   def shared_document document_id
     # If the assigned has this document in more the one active profile , I can't disable
-    query = AssignmentsProfile.select("assignments_profiles.id,documents_profiles.document_id as document_id,COUNT(documents_profiles.document_id) as count_documents")
+    query = AssignmentsProfile.select("assignments_profiles.id,zone_job_profile_docs.document_id as document_id,COUNT(zone_job_profile_docs.document_id) as count_documents")
                         .where("assignments_profiles.active = true")
                         .where("assignments_profiles.assignated_id = ?", self.assignated_id)
                         .where("assignments_profiles.assignated_type = ?", self.assignated_type.to_sym)
-                        .where("documents_profiles.document_id = ?", document_id)
-                          .joins("INNER JOIN documents_profiles ON documents_profiles.profile_id = assignments_profiles.profile_id")
-                            .group("documents_profiles.document_id").first
+                        .where("zone_job_profile_docs.document_id = ?", document_id)
+                          .joins("INNER JOIN zone_job_profiles ON zone_job_profiles.id = assignments_profiles.zone_job_profile_id")
+                          .joins("INNER JOIN zone_job_profile_docs ON zone_job_profile_docs.zone_job_profile_id = zone_job_profiles.id")
+                            .group("zone_job_profile_docs.document_id").first
     query.count_documents > 1
   end
 
@@ -92,7 +93,8 @@ class AssignmentsProfile < ApplicationRecord
 
   private
   def unique_association
-    @entry = AssignmentsProfile.find_by(assignated_id: self.assignated_id, assignated_type: self.assignated_type ,profile_id: self.profile_id)
+    @entry = AssignmentsProfile.find_by(assignated_id: self.assignated_id, assignated_type: self.assignated_type,
+        zone_job_profile_id: self.zone_job_profile_id)
     if self.id.nil? 
       # Validacion para creacion
       if !@entry.nil? && @entry.active

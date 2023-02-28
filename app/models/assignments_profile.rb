@@ -90,19 +90,20 @@ class AssignmentsProfile < ApplicationRecord
     # busco mis documentos asociados al perfil a deshabilitar
     # deshabilito los que se puedan, si se comparte con otro perfil o es custom no se puede
     # deshabilito el perfil
-    @documents = DocumentsProfile.where( profile_id: self.profile_id ).actives
+    @documents = ZoneJobProfileDoc.where( zone_job_profile_id: self.zone_job_profile_id ).actives
     ActiveRecord::Base.transaction do 
       @documents.each do |document|
-        assigned_document = AssignmentsDocument.find_by( assignated_id: self.assignated_id, 
+        assigned_document = AssignmentsDocument.where( assignated_id: self.assignated_id, 
             assignated_type: self.assignated_type, 
             document_id: document.document_id,
-            custom: false,
-            active: true)
-        if !assigned_document.nil?
-          assigned_document.disable
+            custom: false)
+        if !assigned_document.empty? && !self.shared_document(document.document_id)
+          pp assigned_document.first
+          assigned_document.first.update( active: false )
         end
       end
       self.update!(active: false, end_date: end_date) 
+      raise 'nope'
     end
   end
 

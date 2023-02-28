@@ -60,7 +60,10 @@ class ZoneJobProfileDoc < ApplicationRecord
       affected = AssignmentsProfile.where(zone_job_profile_id: self.profile.id, active: true)
 
       affected.each do |entry|
+        # byebug
+        puts "\n\n\n shared docs => #{entry.shared_document(self.document_id)} \n\n\n\n"
         if !entry.shared_document(self.document_id)
+          puts "\n\n disable #{entry.id} ==== #{self.document_id} \n\n"
           entry_to_disable = AssignmentsDocument.find_by( assignated_id: entry.assignated_id, assignated_type: entry.assignated_type, document_id: self.document_id )
           if !entry_to_disable.custom
             entry_to_disable.update( active: false, end_date: end_date)
@@ -76,7 +79,6 @@ class ZoneJobProfileDoc < ApplicationRecord
       affected = AssignmentsProfile.where(zone_job_profile_id: self.profile.id, active: true)
       affected.each do |entry|
         entry_to_reactive = AssignmentsDocument.find_by( assignated_id: entry.assignated_id, assignated_type: entry.assignated_type, document_id: self.document_id )
-        byebug
         if !entry_to_reactive.custom
           entry_to_reactive.update( active: true, start_date: start_date)
         end

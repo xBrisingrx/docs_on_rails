@@ -9,14 +9,19 @@ json.data @documents do |document|
 	else
 		json.file "<p><i class='fa fa-file-pdf-o fa-2x'></i></p>"
 	end
-	
+
 	if document.has_renovations?
 		json.actions  "#{ link_to '<i class="fa fa-eye"></i>'.html_safe, document_renovations_path( assignments_document_id: document.id ), 
                   					class: 'btn u-btn-orange btn-sm',  
-                  					data: {toggle: 'tooltip'}, title: 'Ver renovaciones', remote: true }"
+                  					data: {toggle: 'tooltip'}, title: 'Ver renovaciones', remote: true }
+                  "
 	else
 		json.actions  "#{ link_to '<i class="fa fa-plus"></i>'.html_safe, document_renovations_path( assignments_document_id: document.id ), 
                   					class: 'btn u-btn-indigo btn-sm',  
-                  					data: {toggle: 'tooltip'}, title: 'Ver renovaciones', remote: true }"
+                  					data: {toggle: 'tooltip'}, title: 'Ver renovaciones', remote: true }
+                  #{ link_to '<i class="fa fa-trash"></i>'.html_safe, 
+                  		modal_disable_assignments_documents_path(id: document.id), 
+                        data: {toggle: 'tooltip'}, remote: :true, 
+                        class: 'btn btn-sm u-btn-orange text-white', title: 'Eliminar' }"
 	end
 end

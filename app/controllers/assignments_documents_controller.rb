@@ -1,5 +1,5 @@
 class AssignmentsDocumentsController < ApplicationController
-
+  before_action :set_assignments_document, only: %i[ modal_disable ]
   def new
     @assignments_document = AssignmentsDocument.new(assignated_type: params[:assignated_type])
     d_type = ( params[:assignated_type] == 'Person' ) ? 'people' : 'vehicles'
@@ -34,12 +34,24 @@ class AssignmentsDocumentsController < ApplicationController
     @documents = data.assignments_documents.actives
   end
 
+  def modal_disable;end
+
+  def disable
+    @assignments_document = AssignmentsDocument.find(params[:id])
+    if @assignments_document.update(active: false, custom: true)
+      render json: { status: :success, msg: 'Documento desvinculado.' }, status: :ok
+    else
+      render json: { status: :error, msg: 'Error al devincular documento.' }, status: :unprocessable_entity
+    end
+  end
+
   private 
   def set_assignments_document
     @assignments_document = AssignmentsDocument.find(params[:id])
   end
 
   def assignments_document_params
-    params.require(:assignments_document).permit(:assignated_type, :assignated_id, :document_id, :custom, :start_date, :end_date)
+    params.require(:assignments_document).permit(:assignated_type, :assignated_id, :document_id, :custom, 
+      :start_date, :end_date)
   end
 end

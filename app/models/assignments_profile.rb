@@ -59,21 +59,31 @@ class AssignmentsProfile < ApplicationRecord
   # end
 
   def shared_document document_id
-    # If the assigned has this document in more the one active profile , I can't disable
-    query = AssignmentsProfile.select("assignments_profiles.id,zone_job_profile_docs.document_id as document_id,COUNT(zone_job_profile_docs.document_id) as count_documents")
-                        .where("assignments_profiles.active = true")
-                        .where("assignments_profiles.assignated_id = ?", self.assignated_id)
-                        .where("assignments_profiles.assignated_type = ?", self.assignated_type.to_sym)
-                        .where("zone_job_profile_docs.document_id = ?", document_id)
-                        .where("zone_job_profile_docs.active = ?", true)
-                          .joins("INNER JOIN zone_job_profiles ON zone_job_profiles.id = assignments_profiles.zone_job_profile_id")
-                          .joins("INNER JOIN zone_job_profile_docs ON zone_job_profile_docs.zone_job_profile_id = zone_job_profiles.id")
-                            .group("zone_job_profile_docs.document_id").first
-    if query
-      query.count_documents > 1
-    else
-      0
+    # # If the assigned has this document in more the one active profile , I can't disable
+    # query = AssignmentsProfile.select("assignments_profiles.id,zone_job_profile_docs.document_id as document_id,COUNT(zone_job_profile_docs.document_id) as count_documents")
+    #                     .where("assignments_profiles.active = true")
+    #                     .where("assignments_profiles.assignated_id = ?", self.assignated_id)
+    #                     .where("assignments_profiles.assignated_type = ?", self.assignated_type.to_sym)
+    #                     .where("zone_job_profile_docs.document_id = ?", document_id)
+    #                     .where("zone_job_profile_docs.active = ?", true)
+    #                       .joins("INNER JOIN zone_job_profiles ON zone_job_profiles.id = assignments_profiles.zone_job_profile_id")
+    #                       .joins("INNER JOIN zone_job_profile_docs ON zone_job_profile_docs.zone_job_profile_id = zone_job_profiles.id")
+    # byebug
+    # pp "\n\n======= #{query.count_documents}"
+    # if !query.nil?
+    #   query.count_documents > 1
+    # else
+    #   false
+    # end
+    profiles = AssignmentsProfile.where( assignated: self.assignated )
+    count = 0
+    profiles.each do |profile|
+      document = profile.zone_job_profile.documents.where(id: document_id)
+      if !document.empty?
+        count += 1
+      end
     end
+    return count > 1
   end
 
   def disable end_date

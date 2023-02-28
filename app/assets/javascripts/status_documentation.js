@@ -52,7 +52,7 @@ const status_documentation = {
 				document.getElementById("person_start_activity_file").href = `/people/${data.id}/upload_person_file/start_activity_file?file_name=CUIL`
 			}
 
-			$('#person_information').show('slow')
+			// $('#person_information').show('slow')
 			document.getElementById("form_people_documentation").reset()
 			assignments_person_profiles.ajax.url(`/assignments_profiles/${person_id}?assignated=person`)
 			assignments_person_profiles.ajax.reload(null,false)

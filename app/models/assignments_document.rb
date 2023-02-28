@@ -51,11 +51,11 @@ class AssignmentsDocument < ApplicationRecord
   end
 
   def assign
-    entry = AssignmentsDocument.find_by(assignated_id: self.assignated_id, assignated_type: self.assignated_type ,document_id: self.document_id)
-    if entry.nil?
+    entry = AssignmentsDocument.where(assignated_id: self.assignated_id, assignated_type: self.assignated_type ,document_id: self.document_id)
+    if entry.empty?
       self.save
-    elsif !entry.active 
-      entry.update(active: true)
+    elsif !entry.first.active 
+      entry.update(active: true, custom: self.custom)
     elsif entry.active 
       self.errors.add(:base, "Ya tiene asignado este documento.")
     else 

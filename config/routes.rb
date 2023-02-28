@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :zone_job_profile_docs, only: [:index,:new, :create, :edit, :update]
   get 'zone_job_profile_docs/:id/modal_disable', to: 'zone_job_profile_docs#modal_disable', as: 'modal_disable_zone_job_profile_docs'
   post 'disable_zone_job_profile_docs', to: 'zone_job_profile_docs#disable', as: 'disable_zone_job_profile_docs'
+  get 'zone_job_profile_docs/:id/modal_reactive', to: 'zone_job_profile_docs#modal_reactive', as: 'modal_reactive_zone_job_profile_docs'
+  post 'reactive_zone_job_profile_docs', to: 'zone_job_profile_docs#reactive', as: 'reactive_zone_job_profile_docs'
   resources :vehicles
   resources :vehicle_locations
   resources :vehicle_models

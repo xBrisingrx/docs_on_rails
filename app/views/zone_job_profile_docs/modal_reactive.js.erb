@@ -1,0 +1,25 @@
+$("#modal").html("<%= j (render partial: 'modal_reactive', locals:{ zone_job_profile_doc_id: @zone_job_profile_doc.id } ) %>")
+
+document.querySelector('#document_profile_data').innerHTML = `
+    <ul> 
+      <li><b>Perfil:</b> <%= @zone_job_profile_doc.profile.name%> </li>
+      <li><b>Documento:</b> <%= @zone_job_profile_doc.document.name%></li>
+    </ul>
+`
+
+setInputDate('#form-reactive-zone-job-profile-docs #start_date')
+
+$("#modal").modal('show')
+
+$("#form-reactive-zone-job-profile-docs").on("ajax:success", function(event) {
+  zone_job_profile_docs_table.ajax.reload(null,false)
+  let msg = JSON.parse(event.detail[2].response)
+  noty_alert(msg.status, msg.msg)
+  $("#modal").modal('hide')
+}).on("ajax:error", function(event) {
+  let msg = JSON.parse( event.detail[2].response )
+  $.each( msg, function( key, value ) {
+    $('#form-reactive-document-profile #start_date').addClass('is-invalid')
+    $('#form-reactive-document-profile .start_date').text( value ).show('slow')
+  })
+})

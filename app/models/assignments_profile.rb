@@ -65,10 +65,15 @@ class AssignmentsProfile < ApplicationRecord
                         .where("assignments_profiles.assignated_id = ?", self.assignated_id)
                         .where("assignments_profiles.assignated_type = ?", self.assignated_type.to_sym)
                         .where("zone_job_profile_docs.document_id = ?", document_id)
+                        .where("zone_job_profile_docs.active = ?", true)
                           .joins("INNER JOIN zone_job_profiles ON zone_job_profiles.id = assignments_profiles.zone_job_profile_id")
                           .joins("INNER JOIN zone_job_profile_docs ON zone_job_profile_docs.zone_job_profile_id = zone_job_profiles.id")
                             .group("zone_job_profile_docs.document_id").first
-    query.count_documents > 1
+    if query
+      query.count_documents > 1
+    else
+      0
+    end
   end
 
   def disable end_date

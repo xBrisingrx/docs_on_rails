@@ -54,8 +54,6 @@ class ZoneJobProfileDoc < ApplicationRecord
     end
   end
 
-  
-
   def disable end_date
     ActiveRecord::Base.transaction do
       self.update(active: false, end_date: end_date)
@@ -67,6 +65,20 @@ class ZoneJobProfileDoc < ApplicationRecord
           if !entry_to_disable.custom
             entry_to_disable.update( active: false, end_date: end_date)
           end
+        end
+      end
+    end
+  end
+
+  def reactive start_date
+    ActiveRecord::Base.transaction do
+      self.update(active: true, start_date: start_date)
+      affected = AssignmentsProfile.where(zone_job_profile_id: self.profile.id, active: true)
+      affected.each do |entry|
+        entry_to_reactive = AssignmentsDocument.find_by( assignated_id: entry.assignated_id, assignated_type: entry.assignated_type, document_id: self.document_id )
+        byebug
+        if !entry_to_reactive.custom
+          entry_to_reactive.update( active: true, start_date: start_date)
         end
       end
     end

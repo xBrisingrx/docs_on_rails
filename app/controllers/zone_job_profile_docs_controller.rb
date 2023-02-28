@@ -1,5 +1,5 @@
 class ZoneJobProfileDocsController < ApplicationController
-  before_action :set_zone_job_profile_doc, only: %i[ modal_disable ]
+  before_action :set_zone_job_profile_doc, only: %i[ modal_disable modal_reactive ]
   def index
     @entries = ZoneJobProfileDoc.where( d_type: params[:d_type])
   end
@@ -41,6 +41,19 @@ class ZoneJobProfileDocsController < ApplicationController
    @zone_job_profile_doc = ZoneJobProfileDoc.find(params[:id])
     respond_to do |format|
       if @zone_job_profile_doc.disable(params[:end_date])
+        format.json { render json: { msg: 'Operacion exitosa', status: 'success' }, status: :ok }
+      else
+        format.json { render json: { msg: 'Ocurrio un error al realizar la operacion' }, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def modal_reactive;end
+
+  def reactive
+    @zone_job_profile_doc = ZoneJobProfileDoc.find(params[:id])
+    respond_to do |format|
+      if @zone_job_profile_doc.reactive(params[:start_date])
         format.json { render json: { msg: 'Operacion exitosa', status: 'success' }, status: :ok }
       else
         format.json { render json: { msg: 'Ocurrio un error al realizar la operacion' }, status: :unprocessable_entity }

@@ -13,9 +13,10 @@
             </button>
             <!-- End Responsive Toggle Button -->
             <!-- Logo -->
-            <%= link_to root_path, class: 'navbar-brand mr-4' do %>
-              <%= image_tag('logo.png', alt: 'Logo') %>
+            <% link_to root_path, class: 'navbar-brand mr-4' do %>
+              <%# image_tag('logo.png', alt: 'Logo') %>
             <% end %>
+            <%= link_to '<i class="fa fa-bus g-font-size-42"> </i>'.html_safe, root_path %>
             <!-- End Logo -->
 
             <!-- Navigation -->
@@ -36,17 +37,17 @@
                   </ul>
                 </li>
                 <li class="nav-item hs-has-sub-menu g-mx-20--lg g-mb-5 g-mb-0--lg"> 
-                  <%= link_to 'Vehiculos', vehicles_path, class: 'nav-link', id: 'nav-vehicles', 
+                  <%# link_to 'Vehiculos', vehicles_path, class: 'nav-link', id: 'nav-vehicles', 
                     aria: { haspopup: "true", expanded: 'false', controls: 'nav-submenu-1' } %>
                   <!-- Submenu vehiculos -->
                   <ul class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" id="nav-submenu-vehicles" aria-labelledby="nav-vehicles">
-                    <li><%= link_to 'Listar vehiculos', vehicles_path %></li>
-                    <li><%= link_to 'Admin. empresas', companies_path( d_type: :vehicles ) %></li>
-                    <li><%= link_to 'Admin. puestos laborales', jobs_path( d_type: :vehicles ) %></li>
-                    <li><%= link_to 'Admin. perfiles', profiles_path( d_type: :vehicles ) %></li>
-                    <li><%= link_to 'Admin. documentos', documents_path( d_type: :vehicles ) %></li>
-                    <li><%= link_to 'Asignación de perfiles', people_profiles_path() %></li>
-                    <li><%= link_to 'Admin. motivos de baja', reasons_to_disables_path(d_type: :vehicles) %></li>
+                    <li><%# link_to 'Listar vehiculos', vehicles_path %></li>
+                    <li><%# link_to 'Admin. empresas', companies_path( d_type: :vehicles ) %></li>
+                    <li><%# link_to 'Admin. puestos laborales', jobs_path( d_type: :vehicles ) %></li>
+                    <li><%# link_to 'Admin. perfiles', profiles_path( d_type: :vehicles ) %></li>
+                    <li><%# link_to 'Admin. documentos', documents_path( d_type: :vehicles ) %></li>
+                    <li><%# link_to 'Asignación de perfiles', people_profiles_path() %></li>
+                    <li><%# link_to 'Admin. motivos de baja', reasons_to_disables_path(d_type: :vehicles) %></li>
                   </ul>
                 </li>
                 <li class="nav-item hs-has-sub-menu g-mx-20--lg g-mb-5 g-mb-0--lg">
@@ -54,7 +55,7 @@
                     aria: { haspopup: "true", expanded: 'false', controls: 'nav-submenu-1' } %>
                     <ul class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" id="nav-submenu-documents" aria-labelledby="nav-documents">
                       <li><%= link_to 'Registros de personal', status_documentation_people_path %></li>
-                      <li><%= link_to 'Registros de vehiculos', status_documentation_vehicules_path %></li>
+                      <li><%# link_to 'Registros de vehiculos', status_documentation_vehicules_path %></li>
                     </ul>
                 </li>
               </ul>

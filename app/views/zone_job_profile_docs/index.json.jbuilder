@@ -13,6 +13,6 @@ json.data @entries do |entry|
 	else
 		json.actions "#{ link_to '<i class="fa fa-retweet"></i>'.html_safe, modal_reactive_zone_job_profile_docs_path(entry), 
                         data: {toggle: 'tooltip'}, remote: :true, 
-                        class: 'btn btn-sm u-btn-orange text-white', title: 'Eliminar' }"
+                        class: 'btn btn-sm u-btn-orange text-white', title: 'Reactivar' }"
 	end
 end

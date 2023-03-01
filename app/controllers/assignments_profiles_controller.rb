@@ -46,6 +46,17 @@ class AssignmentsProfilesController < ApplicationController
     end
   end
 
+  def enable 
+    @assignments_profile = AssignmentsProfile.find(params[:assignment_profile_id])
+    respond_to do |format|
+      if @assignments_profile.reactive_profile( params[:start_date] )
+        format.json { render json: { status: :success, msg: 'Reactivación exitosa' }, status: :ok }
+      else
+        format.json { render json: { msg: 'Ocurrio un error al realizar la operacion', errors: @assignments_profile.erros }, status: :unprocessable_entity }
+      end
+    end
+  end
+
 	private
     def set_assignments_profile
       @assignments_profile = AssignmentsProfile.find(params[:id])

@@ -16,9 +16,7 @@ class PeopleProfilesController < ApplicationController
   end
 
   def edit
-    @people = Person.actives.order(:last_name)
-    @profiles = Profile.where(d_type: :people, active: true).order(:name)
-    @title_modal = 'Editar asignación'
+    @documents = @people_profile.zone_job_profile.documents
   end
 
   def modal_disable

@@ -32,9 +32,8 @@ class AssignmentsProfile < ApplicationRecord
     @documents = ZoneJobProfileDoc.where( zone_job_profile_id: self.zone_job_profile_id, active: true )
     ActiveRecord::Base.transaction do
       @documents.each do |document|
-        @entry = AssignmentsDocument.find_by( assignated_id: self.assignated_id, 
-          assignated_type: self.assignated_type, 
-          document_id: document.document_id)
+        @entry = AssignmentsDocument.find_by( assignated: self.assignated, 
+          document_id: document.document_id, start_date: )
         if @entry.nil?
           AssignmentsDocument.create(assignated_id: self.assignated_id, 
             assignated_type: self.assignated_type, document_id: document.document_id, start_date: self.start_date)
@@ -102,6 +101,27 @@ class AssignmentsProfile < ApplicationRecord
         end
       end
       self.update!(active: false, end_date: end_date) 
+    end
+  end
+
+  def reactive_profile start_date
+    @documents = ZoneJobProfileDoc.where( zone_job_profile_id: self.zone_job_profile_id ).actives
+    ActiveRecord::Base.transaction do 
+      @documents.each do |document|
+        assigned_document = AssignmentsDocument.where( assignated_id: self.assignated_id, 
+            assignated_type: self.assignated_type, 
+            document_id: document.document_id)
+        byebug
+        if assigned_document.empty?
+          AssignmentsDocument.create( assignated: self.assignated, 
+            document: document, 
+            custom: false,
+            start_date: start_date )
+        elsif !self.shared_document(document.document_id)
+          assigned_document.first.update( active: true )
+        end
+      end
+      self.update!(active: true, start_date: start_date) 
     end
   end
 

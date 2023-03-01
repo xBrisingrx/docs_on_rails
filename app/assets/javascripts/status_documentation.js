@@ -69,10 +69,14 @@ const status_documentation = {
 $(document).ready(function(){
 	$('.person_select_data').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione persona" })
 	assignments_person_profiles = $("#assignments_person_profiles_table").DataTable({
+		"columnDefs": [
+	    { "width": "40%", "targets": 0 }
+	  ],
 		'columns': [
 		 {'data': 'profile'},
 		 {'data': 'start_date'},
-		 {'data': 'end_date'}
+		 {'data': 'end_date'},
+		 {'data': 'status'}
 		],
 		'language': {'url': datatables_lang}
 	})

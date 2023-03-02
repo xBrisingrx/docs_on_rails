@@ -3,6 +3,8 @@ $("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', co
 $('.select-2-document-category').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione categoría (*)" });
 $('.select-2-document-expiration').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione período de vencimiento (*)" });
 
+setInputDate('#form-document #document_start_date')
+
 $("#modal").modal('show')
 
 document.getElementById('document_expires').addEventListener('click', (e) => {

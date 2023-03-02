@@ -4,6 +4,13 @@ class PeopleController < ApplicationController
   def index
     @people = Person.actives
     @reasons_to_disable = ReasonsToDisable.people.actives
+    respond_to do |format|
+      format.html
+      format.json
+      format.xlsx {
+        response.headers['Content-Disposition'] = 'attachment; filename="all_people.xlsx"'
+      }
+    end
   end
 
   def show
@@ -107,6 +114,18 @@ class PeopleController < ApplicationController
     else
       render json: { status: 'error', msg: 'Ocurrio un error al realizar la operación' }, status: :unprocessable_entity
     end
+  end
+
+  def people_report
+    p = Axlsx::Package.new
+    wb = p.workbook
+
+    wb.add_worksheet(name: 'Basic Worksheet') do |sheet|
+      sheet.add_row ['First', 'Second', 'Third']
+      sheet.add_row [1, 2, 3]
+    end
+
+    p.serialize 'basic_example.xlsx'
   end
 
   private

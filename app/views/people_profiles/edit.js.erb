@@ -2,7 +2,7 @@ if ( <%= @people_profile.active %> ) {
   $("#modal").html("<%= j (render partial: 'modal_disable', locals:{ assignment_profile_id: @people_profile.id }) %>")
   set_disable_information()
 } else {
-  $("#modal").html("<%= j (render partial: 'modal_enable', locals:{ assignment_profile_id: @people_profile.id }) %>")
+  $("#modal").html("<%= j (render partial: 'modal_reactive_profile', locals:{ assignment_profile_id: @people_profile.id }) %>")
   setInputDate('#form-person-profile #start_date')
 }
 

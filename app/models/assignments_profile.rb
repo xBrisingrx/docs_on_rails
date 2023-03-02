@@ -2,15 +2,15 @@
 #
 # Table name: assignments_profiles
 #
-#  id              :bigint           not null, primary key
-#  assignated_type :string(255)
-#  assignated_id   :bigint
-#  profile_id      :bigint
-#  start_date      :date
-#  end_date        :date
-#  active          :boolean          default(TRUE)
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                  :bigint           not null, primary key
+#  assignated_type     :string(255)
+#  assignated_id       :bigint
+#  start_date          :date
+#  end_date            :date
+#  active              :boolean          default(TRUE)
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  zone_job_profile_id :bigint
 #
 class AssignmentsProfile < ApplicationRecord
   belongs_to :assignated, polymorphic: true
@@ -32,11 +32,10 @@ class AssignmentsProfile < ApplicationRecord
     @documents = ZoneJobProfileDoc.where( zone_job_profile_id: self.zone_job_profile_id, active: true )
     ActiveRecord::Base.transaction do
       @documents.each do |document|
-        @entry = AssignmentsDocument.find_by( assignated: self.assignated, 
-          document_id: document.document_id, start_date: )
+        @entry = AssignmentsDocument.find_by( assignated: self.assignated,
+          document_id: document.document_id)
         if @entry.nil?
-          AssignmentsDocument.create(assignated_id: self.assignated_id, 
-            assignated_type: self.assignated_type, document_id: document.document_id, start_date: self.start_date)
+          AssignmentsDocument.create(assignated: self.assignated, document_id: document.document_id, start_date: self.start_date)
         elsif !@entry.active && !@entry.custom
           # La persona pudo haber tenido un perfil con este documento y se dio de baja la relacion
           # La persona pudo haber tenido un perfil con este documento y al perfil se le quito el documento
@@ -74,10 +73,11 @@ class AssignmentsProfile < ApplicationRecord
     # else
     #   false
     # end
-    profiles = AssignmentsProfile.where( assignated: self.assignated )
+    profiles = AssignmentsProfile.where( assignated: self.assignated ).actives
     count = 0
     profiles.each do |profile|
-      document = profile.zone_job_profile.documents.where(id: document_id)
+      document = profile.zone_job_profile.zone_job_profile_docs.where(document_id: document_id, active: true)
+      puts "\n\n #{ document } \n\n"
       if !document.empty?
         count += 1
       end
@@ -111,10 +111,9 @@ class AssignmentsProfile < ApplicationRecord
         assigned_document = AssignmentsDocument.where( assignated_id: self.assignated_id, 
             assignated_type: self.assignated_type, 
             document_id: document.document_id)
-        byebug
         if assigned_document.empty?
           AssignmentsDocument.create( assignated: self.assignated, 
-            document: document, 
+            document_id: document.document_id, 
             custom: false,
             start_date: start_date )
         elsif !self.shared_document(document.document_id)

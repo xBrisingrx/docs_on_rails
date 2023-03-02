@@ -8,6 +8,7 @@
 #  profile_id :bigint
 #  start_date :date
 #  end_date   :date
+#  d_type     :integer          not null
 #  active     :boolean          default(TRUE)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

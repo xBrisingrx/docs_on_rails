@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: zone_job_profile_docs
+#
+#  id                  :bigint           not null, primary key
+#  zone_job_profile_id :bigint
+#  document_id         :bigint
+#  start_date          :date
+#  end_date            :date
+#  d_type              :integer          not null
+#  active              :boolean          default(TRUE)
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#
 class ZoneJobProfileDoc < ApplicationRecord
   # los perfiles tienen distintos documentos a presentar dependiento 
   # a que puesto laboral este asignado

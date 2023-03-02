@@ -46,7 +46,7 @@ class AssignmentsProfilesController < ApplicationController
     end
   end
 
-  def enable 
+  def reactive_profile 
     @assignments_profile = AssignmentsProfile.find(params[:assignment_profile_id])
     respond_to do |format|
       if @assignments_profile.reactive_profile( params[:start_date] )

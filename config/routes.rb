@@ -47,7 +47,7 @@ Rails.application.routes.draw do
 
   resources :assignments_profiles, except: [:index, :destroy]
   post 'disable_assignment_profile', to: 'assignments_profiles#disable', as: 'disable_assignment_profile'
-  post 'enable_assignment_profile', to: 'assignments_profiles#enable', as: 'enable_assignment_profile'
+  post 'reactive_profile_assignment_profile', to: 'assignments_profiles#reactive_profile', as: 'reactive_profile_assignment_profile'
 
   resources :assignments_documents, except: [:index, :destroy]
   get 'assignments_documents/:id/modal_disable', to: 'assignments_documents#modal_disable', as: 'modal_disable_assignments_documents'

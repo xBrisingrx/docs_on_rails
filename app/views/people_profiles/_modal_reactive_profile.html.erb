@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <%= form_with(url: enable_assignment_profile_path, id: 'form-person-profile') do |form| %>
+      <%= form_with(url: reactive_profile_assignment_profile_path, id: 'form-person-profile') do |form| %>
         <%= form.hidden_field :assignment_profile_id, value: assignment_profile_id %>
         <div class="form-group g-mb-10">
           <%= form.label :start_date, 'Fecha inicio vigencia:', class: "col-form-label" %>

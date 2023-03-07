@@ -116,18 +116,6 @@ class PeopleController < ApplicationController
     end
   end
 
-  def people_report
-    p = Axlsx::Package.new
-    wb = p.workbook
-
-    wb.add_worksheet(name: 'Basic Worksheet') do |sheet|
-      sheet.add_row ['First', 'Second', 'Third']
-      sheet.add_row [1, 2, 3]
-    end
-
-    p.serialize 'basic_example.xlsx'
-  end
-
   private
     def set_person
       @person = Person.find(params[:id])

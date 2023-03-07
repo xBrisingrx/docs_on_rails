@@ -64,5 +64,8 @@ Rails.application.routes.draw do
   resources :reasons_to_disables, except: [:destroy, :show]
   post 'disable_reason', to: 'reasons_to_disables#disable', as: 'disable_reason'
 
-  resources :reports, only: [:index]
+  resources :reports, only: [:index] do
+    get 'people', on: :collection
+    get 'matriz', on: :collection
+  end
 end

@@ -19,5 +19,14 @@ class Job < ApplicationRecord
 		people: 1, 
 		vehicles: 2
 	}
+
+	def disable
+		ActiveRecord::Base.transaction do
+			self.zone_job_profiles.each do |zone_job_profile|
+				zone_job_profile.disable( Time.now )
+			end
+			self.update(active:false)
+		end
+	end
 	
 end

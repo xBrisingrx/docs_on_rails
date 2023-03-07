@@ -36,9 +36,9 @@ class AssignmentsProfilesController < ApplicationController
   end
 
   def disable 
-    @assignments_profile = AssignmentsProfile.find(params[:assignment_profile_id])
+    assignments_profile = AssignmentsProfile.find(params[:assignment_profile_id])
     respond_to do |format|
-      if @assignments_profile.disable( params[:end_date] )
+      if assignments_profile.disable( params[:end_date] )
         format.json { render json: { status: :success, msg: 'Desvinculacion exitosa' }, status: :ok }
       else
         format.json { render json: { msg: 'Ocurrio un error al realizar la operacion', errors: @assignments_profile.erros }, status: :unprocessable_entity }

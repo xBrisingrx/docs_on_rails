@@ -28,8 +28,8 @@ $(document).ready(function(){
   }).on("ajax:error", function(event) {
     let msj = JSON.parse( event.detail[2].response )
     $.each( msj, function( key, value ) {
-      $(`#form-job #job_${key}`).addClass('is-invalid')
-      $(`#form-job .job_${key}`).text( value ).show('slow')
+      $(`#form-disable-job #job_${key}`).addClass('is-invalid')
+      $(`#form-disable-job .job_${key}`).text( value ).show('slow')
     })
   })
 })

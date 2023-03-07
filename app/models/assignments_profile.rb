@@ -97,7 +97,7 @@ class AssignmentsProfile < ApplicationRecord
             document_id: document.document_id,
             custom: false)
         if !assigned_document.empty? && !self.shared_document(document.document_id)
-          assigned_document.first.update( active: false )
+          assigned_document.first.update( active: false, end_date: end_date )
         end
       end
       self.update!(active: false, end_date: end_date) 

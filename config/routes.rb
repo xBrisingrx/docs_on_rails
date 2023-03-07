@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   resources :jobs
+  post 'disable_job', to: 'jobs#disable', as: 'disable_job'
   resources :zones
-  resources :zone_job_profiles, only: [:new, :create, :edit, :update]
+  resources :zone_job_profiles, only: [:new, :create, :edit, :update] do 
+    post 'disable', on: :collection
+  end
   resources :zone_job_profile_docs, only: [:index,:new, :create, :edit, :update]
   get 'zone_job_profile_docs/:id/modal_disable', to: 'zone_job_profile_docs#modal_disable', as: 'modal_disable_zone_job_profile_docs'
   post 'disable_zone_job_profile_docs', to: 'zone_job_profile_docs#disable', as: 'disable_zone_job_profile_docs'

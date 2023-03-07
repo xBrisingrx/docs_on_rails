@@ -11,8 +11,8 @@
 
 <input type="hidden" id="jobs_d_type" value=<%= params[:d_type] %> >
 
-<!-- Modal para eliminar company -->
-<div class="modal fade" id="modal-disable-company" tabindex="-1" role="dialog">
+<!-- Modal para eliminar job -->
+<div class="modal fade" id="modal-disable-job" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -22,8 +22,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= form_with(url: disable_company_path, id: 'form-disable-company') do |form| %>
-          <%= form.hidden_field :company_id %>
+        <%= form_with(url: disable_job_path, id: 'form-disable-job') do |form| %>
+          <%= form.hidden_field :job_id %>
           <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
           <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
         <% end %>
@@ -31,4 +31,4 @@
     </div>
   </div>
 </div>
-<!-- Fin modal eliminar company -->
+<!-- Fin modal eliminar job -->

@@ -19,6 +19,7 @@ class ZoneJobProfile < ApplicationRecord
   belongs_to :profile
   has_many :zone_job_profile_docs
   has_many :documents, through: :zone_job_profile_docs
+  has_many :assignments_profiles
 
   scope :actives, -> { where(active: true) }
 
@@ -34,5 +35,14 @@ class ZoneJobProfile < ApplicationRecord
   def self.profile_type type
     self.joins(:profile)
       .where(profiles: { d_type: type })
+  end
+
+  def disable end_date
+    ActiveRecord::Base.transaction do
+      self.assignments_profiles.each do |assignment_profile|
+        assignment_profile.disable(end_date)
+      end
+      self.update(active: false, end_date: end_date)
+    end
   end
 end

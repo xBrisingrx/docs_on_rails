@@ -28,7 +28,7 @@ class JobsController < ApplicationController
   def create
     @job = Job.new(job_params)
     if @job.save
-      render json: { status: :success, msg: 'Trabajo agregado.' }, status: :created
+      render json: { status: :success, msg: 'Puesto laboral agregado.' }, status: :created
     else
       render json: @job.errors, status: :unprocessable_entity
     end
@@ -48,12 +48,12 @@ class JobsController < ApplicationController
   end
 
   # DELETE /jobs/1 or /jobs/1.json
-  def destroy
-    @job.destroy
-
-    respond_to do |format|
-      format.html { redirect_to jobs_url, notice: "Job was successfully destroyed." }
-      format.json { head :no_content }
+  def disable
+    job = Job.find(params[:job_id])
+    if job.disable
+      render json: { status: :success, msg: 'Puesto laboral dado de baja.' }, status: :created
+    else
+      render json: @job.errors, status: :unprocessable_entity
     end
   end
 

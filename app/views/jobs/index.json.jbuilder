@@ -6,7 +6,13 @@ json.data @jobs do |job|
 	if !job.zone_job_profiles.empty?
 		zones << '<ul>'
 		job.zone_job_profiles.each do |entry|
-			zones << "<li>#{entry.zone.name} - #{entry.profile.name}</li>"
+			zones << "<li class='mb-1'>#{entry.zone.name} - #{entry.profile.name} 
+									<button class='btn btn-xs u-btn-red text-white' 
+  									title='Desvincular zona y perfil' 
+  									onclick='modal_disable_zone_job_profile( #{ entry.id } )'>
+										<i class='icon-trash' aria-hidden='true'></i>
+									</button>
+								</li>"
 		end
 		zones << '</ul>'
 	end
@@ -17,6 +23,6 @@ json.data @jobs do |job|
 								#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_job_path(job), remote: :true, class: 'btn btn-sm u-btn-primary text-white', title: 'Editar' } 
 								<button class='btn btn-sm u-btn-red text-white' 
   								title='Eliminar' 
-  								onclick='modal_disable_jobs( #{ job.id } )'>
+  								onclick='modal_disable_job( #{ job.id } )'>
 									<i class='fa fa-trash-o' aria-hidden='true'></i></button> "
 end

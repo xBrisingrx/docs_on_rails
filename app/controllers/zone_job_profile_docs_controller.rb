@@ -1,7 +1,12 @@
 class ZoneJobProfileDocsController < ApplicationController
   before_action :set_zone_job_profile_doc, only: %i[ modal_disable modal_reactive ]
   def index
-    @entries = ZoneJobProfileDoc.where( d_type: params[:d_type])
+    # @entries = ZoneJobProfileDoc.where( d_type: params[:d_type])
+    @entries = ZoneJobProfileDoc.joins(:zone_job_profile)
+                                .select("zone_job_profile_docs.id, zone_job_profile_docs.document_id,zone_job_profile_docs.zone_job_profile_id,
+                                  zone_job_profile_docs.start_date, zone_job_profile_docs.end_date,zone_job_profile_docs.active,zone_job_profiles.active as e_active")
+                                .where( zone_job_profiles: {active: true} )
+                                .where(d_type: params[:d_type])
   end
 
   def new

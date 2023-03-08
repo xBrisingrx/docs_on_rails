@@ -28,6 +28,13 @@ class Profile < ApplicationRecord
 	}
 	scope :actives, -> { where(active: true) }
 
+	def disable end_date
+		ActiveRecord::Base.transaction do
+			self.zone_job_profiles.disable(end_date)
+		end
+		self.update(active: false, end_date: end_date)
+	end
+
 	private
 	def profile_inactive?
 		self.active == false

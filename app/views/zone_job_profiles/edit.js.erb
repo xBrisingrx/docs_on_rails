@@ -1,0 +1,11 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form_edit' } ) %>")
+$('#modal').modal('show')
+
+$("#form-zone-job-profile").on("ajax:success", function(event) {
+    jobs_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    $("#modal").modal('hide')
+  }).on("ajax:error", function(event) {
+		noty_alert('error','Error al desvincular')
+})

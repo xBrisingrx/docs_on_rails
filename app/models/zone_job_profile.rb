@@ -42,6 +42,9 @@ class ZoneJobProfile < ApplicationRecord
       self.assignments_profiles.each do |assignment_profile|
         assignment_profile.disable(end_date)
       end
+      self.zone_job_profile_docs do |zone_job_profile_doc|
+        zone_job_profile_doc.update( active: false, end_date: end_date )
+      end
       self.update(active: false, end_date: end_date)
     end
   end

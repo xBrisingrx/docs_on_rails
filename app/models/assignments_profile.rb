@@ -24,6 +24,12 @@ class AssignmentsProfile < ApplicationRecord
   after_create :assign_documents
 
   scope :actives, ->{ where(active:true) }
+  scope :people, ->{ where( assignated_type: :person ) }
+  scope :vehicles, ->{ where( assignated_type: :vehicle ) }
+
+  # def self.active_profiles
+  #   self.joins(:zone_job_profile).where(zone_job_profile: { active: true })
+  # end
 
   def assign_documents
     # Si le asigno un perfil a una persona tengo que tambien asociarles los documentos que tiene el perfil

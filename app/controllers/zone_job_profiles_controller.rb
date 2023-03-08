@@ -21,7 +21,7 @@ class ZoneJobProfilesController < ApplicationController
 
   # GET /jobs/1/edit
   def edit
-    @title_modal = "Editar puesto #{@zone_job_profile.name}"
+    @title_modal = "Desvincular puesto #{@zone_job_profile.name}"
   end
 
   # POST /jobs or /jobs.json
@@ -35,7 +35,7 @@ class ZoneJobProfilesController < ApplicationController
           profile_id: params["profile_#{i}".to_sym].to_i
         )
       end
-      render json: { status: :success, msg: 'Asociacion exitosa' }, status: :ok
+      render json: { status: :success, msg: 'Asociación exitosa' }, status: :ok
     end
     rescue ActiveRecord::RecordInvalid
       render json: { status: :error, msg: 'Error al asociar el perfil' }, status: :unprocessable_entity
@@ -44,11 +44,9 @@ class ZoneJobProfilesController < ApplicationController
   # PATCH/PUT /jobs/1 or /jobs/1.json
   def update
     respond_to do |format|
-      if @zone_job_profile.update(job_params)
-        format.html { redirect_to job_url(@zone_job_profile), notice: "Job was successfully updated." }
-        format.json { render :show, status: :ok, location: @zone_job_profile }
+      if @zone_job_profile.disable(Time.now)
+        format.json { render json: { status: :success, msg: 'Desvinculación exitosa' }, status: :ok }
       else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @zone_job_profile.errors, status: :unprocessable_entity }
       end
     end

@@ -2,7 +2,7 @@ class PeopleProfilesController < ApplicationController
   before_action :set_people_profile, only: %i[ show edit update destroy ]
 
   def index
-    @people_profiles = AssignmentsProfile.where( assignated_type: :person )
+    @people_profiles = AssignmentsProfile.people
   end
 
   def show
@@ -11,7 +11,7 @@ class PeopleProfilesController < ApplicationController
   def new
     @people_profile = AssignmentsProfile.new( assignated_type: :Person )
     @people = Person.actives.order(:last_name)
-    @profiles = ZoneJobProfile.profile_type(:people)
+    @profiles = ZoneJobProfile.profile_type(:people).actives
     @title_modal = 'Asignar perfil a una persona'
   end
 

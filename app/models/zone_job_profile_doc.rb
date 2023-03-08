@@ -74,7 +74,6 @@ class ZoneJobProfileDoc < ApplicationRecord
       affected = AssignmentsProfile.where(zone_job_profile_id: self.profile.id, active: true)
 
       affected.each do |entry|
-        # byebug
         puts "\n\n\n shared docs => #{entry.shared_document(self.document_id)} \n\n\n\n"
         if !entry.shared_document(self.document_id)
           puts "\n\n disable #{entry.id} ==== #{self.document_id} \n\n"

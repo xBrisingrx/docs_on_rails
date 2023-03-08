@@ -5,13 +5,9 @@ json.data @jobs do |job|
 	zones = ''
 	if !job.zone_job_profiles.empty?
 		zones << '<ul>'
-		job.zone_job_profiles.each do |entry|
-			zones << "<li class='mb-1'>#{entry.zone.name} - #{entry.profile.name} 
-									<button class='btn btn-xs u-btn-red text-white' 
-  									title='Desvincular zona y perfil' 
-  									onclick='modal_disable_zone_job_profile( #{ entry.id } )'>
-										<i class='icon-trash' aria-hidden='true'></i>
-									</button>
+		job.zone_job_profiles.actives.each do |entry|
+			zones << "<li>#{entry.zone.name} - #{entry.profile.name}
+										#{ link_to '<i class="fa fa-trash"></i>'.html_safe, edit_zone_job_profile_path(entry), remote: true, class: 'btn btn-xs u-btn-red text-white' }
 								</li>"
 		end
 		zones << '</ul>'

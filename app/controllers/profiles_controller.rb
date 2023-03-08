@@ -47,7 +47,7 @@ class ProfilesController < ApplicationController
   def disable
     @profile = Profile.find(params[:profile_id])
     respond_to do |format|
-      if @profile.update(active:false, end_date: params[:end_date])
+      if @profile.disable( end_date: params[:end_date] )
         format.json { render json: { status: 'success', msg: 'Perfil eliminado' }, status: :ok }
       else
         format.json { render json: @profile.errors, status: :unprocessable_entity }

@@ -2,6 +2,7 @@ $("#renovations_modal").html("<%= j (render partial: 'modal_renovations') %>")
 
 document_renovations_table = $("#document_renovations_table").DataTable({
   'ajax': '/document_renovations?assignments_document_id=<%= @assigned_document.id%>',
+  'order': false,
   'columns': [
     {'data': 'renovation_date'},
     {'data': 'expiration_date'},

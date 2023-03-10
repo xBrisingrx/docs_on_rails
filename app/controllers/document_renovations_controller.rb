@@ -4,7 +4,7 @@ class DocumentRenovationsController < ApplicationController
   # GET /document_renovations or /document_renovations.json
   def index
     @assigned_document = AssignmentsDocument.find( params[:assignments_document_id] )
-    @document_renovations = @assigned_document.document_renovations.actives 
+    @document_renovations = @assigned_document.document_renovations.actives.order(expiration_date: :DESC) 
     @document_renovation = DocumentRenovation.new
     @title_modal = "Renovaciones del documento #{@assigned_document.document.name}"
   end

@@ -8,13 +8,14 @@ const status_documentation = {
 			return response.json()
 		})
 		.then( data => {
-			document.getElementById("person_start_activity").innerHTML = `Inicio actividad: ${data.start_activity} ==`
-			document.getElementById("person_dni").innerHTML = `DNI: ${data.dni} `
-			document.getElementById("person_cuil").innerHTML = `CUIL: ${data.cuil}`
-			document.getElementById("person_birth_date").innerHTML = `Fecha de nacimiento: ${data.birth_date}`
-			document.getElementById("person_nationality").innerHTML = `Nacionalidad: ${data.nationality}`
-			document.getElementById("person_direction").innerHTML = `Direcion: ${data.direction}`
-			document.getElementById("person_phone").innerHTML = `Telefono: ${data.phone}`
+			document.getElementById("person_fullname").innerHTML = `${data.fullname}`
+			document.getElementById("person_start_activity").innerHTML = `${data.start_activity}`
+			document.getElementById("person_dni").innerHTML = `${data.dni} `
+			document.getElementById("person_cuil").innerHTML = `${data.cuil}`
+			document.getElementById("person_birth_date").innerHTML = `${data.birth_date}`
+			document.getElementById("person_nationality").innerHTML = `${data.nationality}`
+			document.getElementById("person_direction").innerHTML = `${data.direction}`
+			document.getElementById("person_phone").innerHTML = `${data.phone}`
 
 			if (data.dni_file != '') {
 				document.getElementById("person_dni_file").innerText = 'Ver archivo'
@@ -52,7 +53,7 @@ const status_documentation = {
 				document.getElementById("person_start_activity_file").href = `/people/${data.id}/upload_person_file/start_activity_file?file_name=CUIL`
 			}
 
-			// $('#person_information').show('slow')
+			$('#person_information').show('slow')
 			document.getElementById("form_people_documentation").reset()
 			assignments_person_profiles.ajax.url(`/assignments_profiles/${person_id}?assignated=person`)
 			assignments_person_profiles.ajax.reload(null,false)

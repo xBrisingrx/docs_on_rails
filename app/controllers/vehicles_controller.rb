@@ -26,11 +26,11 @@ class VehiclesController < ApplicationController
 
     respond_to do |format|
       if @vehicle.save
-        format.json { render :show, status: :created, location: @vehicle }
+        format.json { render json: { status: :success, msg: 'Vehiculo registrado' }, status: :created }
         format.html { redirect_to vehicle_url(@vehicle), notice: "Vehicle was successfully created." }
       else
+        format.json { render json: { status: 'error', msg: @vehicle.errors.messages }, status: :unprocessable_entity }
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @vehicle.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -39,11 +39,11 @@ class VehiclesController < ApplicationController
   def update
     respond_to do |format|
       if @vehicle.update(vehicle_params)
-        format.json { render :show, status: :ok, location: @vehicle }
+        format.json { render json: { status: :success, msg: 'Datos actualizados' }, status: :ok }
         format.html { redirect_to vehicle_url(@vehicle), notice: "Vehicle was successfully updated." }
       else
+        format.json { render json: { status: 'error', msg: @vehicle.errors.messages }, status: :unprocessable_entity }
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @vehicle.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -74,6 +74,7 @@ class VehiclesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def vehicle_params
-      params.require(:vehicle).permit(:code, :domain, :chassis, :engine, :seats, :year, :vehicle_type_id, :vehicle_model_id, :vehicle_location_id, :active)
+      params.require(:vehicle).permit(:code, :domain, :chassis, :engine, :seats, 
+          :year, :vehicle_type_id, :vehicle_model_id, :vehicle_location_id, :active, images: [])
     end
 end

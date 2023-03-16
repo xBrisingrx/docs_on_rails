@@ -23,6 +23,7 @@ class Vehicle < ApplicationRecord
   belongs_to :vehicle_model
   belongs_to :vehicle_location
   belongs_to :company
+  has_many_attached :images
 
   scope :actives, -> { where(active: true) }
   

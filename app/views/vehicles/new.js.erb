@@ -7,7 +7,7 @@ $('.select-vehicle-locations').select2({ width: '100%',theme: "bootstrap4", plac
 $("#modal").modal('show')
 
 $("#form-vehicle").on("ajax:success", function(event) {
-    companies_table.ajax.reload(null,false)
+    vehicles_table.ajax.reload(null,false)
     let msg = JSON.parse(event.detail[2].response)
     noty_alert(msg.status, msg.msg)
     $("#modal").modal('hide')

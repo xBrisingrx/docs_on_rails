@@ -4,7 +4,8 @@ class VehiclesController < ApplicationController
 
   # GET /vehicles or /vehicles.json
   def index
-    @vehicles = Vehicle.all
+    @vehicles = Vehicle.actives
+    @reasons_to_disable = ReasonsToDisable.vehicles.actives
   end
 
   # GET /vehicles/1 or /vehicles/1.json
@@ -48,14 +49,20 @@ class VehiclesController < ApplicationController
     end
   end
 
-  # DELETE /vehicles/1 or /vehicles/1.json
-  def destroy
-    @vehicle.destroy
+  def disable
+    vehicle = Vehicle.find(params[:vehicle_id])
+    activity_history = ActivityHistory.new( action: :disable, description: params[:description], 
+      record: @vehicle, date: params[:date], user: current_user, reasons_to_disable_id: params[:reasons_to_disable_id] )
 
-    respond_to do |format|
-      format.html { redirect_to vehicles_url, notice: "Vehicle was successfully destroyed." }
-      format.json { head :no_content }
+    if vehicle.disable(params[:date]) && activity_history.save
+      render json: { status: 'success', msg: 'Unidad eliminada' }, status: :ok
+    else
+      render json: { status: 'error', msg: 'No se pudo eliminar esta unidad', errors: vehicle.errors.messages }, status: :unprocessable_entity
     end
+
+    rescue => e
+      response = e.message.split(':')
+      render json: { response[0] => response[1] }, status: 402
   end
 
   private

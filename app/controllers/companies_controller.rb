@@ -20,9 +20,10 @@ class CompaniesController < ApplicationController
 
   def create
     @company = Company.new(company_params)
-
+    activity_history = ActivityHistory.new( action: :create_record, description: "El usuario #{current_user.username} registro la empresa #{@company.name}", 
+      record: @company, date: Time.now, user: current_user )
     respond_to do |format|
-      if @company.save
+      if @company.save && activity_history.save
         format.json { render json: { status: :success, msg: 'Empresa agregada.' }, status: :created, location: @company }
       else
         format.json { render json: @company.errors, status: :unprocessable_entity }
@@ -31,8 +32,10 @@ class CompaniesController < ApplicationController
   end
 
   def update
+    activity_history = ActivityHistory.new( action: :update_record, description: "El usuario #{current_user.username} actualizo datos de la empresa #{@company.name}", 
+      record: @company, date: Time.now, user: current_user )
     respond_to do |format|
-      if @company.update(company_edit_params)
+      if @company.update(company_edit_params) && activity_history.save
         format.json { render json: { status: :success, msg: 'Datos actualizados.'}, status: :ok, location: @company }
       else
         format.json { render json: @company.errors, status: :unprocessable_entity }
@@ -41,8 +44,10 @@ class CompaniesController < ApplicationController
   end
 
   def disable
-    @company = Company.find(params[:company_id])
-    if @company.update(active:false)
+    company = Company.find(params[:company_id])
+    activity_history = ActivityHistory.new( action: :disable, description: "El usuario #{current_user.username} elimino la empresa #{company.name}", 
+      record: company, date: Time.now, user: current_user )
+    if company.update(active:false) && activity_history.save
       render json: { status: 'success', msg: 'Empresa eliminada' }, status: :ok
     else
       render json: { status: 'error', msg: 'Ocurrio un error al realizar la operación' }, status: :unprocessable_entity

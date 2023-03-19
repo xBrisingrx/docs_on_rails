@@ -32,9 +32,9 @@ $(document).ready(function(){
   inactive_vehicles_table = $("#inactive_vehicles_table").DataTable({
     'ajax': 'inactive_vehicles',
     'columns': [
-    {'data': 'file'},
-    {'data': 'name'},
-    {'data': 'dni'},
+    {'data': 'code'},
+    {'data': 'domain'},
+    {'data': 'year'},
     {'data': 'reason'},
     {'data': 'date'},
     {'data': 'actions'}

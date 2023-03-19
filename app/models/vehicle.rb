@@ -31,19 +31,26 @@ class Vehicle < ApplicationRecord
   has_many_attached :images
 
   scope :actives, -> { where(active: true) }
+  scope :inactives, -> { where(active: false) }
   
   def brand
     self.vehicle_model.vehicle_brand.name
   end
 
   def disable end_date
+    pp end_date
     ActiveRecord::Base.transaction do
       self.update(active: false)
-      self.assignments_profiles.where(active: true).update_all(active:false, end_date: end_date)
-      self.assignments_documents.where(active: true).update_all(active:false, end_date: end_date)
+      self.assignments_profiles.where(active: true).each do |profile|
+        profile.update(active: false, end_date: end_date)
+      end
+      self.assignments_documents.where(active: true).each do |document|
+        document.update(active: false, end_date: end_date)
+      end
     end
+  end
 
-    rescue => e
-      puts "Oops. We tried to do an invalid operation! #{e}"
+  def enable
+    self.update(active: true)
   end
 end

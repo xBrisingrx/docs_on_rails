@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   post 'reactive_zone_job_profile_docs', to: 'zone_job_profile_docs#reactive', as: 'reactive_zone_job_profile_docs'
   resources :vehicles, except: [:destroy, :show]
   post 'disable_vehicle', to: 'vehicles#disable', as: 'disable_vehicle'
+  get 'inactive_vehicles', to: 'vehicles#inactives', as: 'inactive_vehicles'
+  get 'vehicles/:id/show_vehicle_history', to: 'vehicles#show_vehicle_history', as: 'show_vehicle_history'
+  get 'vehicles/:id/modal_enable_vehicle', to: 'vehicles#modal_enable_vehicle', as: 'modal_enable_vehicle'
+  post 'vehicles/enable_vehicle', to: 'vehicles#enable_vehicle', as: 'enable_vehicle'
   resources :vehicle_locations
   resources :vehicle_models
   resources :vehicle_brands

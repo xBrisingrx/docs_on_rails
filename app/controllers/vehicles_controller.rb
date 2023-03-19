@@ -1,5 +1,5 @@
 class VehiclesController < ApplicationController
-  before_action :set_vehicle, only: %i[ show edit update destroy ]
+  before_action :set_vehicle, only: %i[ show edit update destroy show_vehicle_history modal_enable_vehicle ]
   before_action :set_vehicle_data, only: %i[ new edit ]
 
   # GET /vehicles or /vehicles.json
@@ -52,17 +52,41 @@ class VehiclesController < ApplicationController
   def disable
     vehicle = Vehicle.find(params[:vehicle_id])
     activity_history = ActivityHistory.new( action: :disable, description: params[:description], 
-      record: @vehicle, date: params[:date], user: current_user, reasons_to_disable_id: params[:reasons_to_disable_id] )
+      record: vehicle, date: params[:date], user: current_user, reasons_to_disable_id: params[:reasons_to_disable_id] )
 
     if vehicle.disable(params[:date]) && activity_history.save
       render json: { status: 'success', msg: 'Unidad eliminada' }, status: :ok
     else
-      render json: { status: 'error', msg: 'No se pudo eliminar esta unidad', errors: vehicle.errors.messages }, status: :unprocessable_entity
+      render json: { status: 'error', msg: 'No se pudo eliminar esta unidad' }, status: :unprocessable_entity
     end
 
     rescue => e
       response = e.message.split(':')
       render json: { response[0] => response[1] }, status: 402
+  end
+
+  def inactives
+    @vehicles = Vehicle.inactives
+  end
+
+  def show_vehicle_history
+    @title_modal = "Historial de #{@vehicle.code}"
+    @activity = @vehicle.activity_histories.where(action: :disable).or( @vehicle.activity_histories.where(action: :enable) ).order( date: 'DESC' )
+  end
+
+  def modal_enable_vehicle
+    @title_modal = 'Reactivando unidad'
+  end
+
+  def enable_vehicle
+    vehicle = Vehicle.find params[:vehicle_id]
+    activity = ActivityHistory.new( action: :enable, description: params[:description], 
+      record: vehicle, date: params[:date], user: current_user )
+    if vehicle.enable && activity.save
+      render json: { status: 'success', msg: "La unidad #{vehicle.code} fue reactivada" }, status: :ok
+    else
+      render json: { status: 'error', msg: 'Ocurrio un error al realizar la operación' }, status: :unprocessable_entity
+    end
   end
 
   private

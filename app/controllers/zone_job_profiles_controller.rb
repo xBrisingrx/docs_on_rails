@@ -30,21 +30,29 @@ class ZoneJobProfilesController < ApplicationController
           zone_id: params["zone_#{i}".to_sym].to_i,
           profile_id: params["profile_#{i}".to_sym].to_i
         )
-        entry.save
-        ActivityHistory.create( action: :create_record, description: "Se registro #{entry.name}", record: @profile, date: Time.now, user: current_user )
+        if entry.save
+          ActivityHistory.create( action: :create_record, 
+            description: "Se registro #{entry.name}", record: @profile, date: Time.now, user: current_user )
+        else
+          entry.errors.messages.map { |k,v| errors << v }
+        end
       end
+    end
+
+    if errors.empty?
       render json: { status: :success, msg: 'Asociación exitosa' }, status: :ok
+    else
+      byebug
+      render json: { status: :error, msg: errors }, status: :unprocessable_entity
     end
     
-    rescue ActiveRecord::RecordInvalid => invalid
-      status = ( invalid.record.errors["uniqueness"].empty? ) ? 'error' : 'info'
-      msg = ( invalid.record.errors["uniqueness"].empty? ) ? 'error' : 'info'
-      # byebug
-      invalid.record.errors.map { |k,v| errors[] = v }
-      render json: { status: :error, msg: errors }, status: :unprocessable_entity
-    rescue => e
-      @response = e.message.split(':')
-      render json: { @response[0] => @response[1] }, status: 402
+    # rescue ActiveRecord::RecordInvalid => invalid
+    #   pp invalid.record.errors
+    #   status = ( invalid.record.errors["uniqueness"].empty? ) ? 'error' : 'info'
+    #   msg = ( invalid.record.errors["uniqueness"].empty? ) ? 'error' : 'info'
+    #   # byebug
+    #   invalid.record.errors.map { |k,v| errors << v }
+    #   render json: { status: status, msg: errors }, status: :unprocessable_entity
   end
 
   def update

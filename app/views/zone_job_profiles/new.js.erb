@@ -47,7 +47,7 @@ document.getElementById('form-zone-job-profile').addEventListener('submit', (eve
       jobs_table.ajax.reload(null,false)
       $("#modal").modal('hide')
     }
-    zone_job_profile.errors = response.msg
+    zone_job_profile.errors = response
     noty_alert(response.status, response.msg)
   } )
   .catch( error => {

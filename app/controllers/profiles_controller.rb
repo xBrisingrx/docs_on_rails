@@ -20,9 +20,10 @@ class ProfilesController < ApplicationController
 
   def create
     @profile = Profile.new(profile_params)
-
+    activity_history = ActivityHistory.new( action: :create_record, description: "El usuario #{current_user.username} registro el perfil #{@profile.name}", 
+      record: @profile, date: Time.now, user: current_user )
     respond_to do |format|
-      if @profile.save
+      if @profile.save && activity_history.save
         format.json { render json: { status: :success, msg: 'Perfil agregado.' }, status: :created }
         format.html { redirect_to profile_url(@profile), notice: "Profile was successfully created." }
       else
@@ -33,8 +34,10 @@ class ProfilesController < ApplicationController
   end
 
   def update
+    activity_history = ActivityHistory.new( action: :update_record, description: "El usuario #{current_user.username} actualizo el perfil #{@profile.name}", 
+      record: @profile, date: Time.now, user: current_user )
     respond_to do |format|
-      if @profile.update(profile_params)
+      if @profile.update(profile_params) && activity_history.save
         format.json { render json: { status: :success, msg: 'Datos actualizados.'}, status: :ok, location: @profile }
         format.html { redirect_to profile_url(@profile), notice: "Profile was successfully updated." }
       else
@@ -46,8 +49,10 @@ class ProfilesController < ApplicationController
 
   def disable
     @profile = Profile.find(params[:profile_id])
+    activity_history = ActivityHistory.new( action: :disable, description: "El usuario #{current_user.username} dio de baja el perfil #{@profile.name}", 
+      record: @profile, date: Time.now, user: current_user )
     respond_to do |format|
-      if @profile.disable( end_date: params[:end_date] )
+      if @profile.disable( end_date: params[:end_date] ) && activity_history.save
         format.json { render json: { status: 'success', msg: 'Perfil eliminado' }, status: :ok }
       else
         format.json { render json: @profile.errors, status: :unprocessable_entity }

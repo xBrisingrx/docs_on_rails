@@ -18,10 +18,12 @@ class Profile < ApplicationRecord
 	has_many :zone_job_profiles
 	has_many :zones, through: :zone_job_profiles
 	has_many :jobs, through: :zone_job_profiles
+	
 	validates :name, presence: true, 
 		uniqueness: { scope: :d_type, case_sensitive: false, message: "Ya existe un perfil registrado con este nombre" }
-
 	validates :end_date, presence: { message: 'Para dar de baja un perfil se necesita ingresar la fecha de finalización.'}, if: :profile_inactive?
+	validates :d_type, presence: true
+
 	enum d_type: {
 		people: 1, 
 		vehicles: 2

@@ -23,6 +23,9 @@ class ZoneJobProfile < ApplicationRecord
 
   scope :actives, -> { where(active: true) }
 
+  validates :zone_id,:job_id,:profile_id, presence: true
+  validate :unique_association, on: :create
+
   enum d_type: {
     people: 1, 
     vehicles: 2
@@ -46,6 +49,23 @@ class ZoneJobProfile < ApplicationRecord
         zone_job_profile_doc.update( active: false, end_date: end_date )
       end
       self.update(active: false, end_date: end_date)
+    end
+  end
+
+  private
+  def unique_association
+    pp "validando"
+    entry = ZoneJobProfile.find_by(zone_id: self.zone_id, job_id: self.job_id, profile_id: self.profile_id)
+    pp entry
+    if self.id.nil? 
+      # Validacion para creacion
+      if !entry.nil? && entry.active
+        pp "no nula y activa"
+        errors.add(:uniqueness, "#{entry.name} ya existe.")
+      elsif !entry.nil? && !entry.active
+        pp "no nula e inactiva"
+        errors.add(:uniqueness, "La asignacion #{entry.name} ya existe, se encuentra dada de baja.")
+      end
     end
   end
 end

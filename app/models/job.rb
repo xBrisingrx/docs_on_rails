@@ -20,6 +20,8 @@ class Job < ApplicationRecord
 		vehicles: 2
 	}
 
+	scope :actives, -> { where(active: true) }
+	
 	def disable
 		ActiveRecord::Base.transaction do
 			self.zone_job_profiles.each do |zone_job_profile|

@@ -1,5 +1,6 @@
 let zone_job_profile = {
 	count_zone_profile: 0,
+  errors: ''
 }
 
 function modal_disable_zone_job_profile(id) {

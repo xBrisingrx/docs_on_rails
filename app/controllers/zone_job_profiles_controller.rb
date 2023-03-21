@@ -1,16 +1,13 @@
 class ZoneJobProfilesController < ApplicationController
   before_action :set_zone_job_profile, only: %i[ show edit update destroy ]
 
-  # GET /jobs or /jobs.json
   def index
     @zone_job_profiles = ZoneJobProfile.where( d_type: params[:d_type])
   end
 
-  # GET /jobs/1 or /jobs/1.json
   def show
   end
 
-  # GET /jobs/new
   def new
     @job = Job.find params[:job_id]
     @zone_job_profile = ZoneJobProfile.new()
@@ -19,29 +16,37 @@ class ZoneJobProfilesController < ApplicationController
     @title_modal = "Asignar convenio a #{@job.name}"
   end
 
-  # GET /jobs/1/edit
   def edit
     @title_modal = "Desvincular puesto #{@zone_job_profile.name}"
   end
 
-  # POST /jobs or /jobs.json
   def create
+    errors = []
     ActiveRecord::Base.transaction do
       for i in 1..params[:count].to_i do 
-        ZoneJobProfile.create(
+        entry = ZoneJobProfile.new(
           job_id: params[:job_id],
           d_type: params[:d_type],
           zone_id: params["zone_#{i}".to_sym].to_i,
           profile_id: params["profile_#{i}".to_sym].to_i
         )
+        entry.save
+        ActivityHistory.create( action: :create_record, description: "Se registro #{entry.name}", record: @profile, date: Time.now, user: current_user )
       end
       render json: { status: :success, msg: 'Asociación exitosa' }, status: :ok
     end
-    rescue ActiveRecord::RecordInvalid
-      render json: { status: :error, msg: 'Error al asociar el perfil' }, status: :unprocessable_entity
+    
+    rescue ActiveRecord::RecordInvalid => invalid
+      status = ( invalid.record.errors["uniqueness"].empty? ) ? 'error' : 'info'
+      msg = ( invalid.record.errors["uniqueness"].empty? ) ? 'error' : 'info'
+      # byebug
+      invalid.record.errors.map { |k,v| errors[] = v }
+      render json: { status: :error, msg: errors }, status: :unprocessable_entity
+    rescue => e
+      @response = e.message.split(':')
+      render json: { @response[0] => @response[1] }, status: 402
   end
 
-  # PATCH/PUT /jobs/1 or /jobs/1.json
   def update
     respond_to do |format|
       if @zone_job_profile.disable(Time.now)
@@ -52,7 +57,6 @@ class ZoneJobProfilesController < ApplicationController
     end
   end
 
-  # DELETE /jobs/1 or /jobs/1.json
   def destroy
     @zone_job_profile.destroy
 
@@ -63,12 +67,10 @@ class ZoneJobProfilesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_zone_job_profile
       @zone_job_profile = ZoneJobProfile.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def zone_job_profile_params
       params.require(:zone_job_profile).permit(:zone_id, :job_id, :profile_id,:d_type)
     end

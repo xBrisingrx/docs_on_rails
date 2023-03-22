@@ -23,6 +23,7 @@
 //= require documents
 //= require documents_profiles
 //= require people_profiles
+//= require vehicles_profiles
 //= require status_documentation
 //= require document_renovations
 //= require reasons_to_disables

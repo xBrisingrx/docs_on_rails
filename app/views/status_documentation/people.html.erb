@@ -10,8 +10,8 @@
 			<div class="col-4">
 				<%= form_with(url: '#', id: 'form_people_documentation') do |form| %>
 					<%= form.select(:person_select, @people.collect {|p| ["#{p.fullname}", p.id]}, {},
-				                    	required: :true, class: 'form-control person_select_data',
-				                    	onchange: 'status_documentation.populate_with_peron_data()') %>
+				                    	required: :true, class: 'form-control assigned_select_data',
+				                    	onchange: 'status_documentation.populate_with_person_data()') %>
 				<% end %>
 			</div>
 		</div>
@@ -27,18 +27,18 @@
               <td class='col-2'><u id="person_dni"></u></td>
               <td class='col-2'><b>Fecha de vencimiento: </b></td>
               <td class='col-2'><u id="person_expiration_dni"></u></td>
-              <td><a id="person_dni_file" href="#" class="btn btn-xs u-btn-outline-purple u-btn-hover-v1-2"></a></td>
+              <td><a id="person_dni_file" href="#" class="btn btn-xs u-btn-hover-v1-2"></a></td>
             </tr>
             <tr>
               <td class='col-2'><b>CUIL: </b></td>
               <td class='col-2'><u id="person_cuil"></u></td>
-              <td><a id="person_cuil_file" href="#" class="btn btn-xs u-btn-outline-purple u-btn-hover-v1-2"></a></td>
+              <td><a id="person_cuil_file" href="#" class="btn btn-xs u-btn-hover-v1-2"></a></td>
             </tr>
               <td class='col-2'><b>Inicio actividad: </b></td>
               <td class='col-2'><u id="person_start_activity"></u></td>
               <td>
                   <a id="person_start_activity_file" href="#" 
-                    class="btn btn-xs u-btn-outline-purple u-btn-hover-v1-2"></a>
+                    class="btn btn-xs u-btn-hover-v1-2"></a>
               </td>
             <tr>
               <td class='col-2'><b>Fecha de nacimiento: </b></td>

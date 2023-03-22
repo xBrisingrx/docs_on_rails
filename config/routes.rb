@@ -51,7 +51,8 @@ Rails.application.routes.draw do
   resources :documents_profiles, except: [:destroy, :show]
   post 'disable_document_profile', to: 'documents_profiles#disable', as: 'disable_document_profile'
   
-  resources :people_profiles, except: [:destroy, :show] 
+  resources :people_profiles, except: [:destroy, :show]
+  resources :vehicles_profiles, except: [:destroy, :show] 
 
   resources :assignments_profiles, except: [:index, :destroy]
   post 'disable_assignment_profile', to: 'assignments_profiles#disable', as: 'disable_assignment_profile'
@@ -62,7 +63,7 @@ Rails.application.routes.draw do
   post 'disable_assignments_documents', to: 'assignments_documents#disable', as: 'disable_assignments_documents'
 
   get 'status_documentation/people'
-  get 'status_documentation/vehicules'
+  get 'status_documentation/vehicles'
 
   resources :document_renovations do 
     get 'show_files'

@@ -1,1 +1,95 @@
-<h1>autitos</h1>
+<h1>Registro y renovación de documentación de vehículos</h1>
+
+<div class="g-mb-30">
+  <!-- Figure -->
+  <figure class="u-info-v7-1 u-info-v7-1__item g-bg-white g-rounded-4">
+		<div class="row justify-content-start ml-2 col-10 g-py-10">
+			<div class="col-6 col-md-4 col-lg-3">
+				<h3>Documentos de: </h3>	
+			</div>
+			<div class="col-4">
+				<%= form_with(url: '#', id: 'form_vehicle_documentation') do |form| %>
+					<%= form.select(:vehicle_select, @vehicles.collect {|v| ["#{v.code}", v.id]}, {},
+				                    	required: :true, class: 'form-control vehicle_select_data',
+				                    	onchange: 'status_documentation.populate_with_vehicle_data()') %>
+				<% end %>
+			</div>
+		</div>
+    <div id="vehicle_information" class="g-py-20 g-px-10 table-responsive" style="display:none">
+        <table class="">
+          <tbody>
+            <tr>
+              <td class="col-2"><b>Interno</b></td>
+              <td><u id="vehicle_code"></u></td>
+            </tr>
+            <tr>
+              <td class='col-2'><b>Dominio: </b></td>
+              <td class='col-2'><u id="vehicle_domain"></u></td>
+              <td class='col-2'><b>Año: </b></td>
+              <td class='col-2'><u id="vehicle_year"></u></td>
+            </tr>
+            <tr>
+              <td class='col-2'><b>Marca: </b></td>
+              <td class='col-2'><u id="vehicle_brand"></u></td>
+            </tr>
+              <td class='col-2'><b>Modelo: </b></td>
+              <td class='col-2'><u id="vehicle_model"></u></td>
+            <tr>
+              <td class='col-2'><b>Tipo: </b></td>
+              <td class='col-2'><u id="vehicle_type"></u></td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <!-- End Figure List -->
+  </figure>
+  <!-- End Figure -->
+</div>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'assignments_vehicle_profiles', 
+                      color: 'cyan', 
+                      icon: 'fa-address-card-o',
+                      title: "Perfiles asignados al vehiculo", 
+                      col_names: [ 'Perfil','Fecha inicio vigencia','Fecha fin vigencia', 'Estado' ] }) %>
+
+<%= link_to "<i class='fa fa-plus'></i> Asignar un documento".html_safe, 
+      new_assignments_document_path(assignated_type: 'Vehicle'), 
+      class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2', remote: true %>
+<input type="hidden" id='assignated_id'>
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'assignments_vehicle_documents', 
+                      color: 'purple', 
+                      icon: 'fa-address-card-o',
+                      title: "Listado de documentos asignados", 
+                      col_names: [ 'Documento','Categoría','Vence','Fecha vencimiento','PDF','Acciones' ] }) %>
+
+<div class="modal fade" id="renovations_modal" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+</div>
+
+<div class="modal fade" id="files_renovation_modal" tabindex="-1" role="dialog"></div>
+<div class="modal fade" id="modal_edit_renovation" tabindex="-1" role="dialog"></div>
+
+<!-- Modal para eliminar renovation -->
+<div class="modal fade" id="modal-disable-renovation" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Eliminar renovacion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿ Esta seguro de dar de baja esta renovacion ?</p>
+        <%= form_with(url: disable_document_renovation_path, id: 'form-disable-renovation') do |form| %>
+          <%= form.hidden_field :document_renovation_id %>
+          <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
+          <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal eliminar renovation -->

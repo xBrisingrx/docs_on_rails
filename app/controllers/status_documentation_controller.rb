@@ -7,7 +7,7 @@ class StatusDocumentationController < ApplicationController
     @people = Person.actives
   end
 
-  def vehicules
-    
+  def vehicles
+    @vehicles = Vehicle.actives
   end
 end

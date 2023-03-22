@@ -30,29 +30,25 @@ class ZoneJobProfilesController < ApplicationController
           zone_id: params["zone_#{i}".to_sym].to_i,
           profile_id: params["profile_#{i}".to_sym].to_i
         )
-        if entry.save
+        if entry.save!
           ActivityHistory.create( action: :create_record, 
             description: "Se registro #{entry.name}", record: @profile, date: Time.now, user: current_user )
-        else
-          entry.errors.messages.map { |k,v| errors << v }
         end
       end
-    end
-
-    if errors.empty?
       render json: { status: :success, msg: 'Asociación exitosa' }, status: :ok
-    else
-      byebug
-      render json: { status: :error, msg: errors }, status: :unprocessable_entity
-    end
-    
+    end    
     # rescue ActiveRecord::RecordInvalid => invalid
-    #   pp invalid.record.errors
     #   status = ( invalid.record.errors["uniqueness"].empty? ) ? 'error' : 'info'
-    #   msg = ( invalid.record.errors["uniqueness"].empty? ) ? 'error' : 'info'
-    #   # byebug
-    #   invalid.record.errors.map { |k,v| errors << v }
+    #   invalid.record.errors.messages.map { |k,v| 
+    #     status = ( k.to_s == 'uniqueness' ) ? 'info' : 'error'
+    #     errors << { status: status, msg: v[0] } 
+    #   }
     #   render json: { status: status, msg: errors }, status: :unprocessable_entity
+    rescue StandardError => e
+      byebug
+      render json: { status: :info, msg: e.message.split(':')[2] }, status: :unprocessable_entity
+    rescue ActiveRecord::RecordInvalid
+      render json: { status: :error, msg: 'No se pudieron asociar los documentos' }, status: :unprocessable_entity
   end
 
   def update

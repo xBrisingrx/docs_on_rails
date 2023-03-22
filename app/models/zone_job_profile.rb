@@ -58,9 +58,9 @@ class ZoneJobProfile < ApplicationRecord
     if self.id.nil? 
       # Validacion para creacion
       if !entry.nil? && entry.active
-        errors.add(:uniqueness, "#{entry.name} ya existe.")
+        errors.add(:uniqueness, ":#{entry.name} ya existe.")
       elsif !entry.nil? && !entry.active
-        errors.add(:uniqueness, "La asignacion #{entry.name} ya existe, se encuentra dada de baja.")
+        errors.add(:uniqueness, ":La asignacion #{entry.name} ya existe, se encuentra dada de baja.")
       end
     end
   end

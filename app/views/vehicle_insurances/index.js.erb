@@ -1,0 +1,17 @@
+$("#vehicle_insurances_modal").html("<%= j (render partial: 'modal') %>")
+
+vehicle_insurances_table = $("#vehicle_insurances_table").DataTable({
+  'ajax': '/vehicle_insurances?vehicle_id=<%= @vehicle.id%>',
+  'order': false,
+  'columns': [
+  	{'data': 'insurance'},
+  	{'data': 'policy'},
+    {'data': 'start_date'},
+    {'data': 'end_date'},
+    {'data': 'file'},
+    {'data': 'actions'}
+  ],
+  'language': {'url': datatables_lang}
+})
+
+$("#vehicle_insurances_modal").modal('show')

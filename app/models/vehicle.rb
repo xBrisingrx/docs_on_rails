@@ -30,6 +30,7 @@ class Vehicle < ApplicationRecord
   has_many :documents, through: :assignments_documents
   has_many :activity_histories, as: :record
   has_many_attached :images
+  has_many :vehicle_insurances
 
   scope :actives, -> { where(active: true) }
   scope :inactives, -> { where(active: false) }

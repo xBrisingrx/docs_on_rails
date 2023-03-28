@@ -38,7 +38,18 @@ class AssignmentsDocumentsController < ApplicationController
         expire_date: '',
         last_renovation: '',
         has_renovations: false,
-        actions: "<button class='btn u-btn-indigo btn-xs' title='Listar seguros' onclick='modal_seguros_vehiculos(#{data.assignated.id})' ><i class='fa fa-shield'></i></button>",
+        actions: "<button class='btn u-btn-indigo btn-xs' title='Listar seguros' onclick='modal_seguros_vehiculos(#{data.id})' ><i class='fa fa-shield'></i></button>",
+        custom: true
+      }
+       @array << {
+        document: 'Seguros',
+        category: '',
+        expire: '',
+        expire_date: '',
+        last_renovation: '',
+        has_renovations: false,
+        actions: "<a class='btn btn-sm u-btn-primary text-white' title='Editar' 
+          data-remote='true' href='/vehicle_insurances?vehicle_id=#{data.id}'><i class='fa fa-shield'></i></a>",                    
         custom: true
       }
     end

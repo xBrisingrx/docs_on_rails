@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :insurances
+  resources :vehicle_insurances
   post 'disable_insurance', to: 'insurances#disable', as: 'disable_insurance'
   resources :jobs
   post 'disable_job', to: 'jobs#disable', as: 'disable_job'

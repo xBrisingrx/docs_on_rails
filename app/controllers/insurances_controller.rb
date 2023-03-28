@@ -26,7 +26,7 @@ class InsurancesController < ApplicationController
   # POST /insurances or /insurances.json
   def create
     @insurance = Insurance.new(insurance_params)
-
+    
     respond_to do |format|
       if @insurance.save
         format.json { render json: { status: 'success', msg: 'Exito!' }, status: :created }
@@ -69,6 +69,7 @@ class InsurancesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def insurance_params
-      params.require(:insurance).permit(:name, :description, :active, vehicle_insurances_attributes: [:id, :vehicle_id, :start_date, :end_date])
+      params.require(:insurance).permit(:name, :description, :active, 
+        vehicle_insurances_attributes: [:id, :vehicle_id, :policy, :start_date, :end_date])
     end
 end

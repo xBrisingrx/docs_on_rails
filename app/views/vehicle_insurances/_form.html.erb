@@ -10,7 +10,7 @@
   </div>
 
   <div class="form-group row g-mb-10">
-    <%= form.label :start_date, 'Fecha renovación:',class: 'col-4' %>
+    <%= form.label :start_date, 'Fecha alta (*):',class: 'col-4' %>
     <div class="col-12 col-sm-6">
       <%= form.date_field :start_date, class: 'form-control',required: true %>
       <small id="error_start_date" class='text-danger'></small>
@@ -18,7 +18,7 @@
   </div>
 
   <div class="form-group row g-mb-10">
-    <%= form.label :end_date, 'Fecha vencimiento:',class: 'col-4' %>
+    <%= form.label :end_date, 'Fecha vencimiento (*):',class: 'col-4' %>
     <div class="col-12 col-sm-6">
       <%= form.date_field :end_date, class: 'form-control', required: true %>
       <small id="error_end_date" class='text-danger'></small>
@@ -29,13 +29,13 @@
     <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
       <%= form.file_field :file, multiple: true, required: true %>
       <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
-      <span class="js-value">Anexar documento de la renovacion</span>
+      <span class="js-value">Anexar documento </span>
       <small class="form-control-feedback text-danger error_renovation_file"></small>
     </label>
   </div>
 
   <div class="actions">
-    <%= form.submit 'Cargar renovación' ,class: 'btn u-btn-primary mr-2', 
+    <%= form.submit 'Cargar aseguradora' ,class: 'btn u-btn-primary mr-2', 
           onclick: "vehicle_insure.send_renovation_data()" %>
   </div>
 <% end %>

@@ -1,5 +1,7 @@
 $("#vehicle_insurances_modal").html("<%= j (render partial: 'modal') %>")
 
+$('.select-insurance').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione aseguradora (*)" })
+
 vehicle_insurances_table = $("#vehicle_insurances_table").DataTable({
   'ajax': '/vehicle_insurances?vehicle_id=<%= @vehicle.id%>',
   'order': false,

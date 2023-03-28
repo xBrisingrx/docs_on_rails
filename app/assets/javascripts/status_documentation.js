@@ -1,4 +1,4 @@
-let assignments_person_profiles, assignments_person_documents, assignments_vehicle_profiles, assignments_vehicle_documents
+let assignments_assigned_profiles, assignments_assigned_documents, assignments_vehicle_profiles, assignments_vehicle_documents
 const status_documentation = {
 	populate_with_person_data: ()=> {
 		let person_id = document.getElementById("person_select").value
@@ -67,11 +67,11 @@ const status_documentation = {
 
 				$('#person_information').show('slow')
 				document.getElementById("form_people_documentation").reset()
-				assignments_person_profiles.ajax.url(`/assignments_profiles/${person_id}?assignated=person`)
-				assignments_person_profiles.ajax.reload(null,false)
+				assignments_assigned_profiles.ajax.url(`/assignments_profiles/${person_id}?assignated=person`)
+				assignments_assigned_profiles.ajax.reload(null,false)
 				
-				assignments_person_documents.ajax.url(`/assignments_documents/${person_id}?assignated=person`)
-				assignments_person_documents.ajax.reload(null,false)
+				assignments_assigned_documents.ajax.url(`/assignments_documents/${person_id}?assignated=person`)
+				assignments_assigned_documents.ajax.reload(null,false)
 		})
 		.catch( error => {
 			console.log('Hubo un problema con la petición Fetch:' + error.message);
@@ -94,11 +94,11 @@ const status_documentation = {
 
 				$('#vehicle_information').show('slow')
 				document.getElementById("form_vehicle_documentation").reset()
-				assignments_vehicle_profiles.ajax.url(`/assignments_profiles/${vehicle_id}?assignated=vehicle`)
-				assignments_vehicle_profiles.ajax.reload(null,false)
+				assignments_assigned_profiles.ajax.url(`/assignments_profiles/${vehicle_id}?assignated=vehicle`)
+				assignments_assigned_profiles.ajax.reload(null,false)
 				
-				assignments_vehicle_documents.ajax.url(`/assignments_documents/${vehicle_id}?assignated=vehicle`)
-				assignments_vehicle_documents.ajax.reload(null,false)
+				assignments_assigned_documents.ajax.url(`/assignments_documents/${vehicle_id}?assignated=vehicle`)
+				assignments_assigned_documents.ajax.reload(null,false)
 		})
 		.catch( error => {
 			console.log('Hubo un problema con la petición Fetch:' + error.message);
@@ -107,29 +107,34 @@ const status_documentation = {
 }
 
 $(document).ready(function(){
-	$('.assigned_select_data').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione persona" })
-	assignments_assigned_profiles = $("#assignments_assigned_profiles_table").DataTable({
-		"columnDefs": [
-	    { "width": "40%", "targets": 0 }
-	  ],
-		'columns': [
-		 {'data': 'profile'},
-		 {'data': 'start_date'},
-		 {'data': 'end_date'},
-		 {'data': 'status'}
-		],
-		'language': {'url': datatables_lang}
-	})
-	assignments_assigned_documents = $("#assignments_assigned_documents_table").DataTable({
-		'columns': [
-		 {'data': 'document'},
-		 {'data': 'category'},
-		 {'data': 'expire'},
-		 {'data': 'expire_date'},
-		 {'data': 'file'},
-		 {'data': 'actions'}
-		],
-		'language': {'url': datatables_lang}
-	})
+	if (document.getElementById('assigned_type') != undefined) {
+		
+		let select_placeholder = ( document.getElementById('assigned_type').value == 'people' ) ? 'Seleccione persona' : 'Seleccione interno'
+		$('.assigned_select_data').select2({ width: '100%',theme: "bootstrap4", placeholder: select_placeholder })
+		assignments_assigned_profiles = $("#assignments_assigned_profiles_table").DataTable({
+			"columnDefs": [
+		    { "width": "40%", "targets": 0 }
+		  ],
+			'columns': [
+			 {'data': 'profile'},
+			 {'data': 'start_date'},
+			 {'data': 'end_date'},
+			 {'data': 'status'}
+			],
+			'language': {'url': datatables_lang}
+		})
+		assignments_assigned_documents = $("#assignments_assigned_documents_table").DataTable({
+			'columns': [
+			 {'data': 'document'},
+			 {'data': 'category'},
+			 {'data': 'expire'},
+			 {'data': 'expire_date'},
+			 {'data': 'file'},
+			 {'data': 'actions'}
+			],
+			'language': {'url': datatables_lang}
+		})
+	}
+
 })
 

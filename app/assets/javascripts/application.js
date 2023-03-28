@@ -31,6 +31,7 @@
 //= require jobs
 //= require zone_job_profiles
 //= require zone_job_profile_docs
+//= require insurances
 
 $(document).on('ready', function () {
   // initialization of header

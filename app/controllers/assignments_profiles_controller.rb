@@ -5,7 +5,7 @@ class AssignmentsProfilesController < ApplicationController
     if params[:assignated] == 'person'
       data = Person.find params[:id]
     else 
-      data = ''
+      data = Vehicle.find params[:id]
     end
     @profiles = data.assignments_profiles
   end

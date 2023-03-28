@@ -1,5 +1,6 @@
 json.set! :id, person.id
 json.set! :dni, person.dni
+json.set! :fullname, person.fullname
 json.set! :start_activity, ( person.start_activity ) ? person.start_activity.strftime('%d / %m / %y') : ''
 json.set! :expiration_date_dni, ''
 json.set! :cuil, person.cuil

@@ -26,12 +26,37 @@ class AssignmentsDocumentsController < ApplicationController
   end
 
 	def show
+    @array = Array.new
     if params[:assignated] == 'person'
       data = Person.find params[:id]
     else 
-      data = ''
+      data = Vehicle.find params[:id]
+      @array << {
+        document: 'Imágenes',
+        category: '',
+        expire: '',
+        expire_date: '',
+        last_renovation: '',
+        has_renovations: false,
+        actions: "<button class='btn u-btn-indigo btn-xs' title='Listar seguros' onclick='modal_seguros_vehiculos(#{data.assignated.id})' ><i class='fa fa-shield'></i></button>",
+        custom: true
+      }
     end
     @documents = data.assignments_documents.actives
+    
+    @documents.to_a.map { |d| 
+      @array << {
+        id: d.id,
+        document: d.document.name,
+        category: d.document.document_category.name,
+        expire: d.document.expires? ? 'Si' : 'No',
+        expire_date: (d.last_renovation) ? date_format(document.last_renovation.expiration_date) : '',
+        last_renovation: d.last_renovation.nil?,
+        has_renovations: d.has_renovations?,
+        custom: false
+      }
+    }
+
   end
 
   def modal_disable;end

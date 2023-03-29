@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :insurances
-  resources :vehicle_insurances
+  resources :vehicle_insurances do 
+    get 'show_files', on: :collection
+  end
   post 'disable_insurance', to: 'insurances#disable', as: 'disable_insurance'
   resources :jobs
   post 'disable_job', to: 'jobs#disable', as: 'disable_job'

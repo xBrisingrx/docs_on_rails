@@ -1,4 +1,4 @@
-$("#vehicle_insurances_modal").html("<%= j (render partial: 'modal') %>")
+$("#renovations_modal").html("<%= j (render partial: 'modal') %>")
 
 $('.select-insurance').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione aseguradora (*)" })
 
@@ -18,7 +18,7 @@ vehicle_insurances_table = $("#vehicle_insurances_table").DataTable({
 
 setInputDate('#vehicle_insurance_start_date')
 
-$("#vehicle_insurances_modal").modal('show')
+$("#renovations_modal").modal('show')
 
 $("#form-vehicle-insurance").on("ajax:success", function(event) {
     vehicle_insurances_table.ajax.reload(null,false)

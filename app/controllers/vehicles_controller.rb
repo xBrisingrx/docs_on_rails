@@ -1,5 +1,5 @@
 class VehiclesController < ApplicationController
-  before_action :set_vehicle, only: %i[ show edit update destroy show_vehicle_history modal_enable_vehicle ]
+  before_action :set_vehicle, only: %i[ show edit update destroy show_vehicle_history modal_enable_vehicle show_images ]
   before_action :set_vehicle_data, only: %i[ new edit ]
 
   # GET /vehicles or /vehicles.json
@@ -88,6 +88,8 @@ class VehiclesController < ApplicationController
       render json: { status: 'error', msg: 'Ocurrio un error al realizar la operación' }, status: :unprocessable_entity
     end
   end
+
+  def show_images;end
 
   private
     # Use callbacks to share common setup or constraints between actions.

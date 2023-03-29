@@ -48,21 +48,22 @@ class AssignmentsDocumentsController < ApplicationController
         expire_date: '',
         last_renovation: '',
         has_renovations: false,
+        file: "/vehicle_insurances/show_files?id=#{data.id}",
         actions: "<a class='btn btn-sm u-btn-primary text-white' title='Editar' 
           data-remote='true' href='/vehicle_insurances?vehicle_id=#{data.id}'><i class='fa fa-shield'></i></a>",                    
         custom: true
       }
     end
     @documents = data.assignments_documents.actives
-    
+
     @documents.to_a.map { |d| 
       @array << {
         id: d.id,
         document: d.document.name,
         category: d.document.document_category.name,
         expire: d.document.expires? ? 'Si' : 'No',
-        expire_date: (d.last_renovation) ? date_format(document.last_renovation.expiration_date) : '',
-        last_renovation: d.last_renovation.nil?,
+        expire_date: (d.last_renovation) ? d.last_renovation.expiration_date.strftime('%d-%m-%y') : '',
+        last_renovation: d.last_renovation,
         has_renovations: d.has_renovations?,
         custom: false
       }

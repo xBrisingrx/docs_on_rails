@@ -67,11 +67,17 @@
         <th> Fecha vencimiento </th>
       </tr>
       <tbody id="vehicle_insurance">
-        
+        <% @insurance.vehicle_insurances.each do |data| %>
+          <tr>
+            <td> <%= data.vehicle.code %> </td>
+            <td> <%= data.policy %> </td>
+            <td> <%= data.start_date %> </td>
+            <td> <%= data.end_date %> </td>
+          </tr>
+        <% end %>
       </tbody>
     </thead>
   </table>
-
   <div class="actions">
     <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
     <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>

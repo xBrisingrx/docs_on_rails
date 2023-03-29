@@ -19,7 +19,7 @@ class InsurancesController < ApplicationController
 
   # GET /insurances/1/edit
   def edit
-    @title_modal = "Editando aseguradora #{@insurane.name}"
+    @title_modal = "Editando aseguradora #{@insurance.name}"
     @vehicles = Vehicle.actives
   end
 
@@ -29,7 +29,7 @@ class InsurancesController < ApplicationController
     
     respond_to do |format|
       if @insurance.save
-        format.json { render json: { status: 'success', msg: 'Exito!' }, status: :created }
+        format.json { render json: { status: 'success', msg: 'Aseguradora registrada.' }, status: :created }
         format.html { redirect_to insurance_url(@insurance), notice: "Insurance was successfully created." }
       else
         format.json { render json: @insurance.errors, status: :unprocessable_entity }
@@ -42,11 +42,11 @@ class InsurancesController < ApplicationController
   def update
     respond_to do |format|
       if @insurance.update(insurance_params)
+        format.json { render json: { status: 'success', msg: 'Datos actualizados' }, status: :ok }
         format.html { redirect_to insurance_url(@insurance), notice: "Insurance was successfully updated." }
-        format.json { render :show, status: :ok, location: @insurance }
       else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @insurance.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
       end
     end
   end

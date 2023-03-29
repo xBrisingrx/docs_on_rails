@@ -1,5 +1,5 @@
 class VehicleInsurancesController < ApplicationController
-	before_action :set_vehicle_insurance, only: %i[ edit update destroy ]
+	before_action :set_vehicle_insurance, only: %i[ edit update destroy show_files ]
 
   def index
     @vehicle = Vehicle.find params[:vehicle_id]
@@ -62,6 +62,10 @@ class VehicleInsurancesController < ApplicationController
     rescue => e
       @response = e.message.split(':')
       render json: { @response[0] => @response[1] }, status: 402
+  end
+
+  def show_files
+    @title_modal = 'Archivos de aseguradora'
   end
 
   private

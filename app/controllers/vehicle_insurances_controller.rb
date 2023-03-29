@@ -1,5 +1,5 @@
 class VehicleInsurancesController < ApplicationController
-	before_action :set_insurance, only: %i[ edit update destroy ]
+	before_action :set_vehicle_insurance, only: %i[ edit update destroy ]
 
   def index
     @vehicle = Vehicle.find params[:vehicle_id]
@@ -15,7 +15,7 @@ class VehicleInsurancesController < ApplicationController
   end
 
   def new
-    @insurance = Insurance.new
+    @insurance = VehicleInsurance.new
     @title_modal = 'Crear empresa'
   end
 
@@ -24,23 +24,24 @@ class VehicleInsurancesController < ApplicationController
   end
 
   def create
-    @insurance = Insurance.new(insurance_params)
-    activity_history = ActivityHistory.new( action: :create_record, description: "El usuario #{current_user.username} registro la empresa #{@insurance.name}", 
-      record: @insurance, date: Time.now, user: current_user )
+    @vehicle_insurance = VehicleInsurance.new(vehicle_insurance_params)
+    activity_history = ActivityHistory.new( action: :create_record, description: "El usuario #{current_user.username} 
+      agrego el seguro #{@vehicle_insurance.insurance.name} al vehiculo #{@vehicle_insurance.vehicle.code}", 
+      record: @vehicle_insurance, date: Time.now, user: current_user )
     respond_to do |format|
-      if @insurance.save && activity_history.save
-        format.json { render json: { status: :success, msg: 'Empresa agregada.' }, status: :created, location: @insurance }
+      if @vehicle_insurance.save && activity_history.save
+        format.json { render json: { status: :success, msg: 'Aseguradora asignada al vehiculo.' }, status: :created, location: @vehicle_insurance }
       else
-        format.json { render json: @insurance.errors, status: :unprocessable_entity }
+        format.json { render json: @vehicle_insurance.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def update
-    activity_history = ActivityHistory.new( action: :update_record, description: "El usuario #{current_user.username} actualizo datos de la empresa #{@insurance.name}", 
-      record: @insurance, date: Time.now, user: current_user )
+    # activity_history = ActivityHistory.new( action: :update_record, description: "El usuario #{current_user.username} actualizo datos de la empresa #{@insurance.name}", 
+    #   record: @insurance, date: Time.now, user: current_user )
     respond_to do |format|
-      if @insurance.update(insurance_edit_params) && activity_history.save
+      if @insurance.update(vehicle_insurance_params) 
         format.json { render json: { status: :success, msg: 'Datos actualizados.'}, status: :ok, location: @insurance }
       else
         format.json { render json: @insurance.errors, status: :unprocessable_entity }
@@ -64,15 +65,11 @@ class VehicleInsurancesController < ApplicationController
   end
 
   private
-    def set_insurance
-      @insurance = Insurance.find(params[:id])
+    def set_vehicle_insurance
+      @vehicle_insurance = VehicleInsurance.find(params[:id])
     end
 
-    def insurance_params
-      params.require(:insurance).permit(:vehicle_id, :insurance_id, :policy, :start_date, :end_date)
-    end
-
-    def insurance_edit_params
-      params.require(:insurance).permit(:name, :description)
+    def vehicle_insurance_params
+      params.require(:vehicle_insurance).permit(:vehicle_id, :insurance_id, :policy, :start_date, :end_date, file: [])
     end
 end

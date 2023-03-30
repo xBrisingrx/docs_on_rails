@@ -91,6 +91,17 @@ class VehiclesController < ApplicationController
 
   def show_images;end
 
+  def delete_image_attachment
+    image = ActiveStorage::Blob.find_signed(params[:id])
+    vehicle = Vehicle.find params[:vehicle_id]
+    if vehicle.images.where(blob_id:image.id).first.purge
+      render json: { status: 'success', msg: 'Imagen eliminada'  }, status: :ok
+    else 
+      pp image.errors.messages
+      render json: { status: 'error', msg: image.errors.messages  }, status: :unprocessable_entity
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_vehicle

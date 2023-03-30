@@ -3,15 +3,14 @@ class VehicleInsurancesController < ApplicationController
 
   def index
     @vehicle = Vehicle.find params[:vehicle_id]
-    @vehicle_insurances = @vehicle.vehicle_insurances
-    # @document_renovations = @assigned_document.document_renovations.actives.order(expiration_date: :DESC) 
+    @vehicle_insurances = @vehicle.vehicle_insurances.actives
     @vehicle_insurance = VehicleInsurance.new
     @title_modal = "Seguros del vehiculo #{@vehicle.code}"
   end
 
   def show
   	vehicle = Vehicle.find params[:id]
-  	vehicle_insurances = vehicle.vehicle_insurances
+  	vehicle_insurances = vehicle.vehicle_insurances.actives
   end
 
   def new

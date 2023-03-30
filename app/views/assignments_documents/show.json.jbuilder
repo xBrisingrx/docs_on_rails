@@ -11,7 +11,7 @@ json.data @array do |document|
 	end
 
 	if document[:custom]
-		json.file document[:file]
+		json.file document[:file]	
 		json.actions document[:actions]	
 	end
 	

@@ -38,7 +38,9 @@ class AssignmentsDocumentsController < ApplicationController
         expire_date: '',
         last_renovation: '',
         has_renovations: false,
-        actions: "<button class='btn u-btn-indigo btn-xs' title='Listar seguros' onclick='modal_seguros_vehiculos(#{data.id})' ><i class='fa fa-shield'></i></button>",
+        file: '',
+        actions: "<a class='btn btn-sm u-btn-primary text-white' title='Editar' 
+          data-remote='true' href='/vehicles/#{data.id}/show_images'><i class='fa fa-shield'></i></a>",
         custom: true
       }
        @array << {
@@ -48,7 +50,8 @@ class AssignmentsDocumentsController < ApplicationController
         expire_date: '',
         last_renovation: '',
         has_renovations: false,
-        file: "/vehicle_insurances/show_files?id=#{data.id}",
+        vehicle_id: data.id,
+        file: "",
         actions: "<a class='btn btn-sm u-btn-primary text-white' title='Editar' 
           data-remote='true' href='/vehicle_insurances?vehicle_id=#{data.id}'><i class='fa fa-shield'></i></a>",                    
         custom: true

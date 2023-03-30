@@ -15,7 +15,10 @@ Rails.application.routes.draw do
   post 'disable_zone_job_profile_docs', to: 'zone_job_profile_docs#disable', as: 'disable_zone_job_profile_docs'
   get 'zone_job_profile_docs/:id/modal_reactive', to: 'zone_job_profile_docs#modal_reactive', as: 'modal_reactive_zone_job_profile_docs'
   post 'reactive_zone_job_profile_docs', to: 'zone_job_profile_docs#reactive', as: 'reactive_zone_job_profile_docs'
-  resources :vehicles, except: [:destroy]
+  resources :vehicles, except: [:destroy] do 
+    get 'show_images', on: :member
+    post :delete_image_attachment, on: :collection
+  end
   post 'disable_vehicle', to: 'vehicles#disable', as: 'disable_vehicle'
   get 'inactive_vehicles', to: 'vehicles#inactives', as: 'inactive_vehicles'
   get 'vehicles/:id/show_vehicle_history', to: 'vehicles#show_vehicle_history', as: 'show_vehicle_history'

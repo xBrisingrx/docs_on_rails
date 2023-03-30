@@ -1,29 +1,24 @@
 class InsurancesController < ApplicationController
-  before_action :set_insurance, only: %i[ show edit update destroy ]
+  before_action :set_insurance, only: %i[ show edit update ]
 
-  # GET /insurances or /insurances.json
   def index
-    @insurances = Insurance.all
+    @insurances = Insurance.actives
   end
 
-  # GET /insurances/1 or /insurances/1.json
   def show
   end
 
-  # GET /insurances/new
   def new
     @insurance = Insurance.new
     @title_modal = 'Registrar aseguradora'
     @vehicles = Vehicle.actives
   end
 
-  # GET /insurances/1/edit
   def edit
     @title_modal = "Editando aseguradora #{@insurance.name}"
     @vehicles = Vehicle.actives
   end
 
-  # POST /insurances or /insurances.json
   def create
     @insurance = Insurance.new(insurance_params)
     
@@ -38,7 +33,6 @@ class InsurancesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /insurances/1 or /insurances/1.json
   def update
     respond_to do |format|
       if @insurance.update(insurance_params)
@@ -51,14 +45,19 @@ class InsurancesController < ApplicationController
     end
   end
 
-  # DELETE /insurances/1 or /insurances/1.json
-  def destroy
-    @insurance.destroy
-
-    respond_to do |format|
-      format.html { redirect_to insurances_url, notice: "Insurance was successfully destroyed." }
-      format.json { head :no_content }
+  def disable
+    insurance = Insurance.find(params[:insurance_id])
+    activity_history = ActivityHistory.new( action: :disable, description: "El usuario #{current_user.username} elimino la aseguradora #{insurance.name}", 
+      record: insurance, date: Time.now, user: current_user )
+    if insurance.disable( current_user ) && activity_history.save
+      render json: { status: 'success', msg: 'Aseguradora eliminada' }, status: :ok
+    else
+      render json: { status: 'error', msg: 'Ocurrio un error al realizar la operación' }, status: :unprocessable_entity
     end
+
+    rescue => e
+      @response = e.message.split(':')
+      render json: { @response[0] => @response[1] }, status: 402
   end
 
   private

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   post 'reactive_zone_job_profile_docs', to: 'zone_job_profile_docs#reactive', as: 'reactive_zone_job_profile_docs'
   resources :vehicles, except: [:destroy] do 
     get 'show_images', on: :member
+    get 'get_images', on: :member
     post :delete_image_attachment, on: :collection
   end
   post 'disable_vehicle', to: 'vehicles#disable', as: 'disable_vehicle'

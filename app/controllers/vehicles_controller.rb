@@ -1,5 +1,5 @@
 class VehiclesController < ApplicationController
-  before_action :set_vehicle, only: %i[ show edit update destroy show_vehicle_history modal_enable_vehicle show_images ]
+  before_action :set_vehicle, only: %i[ show edit update destroy show_vehicle_history modal_enable_vehicle show_images get_images ]
   before_action :set_vehicle_data, only: %i[ new edit ]
 
   # GET /vehicles or /vehicles.json
@@ -89,7 +89,17 @@ class VehiclesController < ApplicationController
     end
   end
 
-  def show_images;end
+  def show_images
+    @title_modal = "Imágenes del vehículo #{@vehicle.code}"
+  end
+
+  def get_images
+    images = @vehicle.images.map do |image|
+      { id: image.signed_id , url: rails_blob_path(image , only_path: true)}
+    end
+    
+    render json: { images: images }
+  end
 
   def delete_image_attachment
     image = ActiveStorage::Blob.find_signed(params[:id])
@@ -97,7 +107,6 @@ class VehiclesController < ApplicationController
     if vehicle.images.where(blob_id:image.id).first.purge
       render json: { status: 'success', msg: 'Imagen eliminada'  }, status: :ok
     else 
-      pp image.errors.messages
       render json: { status: 'error', msg: image.errors.messages  }, status: :unprocessable_entity
     end
   end

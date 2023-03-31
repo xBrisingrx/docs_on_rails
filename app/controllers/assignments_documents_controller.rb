@@ -39,8 +39,8 @@ class AssignmentsDocumentsController < ApplicationController
         last_renovation: '',
         has_renovations: false,
         file: '',
-        actions: "<a class='btn btn-sm u-btn-primary text-white' title='Editar' 
-          data-remote='true' href='/vehicles/#{data.id}/show_images'><i class='fa fa-shield'></i></a>",
+        actions: "<a class='btn btn-sm u-btn-pink text-white' title='Editar' 
+          data-remote='true' href='/vehicles/#{data.id}/show_images'><i class='fa fa-eye'></i></a>",
         custom: true
       }
        @array << {

@@ -23,7 +23,7 @@ class User < ApplicationRecord
       with: /\A[a-z0-9A-Z]+\z/,
       message: :invalid
     }
-	validates :password, presence: true, length: { minimum: 6 }
+	validates :password_digest, presence: true, length: { minimum: 6 }
 	validates :email, presence: true, 
 		uniqueness: { case_sensitive: false, message: "Este email ya se encuentra en uso" },
     format: {
@@ -32,6 +32,13 @@ class User < ApplicationRecord
     }
 
   before_save :downcase_attributes
+
+  scope :actives, -> { where(active: true) }
+  
+  enum rol: {
+    admin: 1, 
+    consulta: 2
+  }
 
   private
 

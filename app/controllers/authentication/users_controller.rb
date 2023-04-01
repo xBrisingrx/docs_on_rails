@@ -2,7 +2,7 @@ class Authentication::UsersController < ApplicationController
 	before_action :set_user, only: %i[ show edit update destroy ]
 
   def index
-    @users = User.all
+    @users = User.actives
   end
 
   def show
@@ -10,17 +10,20 @@ class Authentication::UsersController < ApplicationController
 
   def new
     @user = User.new
+    @title_modal = "Registrar un usuario"
   end
 
   def edit
+    @title_modal = "Editando al usuasrio #{@user.name}"
   end
 
   def create
     @user = User.new(user_params)
-
+    activity_history = ActivityHistory.new( action: :create_record, description: "Usuario #{@user.username} registrado", 
+      record: @user, date: Time.now, user: current_user )
     respond_to do |format|
-      if @user.save
-        format.json { render :show, status: :created, location: @user }
+      if @user.save && activity_history.save
+        format.json { render json: { status: 'success', msg: 'Usuario registrado' }, status: :created }
       else
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -28,10 +31,12 @@ class Authentication::UsersController < ApplicationController
   end
 
   def update
+    activity_history = ActivityHistory.new( action: :update_record, description: "Datos del usuario #{@user.username} actualizados", 
+      record: @user, date: Time.now, user: current_user )
     respond_to do |format|
-      if @user.update(user_params)
+      if @user.update(user_params) && activity_history.save
         # format.html { redirect_to @user, notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
+        format.json { render json: { status: 'success', msg: 'Datos del usuario actualizados' }, status: :ok }
       else
         # format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -39,11 +44,14 @@ class Authentication::UsersController < ApplicationController
     end
   end
 
-  def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
-      format.json { head :no_content }
+  def disable
+    user = User.find params[:user_id]
+    activity_history = ActivityHistory.new( action: :disable, description: "Usuario #{user.username} dado de baja", 
+      record: user, date: Time.now, user: current_user )
+    if user.update(active: false) && activity_history.save
+      render json: { status: 'success', msg: 'Usuario dado de baja' }, status: :ok
+    else
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 

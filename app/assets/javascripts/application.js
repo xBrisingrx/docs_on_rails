@@ -33,6 +33,7 @@
 //= require zone_job_profile_docs
 //= require insurances
 //= require vehicle_insurances
+//= require users
 
 $(document).on('ready', function () {
   // initialization of header

@@ -23,12 +23,12 @@ class InsurancesController < ApplicationController
     @insurance = Insurance.new(insurance_params)
     
     respond_to do |format|
+      activity_history = ActivityHistory.new( action: :create_record, description: "Se registro la aseguradora #{@insurance.name}", 
+      record: @insurance, date: Time.now, user: current_user )
       if @insurance.save
         format.json { render json: { status: 'success', msg: 'Aseguradora registrada.' }, status: :created }
-        format.html { redirect_to insurance_url(@insurance), notice: "Insurance was successfully created." }
       else
         format.json { render json: @insurance.errors, status: :unprocessable_entity }
-        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end

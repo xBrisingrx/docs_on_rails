@@ -101,7 +101,6 @@ function clean_form(form_id) {
 }
 
 function hide_table( table_id ) {
-  console.log('click')
   const table = document.getElementById(table_id)
   if (table.dataset.show == 'show' ) {
     $(`#${table_id}`).hide('slow')

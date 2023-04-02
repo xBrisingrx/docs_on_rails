@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: insurances
+#
+#  id          :bigint           not null, primary key
+#  name        :string(255)      not null
+#  description :string(255)
+#  active      :boolean          default(TRUE)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
 class Insurance < ApplicationRecord
 	has_many :vehicle_insurances
 	has_many :vehicles, through: :vehicle_insurances

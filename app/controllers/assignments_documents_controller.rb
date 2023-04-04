@@ -29,6 +29,19 @@ class AssignmentsDocumentsController < ApplicationController
     @array = Array.new
     if params[:assignated] == 'person'
       data = Person.find params[:id]
+      @array << {
+        document: 'Entrega de ropa',
+        category: '',
+        expire: '',
+        expire_date: '',
+        last_renovation: '',
+        has_renovations: false,
+        vehicle_id: data.id,
+        file: "",
+        actions: "<a class='btn btn-sm u-btn-primary text-white' title='Ver ropa entregada' 
+          data-remote='true' href='/people_clothes/?person_id=#{data.id}'><i class='fa fa-gift'></i></a>",                    
+        custom: true
+      }
     else 
       data = Vehicle.find params[:id]
       @array << {
@@ -39,7 +52,7 @@ class AssignmentsDocumentsController < ApplicationController
         last_renovation: '',
         has_renovations: false,
         file: '',
-        actions: "<a class='btn btn-sm u-btn-pink text-white' title='Editar' 
+        actions: "<a class='btn btn-sm u-btn-pink text-white' title='Ver imagenes' 
           data-remote='true' href='/vehicles/#{data.id}/show_images'><i class='fa fa-eye'></i></a>",
         custom: true
       }
@@ -52,7 +65,7 @@ class AssignmentsDocumentsController < ApplicationController
         has_renovations: false,
         vehicle_id: data.id,
         file: "",
-        actions: "<a class='btn btn-sm u-btn-primary text-white' title='Editar' 
+        actions: "<a class='btn btn-sm u-btn-primary text-white' title='Ver seguros' 
           data-remote='true' href='/vehicle_insurances?vehicle_id=#{data.id}'><i class='fa fa-shield'></i></a>",                    
         custom: true
       }

@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
+  resources :people_clothes, only: [:index, :show,:new, :create, :edit, :update]
+  post 'disable_people_clothe', to: 'people_clothes#disable', as: 'disable_people_clothe'
   resources :clothes, only: [:index, :new, :create, :edit, :update]
   post 'disable_clothe', to: 'clothes#disable', as: 'disable_clothe'
+  resources :clothing_packages
+  post 'disable_clothing_package', to: 'clothing_packages#disable', as: 'disable_clothing_package'
   resources :insurances
   resources :vehicle_insurances do 
     get 'show_files', on: :collection

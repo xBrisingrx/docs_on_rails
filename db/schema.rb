@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_03_200553) do
+ActiveRecord::Schema.define(version: 2023_04_02_210844) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -65,14 +65,42 @@ ActiveRecord::Schema.define(version: 2023_02_03_200553) do
   create_table "assignments_profiles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "assignated_type"
     t.bigint "assignated_id"
-    t.bigint "profile_id"
     t.date "start_date"
     t.date "end_date"
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "zone_job_profile_id"
     t.index ["assignated_type", "assignated_id"], name: "index_assignments_profiles_on_assignated_type_and_assignated_id"
-    t.index ["profile_id"], name: "index_assignments_profiles_on_profile_id"
+    t.index ["zone_job_profile_id"], name: "index_assignments_profiles_on_zone_job_profile_id"
+  end
+
+  create_table "clothes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "clothes_packs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "clothe_id"
+    t.bigint "clothing_package_id"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clothe_id"], name: "index_clothes_packs_on_clothe_id"
+    t.index ["clothing_package_id"], name: "index_clothes_packs_on_clothing_package_id"
+  end
+
+  create_table "clothing_packages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.integer "days_of_validity", default: 0, null: false
+    t.boolean "expires", default: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "companies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -108,8 +136,8 @@ ActiveRecord::Schema.define(version: 2023_02_03_200553) do
     t.string "name", null: false
     t.string "description"
     t.boolean "expires", default: false
-    t.integer "days_of_validity"
-    t.boolean "allow_modify_expiration"
+    t.integer "days_of_validity", default: 1
+    t.integer "allow_modify_expiration", default: 0
     t.text "observations"
     t.text "renewal_methodology"
     t.boolean "monthly_summary", default: true
@@ -146,6 +174,14 @@ ActiveRecord::Schema.define(version: 2023_02_03_200553) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "insurances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.integer "d_type", null: false
     t.string "name", null: false
@@ -175,6 +211,20 @@ ActiveRecord::Schema.define(version: 2023_02_03_200553) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "people_clothes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "person_id"
+    t.bigint "clothing_package_id"
+    t.text "description", default: "''"
+    t.date "start_date"
+    t.date "end_date"
+    t.boolean "active", default: true
+    t.boolean "expires", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clothing_package_id"], name: "index_people_clothes_on_clothing_package_id"
+    t.index ["person_id"], name: "index_people_clothes_on_person_id"
+  end
+
   create_table "profiles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.integer "d_type"
     t.string "name", null: false
@@ -196,12 +246,12 @@ ActiveRecord::Schema.define(version: 2023_02_03_200553) do
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
-    t.string "name"
-    t.string "username"
-    t.string "email"
-    t.integer "rol"
+    t.string "name", null: false
+    t.string "username", null: false
+    t.string "email", null: false
+    t.integer "rol", default: 2
     t.string "password_digest"
-    t.boolean "active"
+    t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -212,6 +262,20 @@ ActiveRecord::Schema.define(version: 2023_02_03_200553) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicle_insurances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "vehicle_id"
+    t.bigint "insurance_id"
+    t.string "policy", null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.string "description"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["insurance_id"], name: "index_vehicle_insurances_on_insurance_id"
+    t.index ["vehicle_id"], name: "index_vehicle_insurances_on_vehicle_id"
   end
 
   create_table "vehicle_locations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -261,12 +325,26 @@ ActiveRecord::Schema.define(version: 2023_02_03_200553) do
     t.index ["vehicle_type_id"], name: "index_vehicles_on_vehicle_type_id"
   end
 
+  create_table "zone_job_profile_docs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "zone_job_profile_id"
+    t.bigint "document_id"
+    t.date "start_date", comment: "Inicio vigencia de el documento en esta zona perfil trabajo"
+    t.date "end_date", comment: "Fin vigencia de el documento en esta zona perfil trabajo"
+    t.integer "d_type", null: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_id"], name: "index_zone_job_profile_docs_on_document_id"
+    t.index ["zone_job_profile_id"], name: "index_zone_job_profile_docs_on_zone_job_profile_id"
+  end
+
   create_table "zone_job_profiles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.bigint "zone_id"
     t.bigint "job_id"
     t.bigint "profile_id"
     t.date "start_date", comment: "Inicio vigencia de el perfil en el trabajo"
     t.date "end_date", comment: "Fin vigencia de el perfil en el trabajo"
+    t.integer "d_type", null: false
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -287,17 +365,25 @@ ActiveRecord::Schema.define(version: 2023_02_03_200553) do
   add_foreign_key "activity_histories", "reasons_to_disables"
   add_foreign_key "activity_histories", "users"
   add_foreign_key "assignments_documents", "documents"
-  add_foreign_key "assignments_profiles", "profiles"
+  add_foreign_key "assignments_profiles", "zone_job_profiles"
+  add_foreign_key "clothes_packs", "clothes"
+  add_foreign_key "clothes_packs", "clothing_packages"
   add_foreign_key "document_renovations", "assignments_documents"
   add_foreign_key "documents", "document_categories"
   add_foreign_key "documents", "expiration_types"
   add_foreign_key "documents_profiles", "documents"
   add_foreign_key "documents_profiles", "profiles"
+  add_foreign_key "people_clothes", "clothing_packages"
+  add_foreign_key "people_clothes", "people"
+  add_foreign_key "vehicle_insurances", "insurances"
+  add_foreign_key "vehicle_insurances", "vehicles"
   add_foreign_key "vehicle_models", "vehicle_brands"
   add_foreign_key "vehicles", "companies"
   add_foreign_key "vehicles", "vehicle_locations"
   add_foreign_key "vehicles", "vehicle_models"
   add_foreign_key "vehicles", "vehicle_types"
+  add_foreign_key "zone_job_profile_docs", "documents"
+  add_foreign_key "zone_job_profile_docs", "zone_job_profiles"
   add_foreign_key "zone_job_profiles", "jobs"
   add_foreign_key "zone_job_profiles", "profiles"
   add_foreign_key "zone_job_profiles", "zones"

@@ -3,7 +3,7 @@ class ClothingPackagesController < ApplicationController
 
   # GET /clothing_packages or /clothing_packages.json
   def index
-    @clothing_packages = ClothingPackage.actives
+    @clothing_packages = ClothingPackage.actives.more_than_one_clothes
   end
 
   # GET /clothing_packages/1 or /clothing_packages/1.json

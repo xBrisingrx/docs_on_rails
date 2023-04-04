@@ -7,7 +7,8 @@
 # expiration_types = {
 # 	'Semanal': 7,
 # 	'Quincenal': 14,
-# 	'Mensual': 30, 
+# 	'Mensual': 30,
+# 	'Cuatrimestral': 120,
 # 	'Semestral': 180,
 # 	'Anual': 365,
 # 	'Otro': 0

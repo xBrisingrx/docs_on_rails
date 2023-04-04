@@ -4,6 +4,7 @@ class CreateClothingPackages < ActiveRecord::Migration[5.2]
       t.string :name, null: false
       t.text :description
       t.integer :days_of_validity, null: false, default: 0
+      t.boolean :one_clothes, default: false
       t.boolean :expires, default: false
       t.boolean :active, default: true
 

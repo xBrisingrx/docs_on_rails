@@ -18,7 +18,7 @@ class ClothingPackage < ApplicationRecord
 	accepts_nested_attributes_for :clothes_packs
 
 	scope :actives, -> { where(active: true) }
-
+	scope :more_than_one_clothes, -> { where(one_clothes: false) }
 	def disable current_user
 		ActiveRecord::Base.transaction do
 			self.clothes_packs.actives.each do |entry|

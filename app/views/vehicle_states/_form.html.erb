@@ -1,0 +1,83 @@
+<%= form_with(model: @vehicle_state, id: 'form-vehicle-state', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+  <div class="form-group row">
+    <%= form.label :vehicle_id, 'Vehiculo:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:vehicle_id, Vehicle.actives.collect { |e| ["#{e.code}", e.id] }, 
+        { include_blank: true},
+        required: true,
+        class: 'form-control select-2-vehicle') %>
+    <small class="form-control-feedback text-danger "></small>
+    </div>
+  </div>
+ <div class="form-group row">
+    <%= form.label :cost_center_id, 'Centro de costos:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:cost_center_id, CostCenter.actives.collect { |e| ["#{e.center}-#{e.detail}", e.id] }, 
+        { include_blank: true},
+        required: true,
+        class: 'form-control select-2-unit-business') %>
+    <small class="form-control-feedback text-danger "></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :list_states_vehicle_id, 'Estado:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:list_states_vehicle_id, ListStatesVehicle.actives.collect { |e| ["#{e.name}", e.id] }, 
+        { include_blank: true},
+        required: true,
+        class: 'form-control select-2-unit-business') %>
+    <small class="form-control-feedback text-danger "></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :sub_zone_id, 'Sub centro:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:sub_zone_id, SubZone.actives.collect { |e| ["#{e.code}-#{e.name}", e.id] }, 
+        { include_blank: true},
+        required: true,
+        class: 'form-control select-2-unit-business') %>
+    <small class="form-control-feedback text-danger "></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :operator_id, 'Operadora:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:operator_id, Operator.actives.collect { |e| ["#{e.name}", e.id] }, 
+        { include_blank: true},
+        class: 'form-control select-2-unit-business') %>
+    <small class="form-control-feedback text-danger "></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :client_id, 'Cliente:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:client_id, Client.actives.collect { |e| ["#{e.name}", e.id] }, 
+        { include_blank: true},
+        class: 'form-control select-2-unit-business') %>
+    <small class="form-control-feedback text-danger "></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :start_date, 'Desde:', class: "col-form-label col-sm-3 col-md-4" %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.date_field :start_date, class: "form-control u-form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :start_date, 'Hasta:', class: "col-form-label col-sm-3 col-md-4" %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.date_field :start_date, class: "form-control u-form-control" %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

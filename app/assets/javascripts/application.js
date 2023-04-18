@@ -35,7 +35,8 @@
 //= require vehicle_insurances
 //= require users
 //= require clothes
-//= require clothing_packages
+//= require cost_centers
+//= require vehicle_states
 
 $(document).on('ready', function () {
   // initialization of header

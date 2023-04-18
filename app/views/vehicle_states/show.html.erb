@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Vehicle:</strong>
+  <%= @vehicle_state.vehicle %>
+</p>
+
+<p>
+  <strong>Cost center:</strong>
+  <%= @vehicle_state.cost_center %>
+</p>
+
+<p>
+  <strong>Sub zone:</strong>
+  <%= @vehicle_state.sub_zone %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @vehicle_state.status %>
+</p>
+
+<p>
+  <strong>Operator:</strong>
+  <%= @vehicle_state.operator %>
+</p>
+
+<p>
+  <strong>Client:</strong>
+  <%= @vehicle_state.client %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @vehicle_state.active %>
+</p>
+
+<%= link_to 'Edit', edit_vehicle_state_path(@vehicle_state) %> |
+<%= link_to 'Back', vehicle_states_path %>

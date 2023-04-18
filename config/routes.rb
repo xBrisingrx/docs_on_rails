@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :vehicle_states
+  resources :cost_centers
+  post 'disable_cost_center', to: 'cost_centers#disable', as: 'disable_cost_center'
   resources :people_clothes, only: [:index, :show,:new, :create, :edit, :update]
   post 'disable_people_clothe', to: 'people_clothes#disable', as: 'disable_people_clothe'
   resources :clothes, only: [:index, :new, :create, :edit, :update]

@@ -1,0 +1,2 @@
+class GeographicZone < ApplicationRecord
+end

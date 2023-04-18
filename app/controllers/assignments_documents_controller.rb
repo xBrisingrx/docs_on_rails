@@ -29,19 +29,6 @@ class AssignmentsDocumentsController < ApplicationController
     @array = Array.new
     if params[:assignated] == 'person'
       data = Person.find params[:id]
-      @array << {
-        document: 'Entrega de ropa',
-        category: '',
-        expire: '',
-        expire_date: '',
-        last_renovation: '',
-        has_renovations: false,
-        vehicle_id: data.id,
-        file: "",
-        actions: "<a class='btn btn-sm u-btn-primary text-white' title='Ver ropa entregada' 
-          data-remote='true' href='/people_clothes/?person_id=#{data.id}'><i class='fa fa-gift'></i></a>",                    
-        custom: true
-      }
     else 
       data = Vehicle.find params[:id]
       @array << {

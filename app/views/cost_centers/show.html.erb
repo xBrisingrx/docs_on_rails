@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Function:</strong>
+  <%= @cost_center.function %>
+</p>
+
+<p>
+  <strong>Unit business:</strong>
+  <%= @cost_center.unit_business %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @cost_center.active %>
+</p>
+
+<p>
+  <strong>Descripcion:</strong>
+  <%= @cost_center.descripcion %>
+</p>
+
+<%= link_to 'Edit', edit_cost_center_path(@cost_center) %> |
+<%= link_to 'Back', cost_centers_path %>

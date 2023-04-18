@@ -242,3 +242,109 @@
 # zones.each do |z|
 # 	Zone.create( name: z )
 # end
+
+functions = [
+	{ code: '01', name: 'Operaciones'},
+	{ code: '02', name: 'Mantenimiento'},
+	{ code: '03', name: 'Comercialización'},
+	{ code: '04', name: 'Administración'},
+	{ code: '05', name: 'Planeamiento'},
+	{ code: '06', name: 'Gerencia general'}
+]
+
+functions.each do |r|
+	Function.create(code: r[:code], name: r[:name])
+end
+
+unit_business = [
+	{ code: '00', name: 'Holding'},
+	{ code: '01', name: 'Transporte de personal'},
+	{ code: '02', name: 'Alquiler de unidades'},
+	{ code: '03', name: 'Cargas'},
+	{ code: '04', name: 'Servicios a terceros'},
+	{ code: '05', name: 'Linea y piquetería'},
+	{ code: '06', name: 'Viajes especiales'},
+	{ code: '07', name: 'Campo'},
+	{ code: '08', name: 'Hotel y restó'},
+	{ code: '09', name: 'Hormigon'},
+	{ code: '10', name: 'Alquiler de inmuebles'}
+]
+
+unit_business.each do |r|
+	UnitBusiness.create(code: r[:code], name: r[:name])
+end
+
+geographic_zones = [
+	{ name: 'Holding'},
+	{ name: 'Chubut y Santa Cruz Norte'},
+	{ name: 'Santa Cruz Sur'},
+	{ name: 'Neuquen'}
+]
+
+geographic_zones.each do |r|
+	GeographicZone.create(name: r[:name])
+end
+
+
+sub_zones = [
+	{ code: '00', name: 'Holding', geographic_zone_id: 1},
+	{ code: '01', name: 'Comodoro Rivadavia', geographic_zone_id: 2},
+	{ code: '02', name: 'Baltazar', geographic_zone_id: 2},
+	{ code: '03', name: 'Caleta Olivia', geographic_zone_id: 2},
+	{ code: '04', name: 'Las Heras', geographic_zone_id: 2},
+	{ code: '05', name: 'Los Perales', geographic_zone_id: 2},
+	{ code: '06', name: 'Sarmiento', geographic_zone_id: 2},
+	{ code: '07', name: 'Esquel', geographic_zone_id: 2},
+	{ code: '08', name: 'Gobernador Costa', geographic_zone_id: 2},
+	{ code: '09', name: 'Rio Mayo', geographic_zone_id: 2},
+	{ code: '10', name: 'Rio Senguer', geographic_zone_id: 2},
+	{ code: '11', name: 'Rio Gallegos', geographic_zone_id: 3},
+	{ code: '12', name: 'Neuquen', geographic_zone_id: 4},
+	{ code: '13', name: 'Puerto Deseado', geographic_zone_id: 2},
+]
+
+sub_zones.each do |r|
+	SubZone.create(code: r[:code], name: r[:name], geographic_zone_id: r[:geographic_zone_id])
+end
+
+
+clients = [
+	{ name: 'Etap',},
+	{ name: 'Pecom',},
+	{ name: 'Taller',},
+	{ name: 'Backup',},
+	{ name: 'YPF',},
+	{ name: 'EDVSA',},
+	{ name: 'CGC',}
+]
+
+clients.each do |r|
+	Client.create(name: r[:name])
+end
+
+operators = [
+	{ name: 'YPF',},
+	{ name: 'Nación',},
+	{ name: 'CGC',},
+	{ name: 'Enap',},
+	{ name: 'PAE',},
+	{ name: 'Chubut',},
+	{ name: 'SHELL',}
+]
+
+operators.each do |r|
+	Operator.create(name: r[:name])
+end
+
+list_states_vehicles = [
+	{ name: 'Reparación',},
+	{ name: 'Campo',},
+	{ name: 'Fuera de modelo',},
+	{ name: 'Servicio',},
+	{ name: 'Disponible',},
+	{ name: 'Staff',}
+]
+
+list_states_vehicles.each do |r|
+	ListStatesVehicle.create(name: r[:name])
+end

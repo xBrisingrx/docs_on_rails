@@ -1,6 +1,5 @@
 json.data @jobs do |job|
 	json.name job.name
-	json.description job.description
 
 	zones = ''
 	if !job.zone_job_profiles.empty?

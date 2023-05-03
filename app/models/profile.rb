@@ -32,7 +32,9 @@ class Profile < ApplicationRecord
 
 	def disable end_date
 		ActiveRecord::Base.transaction do
-			self.zone_job_profiles.disable(end_date)
+			self.zone_job_profiles.each do |zone_job_profile|
+				zone_job_profile.disable(end_date)
+			end
 		end
 		self.update(active: false, end_date: end_date)
 	end

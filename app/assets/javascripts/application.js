@@ -37,6 +37,7 @@
 //= require clothes
 //= require cost_centers
 //= require vehicle_states
+//= require zones
 
 $(document).on('ready', function () {
   // initialization of header

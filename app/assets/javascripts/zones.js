@@ -1,2 +1,8 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
+let zones_table, form_zone
+function modal_disable_zone(id) {
+  $('#modal-disable-zone #zone_id').val(id)
+  $('#modal-disable-zone').modal('show')
+}
+
+
+

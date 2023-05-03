@@ -1,32 +1,9 @@
-<%= form_with(model: zone, local: true) do |form| %>
-  <% if zone.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(zone.errors.count, "error") %> prohibited this zone from being saved:</h2>
-
-      <ul>
-      <% zone.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+<%= form_with(model: zone, id: 'form-zone', class: 'needs-validation g-pl-20') do |form| %>
+  <div class="form-group row">
+    <%= form.text_field :code, class: 'form-control col-2 mr-2', required: true, placeholder: 'Código' %>
+    <%= form.text_field :name, class: 'form-control col-4', required: true, placeholder: 'Nombre de zona' %>
+    <%= form.submit 'Registrar', class: 'btn u-btn-primary ml-4' %>
   </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_field :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :active %>
-    <%= form.check_box :active %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <small class="zone_name text-danger"></small>
+  <small class="zone_code text-danger"></small>
 <% end %>

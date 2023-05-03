@@ -1,0 +1,11 @@
+
+<div id="zone_form_container">
+  <%= render(partial: 'form', locals: { zone: @zone }) %>
+</div>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'zones', 
+                      color: 'blue', 
+                      icon: 'fa-map',
+                      title: "Zonas registradas para #{@type}", 
+                      col_names: [ 'Código','Nombre', 'Descripcion', 'Acciones' ] }) %>

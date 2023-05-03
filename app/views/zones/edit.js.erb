@@ -1,0 +1,11 @@
+$("#zone_form_container").html("<%= j (render partial: 'form', locals:{ zone: @zone } ) %>")
+
+document.getElementById('form-zone').id = "form-zone-edit"
+
+$("#form-zone-edit").on("ajax:success", function(event) {
+    zones_table.ajax.reload(null,false)
+    $("#zone_form_container").html("<%= j (render partial: 'form', locals:{ zone: Zone.new } ) %>")
+  }).on("ajax:error", function(event) {
+	let msg = JSON.parse( event.detail[2].response )
+	set_input_status_form('form-zone-edit', 'zone', msg)
+})

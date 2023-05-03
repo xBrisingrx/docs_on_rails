@@ -3,7 +3,9 @@ class ZonesController < ApplicationController
 
   # GET /zones or /zones.json
   def index
+    @title_modal = 'Zonas registradas'
     @zones = Zone.all
+    @zone = Zone.new
   end
 
   # GET /zones/1 or /zones/1.json
@@ -25,11 +27,11 @@ class ZonesController < ApplicationController
 
     respond_to do |format|
       if @zone.save
+        format.json { render json: { status: 'success', msg: 'Zona registrada'}, status: :created }
         format.html { redirect_to zone_url(@zone), notice: "Zone was successfully created." }
-        format.json { render :show, status: :created, location: @zone }
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @zone.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
@@ -38,11 +40,11 @@ class ZonesController < ApplicationController
   def update
     respond_to do |format|
       if @zone.update(zone_params)
+        format.json { render json: { status: 'success', msg: 'Zona actualizada'}, status: :ok }
         format.html { redirect_to zone_url(@zone), notice: "Zone was successfully updated." }
-        format.json { render :show, status: :ok, location: @zone }
       else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @zone.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
       end
     end
   end
@@ -65,6 +67,6 @@ class ZonesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def zone_params
-      params.require(:zone).permit(:name, :description, :active)
+      params.require(:zone).permit(:name, :code, :description, :active)
     end
 end

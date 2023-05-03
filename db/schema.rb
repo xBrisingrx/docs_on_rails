@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_02_210844) do
+ActiveRecord::Schema.define(version: 2023_05_03_025256) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -75,6 +75,14 @@ ActiveRecord::Schema.define(version: 2023_04_02_210844) do
     t.index ["zone_job_profile_id"], name: "index_assignments_profiles_on_zone_job_profile_id"
   end
 
+  create_table "clients", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "clothes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
@@ -110,6 +118,17 @@ ActiveRecord::Schema.define(version: 2023_04_02_210844) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "cost_centers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "function_id"
+    t.bigint "unit_business_id"
+    t.string "descripcion"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["function_id"], name: "index_cost_centers_on_function_id"
+    t.index ["unit_business_id"], name: "index_cost_centers_on_unit_business_id"
   end
 
   create_table "document_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -174,6 +193,23 @@ ActiveRecord::Schema.define(version: 2023_04_02_210844) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "functions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "geographic_zones", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "insurances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
@@ -184,6 +220,23 @@ ActiveRecord::Schema.define(version: 2023_04_02_210844) do
 
   create_table "jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.integer "d_type", null: false
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "code", limit: 4
+  end
+
+  create_table "list_states_vehicles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "operators", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
     t.boolean "active", default: true
@@ -234,11 +287,32 @@ ActiveRecord::Schema.define(version: 2023_04_02_210844) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "code", limit: 4
   end
 
   create_table "reasons_to_disables", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.integer "d_type", null: false
     t.string "reason", null: false
+    t.string "description"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sub_zones", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "active", default: true
+    t.bigint "geographic_zone_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["geographic_zone_id"], name: "index_sub_zones_on_geographic_zone_id"
+  end
+
+  create_table "unit_businesses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "name", null: false
     t.string "description"
     t.boolean "active", default: true
     t.datetime "created_at", null: false
@@ -294,6 +368,26 @@ ActiveRecord::Schema.define(version: 2023_04_02_210844) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["vehicle_brand_id"], name: "index_vehicle_models_on_vehicle_brand_id"
+  end
+
+  create_table "vehicle_states", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "vehicle_id"
+    t.bigint "cost_center_id"
+    t.bigint "sub_zone_id"
+    t.bigint "operator_id"
+    t.bigint "client_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "list_states_vehicle_id"
+    t.index ["client_id"], name: "index_vehicle_states_on_client_id"
+    t.index ["cost_center_id"], name: "index_vehicle_states_on_cost_center_id"
+    t.index ["list_states_vehicle_id"], name: "index_vehicle_states_on_list_states_vehicle_id"
+    t.index ["operator_id"], name: "index_vehicle_states_on_operator_id"
+    t.index ["sub_zone_id"], name: "index_vehicle_states_on_sub_zone_id"
+    t.index ["vehicle_id"], name: "index_vehicle_states_on_vehicle_id"
   end
 
   create_table "vehicle_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -359,6 +453,7 @@ ActiveRecord::Schema.define(version: 2023_04_02_210844) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "code", limit: 4
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -368,6 +463,8 @@ ActiveRecord::Schema.define(version: 2023_04_02_210844) do
   add_foreign_key "assignments_profiles", "zone_job_profiles"
   add_foreign_key "clothes_packs", "clothes"
   add_foreign_key "clothes_packs", "clothing_packages"
+  add_foreign_key "cost_centers", "functions"
+  add_foreign_key "cost_centers", "unit_businesses"
   add_foreign_key "document_renovations", "assignments_documents"
   add_foreign_key "documents", "document_categories"
   add_foreign_key "documents", "expiration_types"
@@ -375,9 +472,16 @@ ActiveRecord::Schema.define(version: 2023_04_02_210844) do
   add_foreign_key "documents_profiles", "profiles"
   add_foreign_key "people_clothes", "clothing_packages"
   add_foreign_key "people_clothes", "people"
+  add_foreign_key "sub_zones", "geographic_zones"
   add_foreign_key "vehicle_insurances", "insurances"
   add_foreign_key "vehicle_insurances", "vehicles"
   add_foreign_key "vehicle_models", "vehicle_brands"
+  add_foreign_key "vehicle_states", "clients"
+  add_foreign_key "vehicle_states", "cost_centers"
+  add_foreign_key "vehicle_states", "list_states_vehicles"
+  add_foreign_key "vehicle_states", "operators"
+  add_foreign_key "vehicle_states", "sub_zones"
+  add_foreign_key "vehicle_states", "vehicles"
   add_foreign_key "vehicles", "companies"
   add_foreign_key "vehicles", "vehicle_locations"
   add_foreign_key "vehicles", "vehicle_models"

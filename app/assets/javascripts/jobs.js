@@ -13,7 +13,6 @@ $(document).ready(function(){
     'ajax': `jobs?d_type=${jobs_type}`,
     'columns': [
     {'data': 'name'},
-    {'data': 'description'},
     {'data': 'zone'},
     {'data': 'actions'}
     ],

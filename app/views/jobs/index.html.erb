@@ -1,13 +1,23 @@
 <h1>Puestos de trabajo</h1>
-<%= link_to "<i class='fa fa-plus'></i> Registrar trabajo".html_safe, new_job_path( d_type: params[:d_type] ),remote: true, 
-  class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+<div class="row justify-content-between">
+    <div class="col-4">
+      <%= link_to "<i class='fa fa-plus'></i> Registrar trabajo".html_safe, new_job_path( d_type: params[:d_type] ),
+        remote: true, 
+        class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+    </div>
+    <div class="col-4">
+      <%= link_to "<i class='fa fa-map'></i> Zonas".html_safe, zones_path( d_type: params[:d_type] ),
+          remote: true, 
+          class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2' %>
+    </div>
+  </div>
 
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'jobs', 
                       color: 'blue', 
                       icon: 'fa-gear',
                       title: "Trabajos de #{@type} registrados", 
-                      col_names: [ 'Nombre', 'Descripcion', 'Zonas/Perfiles','Acciones' ] }) %>
+                      col_names: [ 'Nombre', 'Centro de costos','Acciones' ] }) %>
 
 <input type="hidden" id="jobs_d_type" value=<%= params[:d_type] %> >
 

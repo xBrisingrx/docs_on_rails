@@ -70,6 +70,6 @@ class ProfilesController < ApplicationController
     end
 
     def profile_params
-      params.require(:profile).permit(:d_type, :name, :start_date, :end_date, :description)
+      params.require(:profile).permit(:d_type, :code, :name, :start_date, :end_date, :description)
     end
 end

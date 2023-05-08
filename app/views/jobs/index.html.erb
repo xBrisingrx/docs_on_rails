@@ -9,15 +9,25 @@
       <%= link_to "<i class='fa fa-map'></i> Zonas".html_safe, zones_path( d_type: params[:d_type] ),
           remote: true, 
           class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2' %>
+      <%= link_to "<i class='fa fa-list-alt'></i> Perfiles".html_safe, profiles_path( d_type: params[:d_type] ),
+          remote: true, 
+          class: 'btn u-btn-outline-teal u-btn-hover-v1-2 mb-2' %>
     </div>
   </div>
 
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'jobs', 
-                      color: 'blue', 
+                      color: 'teal', 
                       icon: 'fa-gear',
                       title: "Trabajos de #{@type} registrados", 
                       col_names: [ 'Nombre', 'Centro de costos','Acciones' ] }) %>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'zone_job_profiles', 
+                      color: 'blue', 
+                      icon: 'fa-gear',
+                      title: "", 
+                      col_names: [ 'Centro de costos','Sub centro de costos','Acciones' ] }) %>
 
 <input type="hidden" id="jobs_d_type" value=<%= params[:d_type] %> >
 
@@ -64,3 +74,6 @@
   </div>
 </div>
 <!-- Fin modal disable zone profile job -->
+
+<div class="modal fade" id="modal-index" tabindex="-1" role="dialog"></div>
+<div class="modal fade" id="modal-action" tabindex="-1" role="dialog"></div>

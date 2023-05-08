@@ -1,0 +1,9 @@
+<%= link_to "<i class='fa fa-plus'></i> Registrar perfil".html_safe, new_profile_path( d_type: params[:d_type] ),remote: true, 
+            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'profiles', 
+                      color: 'blue', 
+                      icon: 'fa-gear',
+                      title: "Perfiles registrados", 
+                      col_names: [ 'Nombre', 'Zonas/Trabajos' ,'Inicio vigencia', 'Fin vigencia','Estado','Descripcion','Acciones' ] }) %>

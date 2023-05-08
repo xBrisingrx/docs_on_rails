@@ -11,6 +11,7 @@
 #  active      :boolean          default(TRUE), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  code        :string(4)
 #
 class Profile < ApplicationRecord
 	has_many :documents_profile

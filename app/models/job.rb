@@ -9,6 +9,7 @@
 #  active      :boolean          default(TRUE)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  code        :string(4)
 #
 class Job < ApplicationRecord
 	has_many :zone_job_profiles

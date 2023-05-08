@@ -15,7 +15,13 @@ class Job < ApplicationRecord
 	has_many :zone_job_profiles
 	has_many :zones, through: :zone_job_profiles
 	has_many :profiles, through: :zone_job_profiles
-
+	validates :code, presence: true,
+		uniqueness: { case_sensitive: false, message: "Ya existe una zona registrada con este código" },
+		format: {
+	    with: /\A[0-9]+\z/,
+	    message: "Solo puede ingresar números"
+	  }
+	  
 	enum d_type: {
 		people: 1, 
 		vehicles: 2

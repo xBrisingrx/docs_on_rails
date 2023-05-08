@@ -24,7 +24,13 @@ class Profile < ApplicationRecord
 		uniqueness: { scope: :d_type, case_sensitive: false, message: "Ya existe un perfil registrado con este nombre" }
 	validates :end_date, presence: { message: 'Para dar de baja un perfil se necesita ingresar la fecha de finalización.'}, if: :profile_inactive?
 	validates :d_type, presence: true
-
+	validates :code, presence: true,
+		uniqueness: { case_sensitive: false, message: "Ya existe una zona registrada con este código" },
+		format: {
+	    with: /\A[0-9]+\z/,
+	    message: "Solo puede ingresar números"
+	  }
+	  
 	enum d_type: {
 		people: 1, 
 		vehicles: 2

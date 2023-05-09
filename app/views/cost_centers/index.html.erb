@@ -1,14 +1,39 @@
-<h1>Centros de costos</h1>
-<%= link_to "<i class='fa fa-plus'></i> Registrar centro de costo".html_safe, new_cost_center_path(),
-  remote: true, data: { toggle: :modal, target: '#modal' }, 
-  class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+<h1>Centros de costo</h1>
+<div class="row justify-content-between">
+  <div class="col-4">
+    <%= link_to "<i class='fa fa-plus'></i> Registrar centro de costo".html_safe, new_cost_center_path(d_type: params[:d_type]),
+          remote: true, data: { toggle: :modal, target: '#modal' }, 
+          class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+  </div>
+  <div class="col-4">
+    <%= link_to "<i class='fa fa-map'></i> Zonas".html_safe, zones_path( d_type: params[:d_type] ),
+          remote: true, 
+          class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2' %>
+    <%= link_to "<i class='fa fa-list-alt'></i> Perfiles".html_safe, profiles_path( d_type: params[:d_type] ),
+          remote: true, 
+          class: 'btn u-btn-outline-teal u-btn-hover-v1-2 mb-2' %>
+    <%= link_to "Puestos laborales", jobs_path( d_type: params[:d_type] ),
+          remote: true, 
+          class: 'btn u-btn-outline-brown u-btn-hover-v1-2 mb-2' %>
+  </div>
+</div>
 
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'cost_centers', 
                       color: 'blue', 
                       icon: 'fa-gear',
-                      title: "Centros de costos registados", 
-                      col_names: [ 'Nombre', 'Descripcion', 'Acciones' ] }) %>
+                      title: "Centros de costo registados", 
+                      col_names: [ 'Centro de costo', 'Sub centro', 'Acciones' ] }) %>
+
+<%= link_to "<i class='fa fa-plus'></i> Agregar documento a un perfil".html_safe, new_zone_job_profile_doc_path( d_type: params[:d_type] ),remote: true, 
+            class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2' %>
+<button class="btn u-btn-teal mb-2" onclick="hide_table('zone_job_profile_docs_table')"> <i class="fa fa-eye"></i> </button>
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'cost_center_documents', 
+                      color: 'purple', 
+                      icon: 'fa-book',
+                      title: "Documentos asignados a centros de costos", 
+                      col_names: [ 'Puesto','Zona','Perfil', 'Documento', 'Inicio vigencia','Fin vigencia','Estado','Acciones' ] }) %>
 <!-- Modal para eliminar cost_center -->
 <div class="modal fade" id="modal-disable-cost_center" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -30,3 +55,5 @@
   </div>
 </div>
 <!-- Fin modal eliminar cost_center -->
+
+<div class="modal fade" id="modal-index" tabindex="-1" role="dialog"></div>

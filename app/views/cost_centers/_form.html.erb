@@ -1,22 +1,33 @@
-<%= form_with(model: @cost_center, id: 'form-cost_center', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+<%= form_with(model: @cost_center, id: 'form-cost-center', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
   <div class="form-group row">
-    <%= form.label :function_id, 'Función:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <%= form.hidden_field :d_type, value: @d_type %>
+    <%= form.label :profile_id, 'Perfil:' ,class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:function_id, Function.actives.collect { |e| ["#{e.code}-#{e.name}", e.id] }, 
+      <%= form.select(:profile_id, Profile.where(d_type: @d_type).actives.collect { |profile| ["#{profile.code}-#{profile.name}", profile.id] }, 
         { include_blank: true},
         required: true,
-        class: 'form-control select-2-function') %>
-    <small class="form-control-feedback text-danger "></small>
+        class: 'form-control select-2-profile') %>
+    <small class="form-control-feedback text-danger cost_center_profile"></small>
     </div>
   </div>
  <div class="form-group row">
-    <%= form.label :unit_business_id, 'Unidad de negocios:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <%= form.label :job_id, 'Puesto laboral:' ,class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:unit_business_id, UnitBusiness.actives.collect { |e| ["#{e.code}-#{e.name}", e.id] }, 
+      <%= form.select(:job_id, Job.where(d_type: @d_type).actives.collect { |job| ["#{job.code}-#{job.name}", job.id] }, 
         { include_blank: true},
         required: true,
-        class: 'form-control select-2-unit-business') %>
-    <small class="form-control-feedback text-danger "></small>
+        class: 'form-control select-2-job') %>
+    <small class="form-control-feedback text-danger cost_center_job"></small>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= form.label :zone_id, 'Zona:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:zone_id, Zone.actives.collect { |zone| ["#{zone.code}-#{zone.name}", zone.id] }, 
+        { include_blank: true},
+        required: true,
+        class: 'form-control select-2-zone') %>
+    <small class="form-control-feedback text-danger cost_center_zone"></small>
     </div>
   </div>
 

@@ -3,7 +3,7 @@ class CostCentersController < ApplicationController
 
   # GET /cost_centers or /cost_centers.json
   def index
-    @cost_centers = CostCenter.actives
+    @cost_centers = CostCenter.actives.where(d_type: params[:d_type])
   end
 
   # GET /cost_centers/1 or /cost_centers/1.json
@@ -12,7 +12,9 @@ class CostCentersController < ApplicationController
 
   # GET /cost_centers/new
   def new
+    @title_modal = 'Registrar centro de costos'
     @cost_center = CostCenter.new
+    @d_type = params[:d_type]
   end
 
   # GET /cost_centers/1/edit
@@ -28,8 +30,8 @@ class CostCentersController < ApplicationController
         format.json { render json: {status: 'success', msg: 'Centro de costo registrado'}, status: :created}
         format.html { redirect_to cost_center_url(@cost_center), notice: "Cost center was successfully created." }
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @cost_center.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
@@ -71,6 +73,6 @@ class CostCentersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def cost_center_params
-      params.require(:cost_center).permit(:function_id, :unit_business_id, :active, :descripcion)
+      params.require(:cost_center).permit(:profile_id, :zone_id, :job_id ,:active, :d_type, :descripcion)
     end
 end

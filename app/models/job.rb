@@ -15,8 +15,10 @@ class Job < ApplicationRecord
 	has_many :zone_job_profiles
 	has_many :zones, through: :zone_job_profiles
 	has_many :profiles, through: :zone_job_profiles
+
+	validates :d_type, presence: true
 	validates :code, presence: true,
-		uniqueness: { case_sensitive: false, message: "Ya existe una zona registrada con este código" },
+		uniqueness: { case_sensitive: false, message: "Ya existe una puesto laboral registrada con este código" },
 		format: {
 	    with: /\A[0-9]+\z/,
 	    message: "Solo puede ingresar números"

@@ -36,6 +36,8 @@ class Profile < ApplicationRecord
 		vehicles: 2
 	}
 	scope :actives, -> { where(active: true) }
+	scope :people, ->{ where( assignated_type: :person ) }
+  scope :vehicles, ->{ where( assignated_type: :vehicle ) }
 
 	def disable end_date
 		ActiveRecord::Base.transaction do

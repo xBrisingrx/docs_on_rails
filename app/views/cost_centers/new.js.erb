@@ -1,14 +1,15 @@
 $("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form' } ) %>")
 $("#modal").modal('show')
-$('.select-2-unit-business').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione unidad de negocios" });
-$('.select-2-function').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione function" });
+$('.select-2-profile').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione perfil" });
+$('.select-2-job').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione puesto laboral" });
+$('.select-2-zone').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione zona" });
 
-$("#form-cost_center").on("ajax:success", function(event) {
+$("#form-cost-center").on("ajax:success", function(event) {
     cost_centers_table.ajax.reload(null,false)
     let msg = JSON.parse(event.detail[2].response)
     noty_alert(msg.status, msg.msg)
     $("#modal").modal('hide')
   }).on("ajax:error", function(event) {
 	let msg = JSON.parse( event.detail[2].response )
-	set_input_status_form('form-cost_center', 'cost_center', msg)
+	set_input_status_form('form-cost-center', 'cost_center', msg)
 })

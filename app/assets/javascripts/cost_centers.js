@@ -7,10 +7,10 @@ function modal_disable_cost_center(id) {
 
 $(document).ready(function(){
 	cost_centers_table = $("#cost_centers_table").DataTable({
-    'ajax': `cost_centers`,
+    'ajax': `cost_centers?d_type=${document.getElementById('d_type').value}`,
     'columns': [
     {'data': 'center'},
-    {'data': 'detail'},
+    {'data': 'subcenter'},
     {'data': 'actions'}
     ],
     'language': {'url': datatables_lang}

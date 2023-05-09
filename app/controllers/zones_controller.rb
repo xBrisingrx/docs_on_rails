@@ -14,6 +14,7 @@ class ZonesController < ApplicationController
 
   # GET /zones/new
   def new
+    @title_modal = 'Registrar zona'
     @zone = Zone.new
   end
 

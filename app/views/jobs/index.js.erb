@@ -1,22 +1,24 @@
-let jobs_table
-let jobs_type = ''
-function modal_disable_job(id) {
-  $('#modal-disable-job #job_id').val(id)
-  $('#modal-disable-job').modal('show')
-}
+$("#modal-index").html("<%= j (render partial: 'shared/modal', locals:{ size: 'xl', content: 'index' } ) %>")
 
 $(document).ready(function(){
-  if ( document.getElementById('jobs_d_type') != undefined ) {
-    jobs_type = document.getElementById('jobs_d_type').value
-  }
-	jobs_table = $("#jobs_table").DataTable({
-    'ajax': `jobs?d_type=${jobs_type}`,
+  jobs_table = $("#jobs_table").DataTable({
+    'ajax': `jobs?d_type=${document.getElementById('d_type').value}`,
     'columns': [
     {'data': 'code'},
     {'data': 'name'},
     {'data': 'actions'}
     ],
     'language': {'url': datatables_lang}
+  })
+
+	$("#form-job").on("ajax:success", function(event) {
+	    jobs_table.ajax.reload(null,false)
+	    clean_form('form-job')
+	    document.querySelector('#form-job .job_name').innerHTML = ''
+      document.querySelector('#form-job .job_code').innerHTML = ''
+	  }).on("ajax:error", function(event) {
+		let msg = JSON.parse( event.detail[2].response )
+		set_input_status_form('form-job', 'job', msg)
 	})
 
   $("#form-disable-job").on("ajax:success", function(event) {
@@ -31,5 +33,8 @@ $(document).ready(function(){
       $(`#form-disable-job .job_${key}`).text( value ).show('slow')
     })
   })
+
 })
 
+
+$("#modal-index").modal('show')

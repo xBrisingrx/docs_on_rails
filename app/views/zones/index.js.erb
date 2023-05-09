@@ -1,4 +1,4 @@
-$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'xl', content: 'index' } ) %>")
+$("#modal-index").html("<%= j (render partial: 'shared/modal', locals:{ size: 'xl', content: 'index' } ) %>")
 
 
 $(document).ready(function(){
@@ -18,9 +18,7 @@ $(document).ready(function(){
 
 	$("#form-zone").on("ajax:success", function(event) {
 	    zones_table.ajax.reload(null,false)
-	    clean_form('form-zone')
-	    document.querySelector('#form-zone .zone_name').innerHTML = ''
-      document.querySelector('#form-zone .zone_code').innerHTML = ''
+      $('#modal').modal('hide')
 	  }).on("ajax:error", function(event) {
 		let msg = JSON.parse( event.detail[2].response )
 		set_input_status_form('form-zone', 'zone', msg)
@@ -42,4 +40,4 @@ $(document).ready(function(){
 })
 
 
-$("#modal").modal('show')
+$("#modal-index").modal('show')

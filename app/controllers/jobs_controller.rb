@@ -4,6 +4,7 @@ class JobsController < ApplicationController
   def index
     @jobs = Job.where(d_type: params[:d_type]).actives
     @type = (params[:d_type] == 'people') ? 'personas' : 'vehículos'
+    @title_modal = 'Puestos laborales'
   end
 
   def show;end
@@ -37,7 +38,7 @@ class JobsController < ApplicationController
       if @job.update(job_params) && activity_history.save
         format.json { render json: { status: :success, msg: 'Datos actualizados.' }, status: :ok }
       else
-        format.json { render json: { status: :success, msg: @job.errors }, status: :unprocessable_entity }
+        format.json { render json: { status: :error, msg: @job.errors }, status: :unprocessable_entity }
       end
     end
   end
@@ -62,6 +63,6 @@ class JobsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def job_params
-      params.require(:job).permit(:d_type, :name, :description)
+      params.require(:job).permit(:d_type, :name, :code ,:description)
     end
 end

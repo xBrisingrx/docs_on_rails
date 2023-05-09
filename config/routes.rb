@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :cost_center_documents
   resources :vehicle_states
   resources :cost_centers
   post 'disable_cost_center', to: 'cost_centers#disable', as: 'disable_cost_center'

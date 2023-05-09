@@ -1,7 +1,7 @@
-
-<div id="zone_form_container">
-  <%= render(partial: 'form', locals: { zone: @zone }) %>
-</div>
+<%= link_to "<i class='fa fa-plus'></i> Registrar zona".html_safe, 
+      new_zone_path( d_type: params[:d_type] ),
+      remote: true, 
+      class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
 
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'zones', 

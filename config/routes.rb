@@ -113,5 +113,6 @@ Rails.application.routes.draw do
   resources :reports, only: [:index] do
     get 'people', on: :collection
     get 'matriz', on: :collection
+    get 'matriz_vehicles', on: :collection
   end
 end

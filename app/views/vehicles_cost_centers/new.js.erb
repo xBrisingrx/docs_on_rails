@@ -32,31 +32,31 @@ $("#form-vehicle-cost-center").on("ajax:success", function(event) {
   })
 })
 
-document.getElementById('assignments_cost_center_start_date').addEventListener('change',()=>{
-  check_assignmnet_dates()
-})
+// document.getElementById('assignments_cost_center_start_date').addEventListener('change',()=>{
+//   check_assignmnet_dates()
+// })
 
-document.getElementById('assignments_cost_center_end_date').addEventListener('change',()=>{
-  check_assignmnet_dates()
-})
+// document.getElementById('assignments_cost_center_end_date').addEventListener('change',()=>{
+//   check_assignmnet_dates()
+// })
 
-function check_assignmnet_dates() {
-  let start_date = document.getElementById('assignments_cost_center_start_date').value 
-  let end_date = document.getElementById('assignments_cost_center_end_date').value
-  let assignated_type = document.getElementById('assignments_cost_center_assignated_type').value
-  let assignated_id = $('#assignments_cost_center_assignated_id').val()
-  if (start_date != '' && end_date != '' && assignated_id != 0) {
-    const assignment_check_url = `assignments_cost_centers/check_disponibility?assignated_id=${assignated_id}&assignated_type=${assignated_type}&start_date=${start_date}&end_date=${end_date}`
-    fetch( assignment_check_url )
-     .then( response => response.json() )
-     .then( data => {
-        if (data.status === 'busy') {
-          document.getElementById('msg_body').innerHTML = `<strong>Atencion!</strong> ${data.msg}.`
-          document.getElementById('date_message').style.display = 'block'
-        } else {
-          console.info(data.status)
-          document.getElementById('date_message').style.display = 'none'
-        }
-     })
-  }
-}
+// function check_assignmnet_dates() {
+//   let start_date = document.getElementById('assignments_cost_center_start_date').value 
+//   let end_date = document.getElementById('assignments_cost_center_end_date').value
+//   let assignated_type = document.getElementById('assignments_cost_center_assignated_type').value
+//   let assignated_id = $('#assignments_cost_center_assignated_id').val()
+//   if (start_date != '' && end_date != '' && assignated_id != 0) {
+//     const assignment_check_url = `assignments_cost_centers/check_disponibility?assignated_id=${assignated_id}&assignated_type=${assignated_type}&start_date=${start_date}&end_date=${end_date}`
+//     fetch( assignment_check_url )
+//      .then( response => response.json() )
+//      .then( data => {
+//         if (data.status === 'busy') {
+//           document.getElementById('msg_body').innerHTML = `<strong>Atencion!</strong> ${data.msg}.`
+//           document.getElementById('date_message').style.display = 'block'
+//         } else {
+//           console.info(data.status)
+//           document.getElementById('date_message').style.display = 'none'
+//         }
+//      })
+//   }
+// }

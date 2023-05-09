@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
     t.string "name", null: false
     t.text "description"
     t.integer "days_of_validity", default: 0, null: false
+    t.boolean "one_clothes", default: false
     t.boolean "expires", default: false
     t.boolean "active", default: true
     t.datetime "created_at", null: false
@@ -185,8 +186,8 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
 
   create_table "document_renovations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.bigint "assignments_document_id"
-    t.date "renovation_date"
-    t.date "expiration_date"
+    t.date "renovation_date", null: false
+    t.date "expiration_date", null: false
     t.boolean "active", default: true
     t.string "comment"
     t.datetime "created_at", null: false
@@ -275,7 +276,7 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
   create_table "list_states_vehicles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
-    t.boolean "active", default: true
+    t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -422,7 +423,7 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
     t.bigint "client_id"
     t.date "start_date"
     t.date "end_date"
-    t.boolean "active", default: true
+    t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "list_states_vehicle_id"
@@ -480,9 +481,9 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
     t.bigint "zone_id"
     t.bigint "job_id"
     t.bigint "profile_id"
+    t.integer "d_type", null: false
     t.date "start_date", comment: "Inicio vigencia de el perfil en el trabajo"
     t.date "end_date", comment: "Fin vigencia de el perfil en el trabajo"
-    t.integer "d_type", null: false
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

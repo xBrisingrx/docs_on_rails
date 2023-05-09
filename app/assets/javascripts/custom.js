@@ -110,3 +110,7 @@ function hide_table( table_id ) {
      table.dataset.show = 'show'
   }
 }
+
+function hide_modal( modal_id) {
+  $(`$${modal_id}`).modal('hide')
+}

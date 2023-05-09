@@ -61,7 +61,7 @@ const document_renovation = {
 	      $("#modal_edit_renovation").modal('hide')
 	      clean_form(form.id)
 	      document_renovations_table.ajax.reload(null,false)
-	      assignments_person_documents.ajax.reload(null,false)
+	      assignments_assigned_documents.ajax.reload(null,false)
 	      noty_alert(response.status, response.msg)
 	    } else {
 	      Object.entries(response.msg).forEach(([key, value]) => {
@@ -86,7 +86,7 @@ function modal_disable_renovation(id) {
 $(document).ready(function(){
 	$("#form-disable-renovation").on("ajax:success", function(event) {
 	  document_renovations_table.ajax.reload(null,false)
-	  assignments_person_documents.ajax.reload(null,false)
+	  assignments_assigned_documents.ajax.reload(null,false)
 	  let msg = JSON.parse(event.detail[2].response)
 	  noty_alert(msg.status, msg.msg)
 	  $('#modal-disable-renovation').modal('hide')

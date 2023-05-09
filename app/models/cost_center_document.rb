@@ -32,7 +32,7 @@ class CostCenterDocument < ApplicationRecord
   def update_asociations
     # Si le asigno un documento a un perfil se debe asignar dichos documentos a los asociados
     @documents = CostCenter.find( self.cost_center_id ).documents
-    @assigned_cost_center = AssigmentsCostCenter.where(cost_center_id: self.cost_center_id).actives
+    @assigned_cost_center = AssignmentsCostCenter.where(cost_center_id: self.cost_center_id).actives
 
     ActiveRecord::Base.transaction do
       @assigned_cost_center.each do |assignated|

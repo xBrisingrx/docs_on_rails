@@ -63,6 +63,7 @@ class AssignmentsDocument < ApplicationRecord
     end
   end
 
+
   private
   def unique_association
     entry = AssignmentsDocument.find_by(assignated_id: self.assignated_id, assignated_type: self.assignated_type ,document_id: self.document_id)

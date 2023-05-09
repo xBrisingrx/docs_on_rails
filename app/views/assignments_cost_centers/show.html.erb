@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Cost center:</strong>
+  <%= @assigments_cost_center.cost_center %>
+</p>
+
+<p>
+  <strong>Assignated:</strong>
+  <%= @assigments_cost_center.assignated %>
+</p>
+
+<p>
+  <strong>Operator:</strong>
+  <%= @assigments_cost_center.operator %>
+</p>
+
+<p>
+  <strong>Client:</strong>
+  <%= @assigments_cost_center.client %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @assigments_cost_center.active %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @assigments_cost_center.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @assigments_cost_center.end_date %>
+</p>
+
+<p>
+  <strong>Assignation status:</strong>
+  <%= @assigments_cost_center.assignation_status %>
+</p>
+
+<%= link_to 'Edit', edit_assigments_cost_center_path(@assigments_cost_center) %> |
+<%= link_to 'Back', assigments_cost_centers_path %>

@@ -15,6 +15,8 @@ class CostCenter < ApplicationRecord
   belongs_to :profile
   belongs_to :job
   belongs_to :zone
+  has_many :cost_center_documents
+  has_many :documents, through: :cost_center_documents
 
   enum d_type: {
     people: 1, 
@@ -24,10 +26,16 @@ class CostCenter < ApplicationRecord
   scope :actives, -> { where(active: true) }
   
   def center
-    "#{self.profile.name}-#{self.job.name} (#{self.profile.code}-#{self.job.code})"
+    "#{self.job.name} - #{self.profile.name} (#{self.job.code}-#{self.profile.code})"
   end
 
   def subcenter
     "#{self.zone.name} (#{self.zone.code})"
+  end
+
+  def self.cost_center_order d_type
+    CostCenter.joins(:profile, :job, :zone)
+      .where(cost_centers: { d_type: d_type })
+      .order('jobs.name ASC, profiles.name ASC')
   end
 end

@@ -25,15 +25,19 @@
                       title: "Centros de costo registados", 
                       col_names: [ 'Centro de costo', 'Sub centro', 'Acciones' ] }) %>
 
-<%= link_to "<i class='fa fa-plus'></i> Agregar documento a un perfil".html_safe, new_zone_job_profile_doc_path( d_type: params[:d_type] ),remote: true, 
-            class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2' %>
-<button class="btn u-btn-teal mb-2" onclick="hide_table('zone_job_profile_docs_table')"> <i class="fa fa-eye"></i> </button>
+<%= link_to "<i class='fa fa-plus'></i> Agregar documento a un perfil".html_safe, 
+              new_cost_center_document_path( d_type: params[:d_type] ),
+              remote: true, 
+              class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2' %>
+
+<button class="btn u-btn-teal mb-2" onclick="hide_table('cost_center_documents_table')"> <i class="fa fa-eye"></i> </button>
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'cost_center_documents', 
                       color: 'purple', 
                       icon: 'fa-book',
                       title: "Documentos asignados a centros de costos", 
-                      col_names: [ 'Puesto','Zona','Perfil', 'Documento', 'Inicio vigencia','Fin vigencia','Estado','Acciones' ] }) %>
+                      col_names: [ 'Centro de costo','Zona','Documento', 'Inicio vigencia','Fin vigencia','Estado','Acciones' ] }) %>
+                      
 <!-- Modal para eliminar cost_center -->
 <div class="modal fade" id="modal-disable-cost_center" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

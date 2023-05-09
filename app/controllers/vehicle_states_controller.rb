@@ -14,6 +14,7 @@ class VehicleStatesController < ApplicationController
   def new
     @vehicle_state = VehicleState.new
     @title_modal = 'Asignar vehiculo'
+    @cost_centers = CostCenter.actives.where(d_type: :vehicles)
   end
 
   # GET /vehicle_states/1/edit

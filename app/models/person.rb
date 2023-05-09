@@ -26,6 +26,7 @@ class Person < ApplicationRecord
   has_one_attached :cuil_file
   has_one_attached :start_activity_file
   has_many :assignments_profiles, as: :assignated # relacion entre perfil y persona
+  has_many :assignments_cost_centers, as: :assignated # relacion entre cost_center y persona
   has_many :profiles, through: :assignments_profiles
   has_many :assignments_documents, as: :assignated
   has_many :documents, through: :assignments_documents

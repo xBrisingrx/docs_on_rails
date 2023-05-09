@@ -94,7 +94,7 @@ const status_documentation = {
 
 				$('#vehicle_information').show('slow')
 				document.getElementById("form_vehicle_documentation").reset()
-				assignments_assigned_profiles.ajax.url(`/assignments_profiles/${vehicle_id}?assignated=vehicle`)
+				assignments_assigned_profiles.ajax.url(`/assignments_cost_centers/${vehicle_id}?assignated=vehicle`)
 				assignments_assigned_profiles.ajax.reload(null,false)
 				
 				assignments_assigned_documents.ajax.url(`/assignments_documents/${vehicle_id}?assignated=vehicle`)
@@ -116,7 +116,8 @@ $(document).ready(function(){
 		    { "width": "40%", "targets": 0 }
 		  ],
 			'columns': [
-			 {'data': 'profile'},
+			 {'data': 'cost_center'},
+			 {'data': 'subcenter'},
 			 {'data': 'start_date'},
 			 {'data': 'end_date'},
 			 {'data': 'status'}

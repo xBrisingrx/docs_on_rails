@@ -7,14 +7,13 @@ class ZoneJobProfileDocsController < ApplicationController
                                   zone_job_profile_docs.start_date, zone_job_profile_docs.end_date,zone_job_profile_docs.active,zone_job_profiles.active as e_active")
                                 .where( zone_job_profiles: {active: true} )
                                 .where(d_type: params[:d_type])
-  end
+  end 
 
   def new
     @zone_job_profile_doc = ZoneJobProfileDoc.new
     @title_modal = 'Agregar documento a un perfil'
     @profiles = ZoneJobProfile.where( d_type: params[:d_type]).actives
     @documents = Document.where( d_type: params[:d_type]).actives.select(:id, :name)
-    pp @profiles.first
   end
 
   def create

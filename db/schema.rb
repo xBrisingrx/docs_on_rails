@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_03_025256) do
+ActiveRecord::Schema.define(version: 2023_05_09_083546) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -46,6 +46,35 @@ ActiveRecord::Schema.define(version: 2023_05_03_025256) do
     t.index ["reasons_to_disable_id"], name: "index_activity_histories_on_reasons_to_disable_id"
     t.index ["record_type", "record_id"], name: "index_activity_histories_on_record_type_and_record_id"
     t.index ["user_id"], name: "index_activity_histories_on_user_id"
+  end
+
+  create_table "assignation_statuses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.integer "d_type"
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "blocks", default: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "assignments_cost_centers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "cost_center_id"
+    t.string "assignated_type"
+    t.bigint "assignated_id"
+    t.bigint "operator_id"
+    t.bigint "client_id"
+    t.boolean "active", default: true
+    t.date "start_date"
+    t.date "end_date"
+    t.bigint "assignation_status_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignated_type", "assignated_id"], name: "index_assigment_cc"
+    t.index ["assignation_status_id"], name: "index_assignments_cost_centers_on_assignation_status_id"
+    t.index ["client_id"], name: "index_assignments_cost_centers_on_client_id"
+    t.index ["cost_center_id"], name: "index_assignments_cost_centers_on_cost_center_id"
+    t.index ["operator_id"], name: "index_assignments_cost_centers_on_operator_id"
   end
 
   create_table "assignments_documents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -120,15 +149,30 @@ ActiveRecord::Schema.define(version: 2023_05_03_025256) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "cost_centers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
-    t.bigint "function_id"
-    t.bigint "unit_business_id"
-    t.string "descripcion"
+  create_table "cost_center_documents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "cost_center_id"
+    t.bigint "document_id"
+    t.date "start_date"
+    t.integer "d_type", null: false
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["function_id"], name: "index_cost_centers_on_function_id"
-    t.index ["unit_business_id"], name: "index_cost_centers_on_unit_business_id"
+    t.date "end_date"
+    t.index ["cost_center_id"], name: "index_cost_center_documents_on_cost_center_id"
+    t.index ["document_id"], name: "index_cost_center_documents_on_document_id"
+  end
+
+  create_table "cost_centers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "profile_id"
+    t.bigint "job_id"
+    t.bigint "zone_id"
+    t.integer "d_type", null: false
+    t.index ["job_id"], name: "index_cost_centers_on_job_id"
+    t.index ["profile_id"], name: "index_cost_centers_on_profile_id"
+    t.index ["zone_id"], name: "index_cost_centers_on_zone_id"
   end
 
   create_table "document_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -459,12 +503,19 @@ ActiveRecord::Schema.define(version: 2023_05_03_025256) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activity_histories", "reasons_to_disables"
   add_foreign_key "activity_histories", "users"
+  add_foreign_key "assignments_cost_centers", "assignation_statuses"
+  add_foreign_key "assignments_cost_centers", "clients"
+  add_foreign_key "assignments_cost_centers", "cost_centers"
+  add_foreign_key "assignments_cost_centers", "operators"
   add_foreign_key "assignments_documents", "documents"
   add_foreign_key "assignments_profiles", "zone_job_profiles"
   add_foreign_key "clothes_packs", "clothes"
   add_foreign_key "clothes_packs", "clothing_packages"
-  add_foreign_key "cost_centers", "functions"
-  add_foreign_key "cost_centers", "unit_businesses"
+  add_foreign_key "cost_center_documents", "cost_centers"
+  add_foreign_key "cost_center_documents", "documents"
+  add_foreign_key "cost_centers", "jobs"
+  add_foreign_key "cost_centers", "profiles"
+  add_foreign_key "cost_centers", "zones"
   add_foreign_key "document_renovations", "assignments_documents"
   add_foreign_key "documents", "document_categories"
   add_foreign_key "documents", "expiration_types"

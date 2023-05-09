@@ -1,0 +1,40 @@
+$("#modal-index").html("<%= j (render partial: 'shared/modal', locals:{ size: 'xl', content: 'index' } ) %>")
+
+$(document).ready(function(){
+  assignation_statuses_table = $("#assignation_statuses_table").DataTable({
+    'ajax': `assignation_statuses?d_type=<%= @d_type %>`,
+    'columns': [
+    {'data': 'name'},
+    {'data': 'description'},
+    {'data': 'actions'}
+    ],
+    'language': {'url': datatables_lang}
+  })
+
+	$("#form-job").on("ajax:success", function(event) {
+	    jobs_table.ajax.reload(null,false)
+	    clean_form('form-job')
+	    document.querySelector('#form-job .job_name').innerHTML = ''
+      document.querySelector('#form-job .job_code').innerHTML = ''
+	  }).on("ajax:error", function(event) {
+		let msg = JSON.parse( event.detail[2].response )
+		set_input_status_form('form-job', 'job', msg)
+	})
+
+  $("#form-disable-job").on("ajax:success", function(event) {
+    jobs_table.ajax.reload(null,false)
+    let msj = JSON.parse(event.detail[2].response)
+    noty_alert(msj.status, msj.msg)
+    $("#modal-disable-job").modal('hide')
+  }).on("ajax:error", function(event) {
+    let msj = JSON.parse( event.detail[2].response )
+    $.each( msj, function( key, value ) {
+      $(`#form-disable-job #job_${key}`).addClass('is-invalid')
+      $(`#form-disable-job .job_${key}`).text( value ).show('slow')
+    })
+  })
+
+})
+
+
+$("#modal-index").modal('show')

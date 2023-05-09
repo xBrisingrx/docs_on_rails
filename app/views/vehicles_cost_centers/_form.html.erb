@@ -1,8 +1,9 @@
-<%= form_with(model: @vehicle_state, id: 'form-vehicle-state', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+<%= form_with(model: @vehicle_cost_center, id: 'form-vehicle-cost-center', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+  <%= form.hidden_field :assignated_type, value: 'Vehicle' %>
   <div class="form-group row">
-    <%= form.label :vehicle_id, 'Vehiculo:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <%= form.label :assignated_id, 'Vehiculo:' ,class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:vehicle_id, Vehicle.actives.collect { |e| ["#{e.code}", e.id] }, 
+      <%= form.select(:assignated_id, @vehicles.actives.collect { |e| ["#{e.code}", e.id] }, 
         { include_blank: true},
         required: true,
         class: 'form-control select-2-vehicle') %>
@@ -15,29 +16,18 @@
       <%= form.select(:cost_center_id, @cost_centers.collect { |e| ["#{e.center} #{e.subcenter}", e.id] }, 
         { include_blank: true},
         required: true,
-        class: 'form-control select-2-unit-business') %>
+        class: 'form-control select-2-cc') %>
     <small class="form-control-feedback text-danger "></small>
     </div>
   </div>
 
   <div class="form-group row">
-    <%= form.label :list_states_vehicle_id, 'Estado:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <%= form.label :assignation_status_id, 'Estado:' ,class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:list_states_vehicle_id, ListStatesVehicle.actives.collect { |e| ["#{e.name}", e.id] }, 
+      <%= form.select(:assignation_status_id, @statuses.collect { |e| ["#{e.name}", e.id] }, 
         { include_blank: true},
         required: true,
-        class: 'form-control select-2-unit-business') %>
-    <small class="form-control-feedback text-danger "></small>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= form.label :sub_zone_id, 'Sub centro:' ,class:'col-form-label col-sm-3 col-md-4' %>
-    <div class="col-sm-8 col-lg-6">
-      <%= form.select(:sub_zone_id, SubZone.actives.collect { |e| ["#{e.code}-#{e.name}", e.id] }, 
-        { include_blank: true},
-        required: true,
-        class: 'form-control select-2-unit-business') %>
+        class: 'form-control select-2-statuses') %>
     <small class="form-control-feedback text-danger "></small>
     </div>
   </div>
@@ -47,7 +37,7 @@
     <div class="col-sm-8 col-lg-6">
       <%= form.select(:operator_id, Operator.actives.collect { |e| ["#{e.name}", e.id] }, 
         { include_blank: true},
-        class: 'form-control select-2-unit-business') %>
+        class: 'form-control select-2-operator') %>
     <small class="form-control-feedback text-danger "></small>
     </div>
   </div>
@@ -57,7 +47,7 @@
     <div class="col-sm-8 col-lg-6">
       <%= form.select(:client_id, Client.actives.collect { |e| ["#{e.name}", e.id] }, 
         { include_blank: true},
-        class: 'form-control select-2-unit-business') %>
+        class: 'form-control select-2-client') %>
     <small class="form-control-feedback text-danger "></small>
     </div>
   </div>
@@ -65,17 +55,31 @@
   <div class="form-group row">
     <%= form.label :start_date, 'Desde:', class: "col-form-label col-sm-3 col-md-4" %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.date_field :start_date, class: "form-control u-form-control" %>
+      <%= form.date_field :start_date, class: "form-control u-form-control", required: true %>
     </div>
   </div>
 
   <div class="form-group row">
-    <%= form.label :start_date, 'Hasta:', class: "col-form-label col-sm-3 col-md-4" %>
+    <%= form.label :end_date, 'Hasta:', class: "col-form-label col-sm-3 col-md-4" %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.date_field :start_date, class: "form-control u-form-control" %>
+      <%= form.date_field :end_date, class: "form-control u-form-control", required: true %>
     </div>
   </div>
 
+   <div id="date_message" class="col-12" style="display:none">
+    <!-- Yellow Alert -->
+    <div class="alert alert-dismissible fade show g-bg-yellow rounded-0" role="alert">
+      <div class="media">
+        <span class="d-flex g-mr-10 g-mt-5">
+          <i class="icon-info g-font-size-25"></i>
+        </span>
+        <span id="msg_body" class="media-body align-self-center">
+          
+        </span>
+      </div>
+    </div>
+    <!-- End Yellow Alert -->
+  </div>
   <div class="actions">
     <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
     <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>

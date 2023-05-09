@@ -1,0 +1,25 @@
+$("#modal").html("<%= j (render partial: 'modal_disable', locals:{ cost_center_document_id: @cost_center_document.id } ) %>")
+
+document.querySelector('#document_profile_data').innerHTML = `
+    <ul> 
+      <li><b>Centro de costos:</b> <%= @cost_center_document.cost_center.center%> </li>
+      <li><b>Documento:</b> <%= @cost_center_document.document.name%></li>
+    </ul>
+`
+
+setInputDate('#form-disable-cost-center-document #end_date')
+
+$("#modal").modal('show')
+
+$("#form-disable-cost-center-document").on("ajax:success", function(event) {
+  cost_center_documents_table.ajax.reload(null,false)
+  let msg = JSON.parse(event.detail[2].response)
+  noty_alert(msg.status, msg.msg)
+  $("#modal").modal('hide')
+}).on("ajax:error", function(event) {
+  let msg = JSON.parse( event.detail[2].response )
+  $.each( msg, function( key, value ) {
+    $('#form-disable-cost-center-document #end_date').addClass('is-invalid')
+    $('#form-disable-cost-center-document .end_date').text( value ).show('slow')
+  })
+})

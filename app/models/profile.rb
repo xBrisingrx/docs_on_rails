@@ -19,6 +19,8 @@ class Profile < ApplicationRecord
 	has_many :zone_job_profiles
 	has_many :zones, through: :zone_job_profiles
 	has_many :jobs, through: :zone_job_profiles
+
+	has_many :cost_centers
 	
 	validates :name, presence: true, 
 		uniqueness: { scope: :d_type, case_sensitive: false, message: "Ya existe un perfil registrado con este nombre" }

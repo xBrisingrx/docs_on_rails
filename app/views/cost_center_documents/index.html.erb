@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Cost Center Documents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cost center</th>
+      <th>Document</th>
+      <th>Active</th>
+      <th>D type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cost_center_documents.each do |cost_center_document| %>
+      <tr>
+        <td><%= cost_center_document.cost_center %></td>
+        <td><%= cost_center_document.document %></td>
+        <td><%= cost_center_document.active %></td>
+        <td><%= cost_center_document.d_type %></td>
+        <td><%= link_to 'Show', cost_center_document %></td>
+        <td><%= link_to 'Edit', edit_cost_center_document_path(cost_center_document) %></td>
+        <td><%= link_to 'Destroy', cost_center_document, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Cost Center Document', new_cost_center_document_path %>

@@ -2,8 +2,8 @@
             locals: { table_id: 'assignments_assigned_profiles', 
                       color: 'cyan', 
                       icon: 'fa-address-card-o',
-                      title: "Perfiles asignados a la persona", 
-                      col_names: [ 'Perfil','Fecha inicio vigencia','Fecha fin vigencia', 'Estado' ] }) %>
+                      title: "Centro de costo asignados a la #{@type}", 
+                      col_names: [ 'Centro de costos','Sub centro de costos','Dese','Hasta', 'Estado' ] }) %>
 
 <%= link_to "<i class='fa fa-plus'></i> Asignar un documento".html_safe, 
       new_assignments_document_path(assignated_type: 'Person'), 

@@ -1,0 +1,75 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'xl', content: 'form' } ) %>")
+
+$('.select-profile-document').select2({ width: '100%',theme: "bootstrap4", placeholder: "Puesto - Perfil - Zona" });
+$('.select-document-profile').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione documento"});
+
+setInputDate('#form-cost-center-document #cost_center_document_start_date')
+$("#modal").modal('show')
+
+document.getElementById('add_document_job_profile').addEventListener('click', (e) => {
+  e.preventDefault()
+  let start_date = document.querySelector('#cost_center_document_start_date').value
+  let document_selected = $("#cost_center_document_document_id option:selected")
+  if (start_date != '' && document_selected.val() != '') {
+    document.getElementById('table_list_documents_body').innerHTML += `
+      <tr id='document_${document_selected.val()}' class='add_document'>
+        <td id='td_document' data-value=${document_selected.val()}>${document_selected.text()}</td>
+        <td id='td_start_date' data-value=${start_date}>
+          ${ formatDateAR( start_date ) }
+          <button type='button' onclick="remove_document(${document_selected.val()})" class="btn u-btn-red ml-4"> <i class='fa fa-trash'> </i> </button>
+        </td>
+      </tr>
+    `
+    $('#cost_center_document_document_id option:selected').attr('disabled', 'disabled')
+    $('.select-document-profile').val('').trigger('change')
+  }
+})
+
+function remove_document(document_id) {
+  event.preventDefault()
+  $(`#cost_center_document_document_id option[value='${document_id}']`).attr('disabled', false)
+  document.getElementById(`document_${document_id}`).remove()
+}
+
+document.getElementById('form-cost-center-document').addEventListener('submit', (event) =>{
+  event.preventDefault()
+  event.stopPropagation()
+  const documents = document.getElementsByClassName('add_document')
+
+  
+  let form = new FormData()
+  let data = document.getElementById('table_list_documents')
+  let count_document = 0
+
+  form.append( 'count', documents.length )
+  form.append( 'cost_center_id', event.target.querySelector('#cost_center_document_cost_center_id').value )
+  form.append( 'd_type', event.target.querySelector('#cost_center_document_d_type').value )
+  
+
+  for(let doc of documents) {
+    count_document++
+    form.append( `document_${count_document}`, doc.querySelector('#td_document').dataset.value )
+    form.append( `start_date_${count_document}`, doc.querySelector('#td_start_date').dataset.value )
+  }
+
+  fetch('/cost_center_documents/', {
+      method: 'POST',
+      headers: {           
+        'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+      },
+      body: form
+    }
+  )
+  .then( response => response.json() )
+  .then( response => {
+    if (response.status === 'success') {
+      cost_center_documents_table.ajax.reload(null,false)
+      $("#modal").modal('hide')
+    }
+    noty_alert(response.status, response.msg)
+  } )
+  .catch( error => {
+    noty_alert('error', error)
+    console.log(error)
+  } )
+})

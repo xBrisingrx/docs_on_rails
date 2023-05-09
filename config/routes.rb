@@ -1,5 +1,20 @@
 Rails.application.routes.draw do
-  resources :cost_center_documents
+  resources :assignments_cost_centers do 
+    get 'check_disponibility', on: :collection
+  end
+  resources :assignation_statuses
+    post 'disable_assignation_status', to: 'assignation_statuses#disable', as: 'disable_assignation_status'
+  resources :cost_center_documents do 
+    get 'modal_disable', on: :member
+    get 'modal_reactive', on: :member
+    post 'disable', on: :member
+    post 'reactive', on: :member 
+  end
+  # get 'cost_center_documents/:id/modal_disable', to: 'cost_center_documents#modal_disable', as: 'modal_disable_cost_center_documents'
+  # post 'disable_cost_center_documents', to: 'cost_center_documents#disable', as: 'disable_cost_center_documents'
+  # get 'cost_center_documents/:id/modal_reactive', to: 'cost_center_documents#modal_reactive', as: 'modal_reactive_cost_center_documents'
+  # post 'reactive_cost_center_documents', to: 'cost_center_documents#reactive', as: 'reactive_cost_center_documents'
+
   resources :vehicle_states
   resources :cost_centers
   post 'disable_cost_center', to: 'cost_centers#disable', as: 'disable_cost_center'
@@ -73,6 +88,8 @@ Rails.application.routes.draw do
   
   resources :people_profiles, except: [:destroy, :show]
   resources :vehicles_profiles, except: [:destroy, :show] 
+
+  resources :vehicles_cost_centers, except: [:destroy, :show] 
 
   resources :assignments_profiles, except: [:index, :destroy]
   post 'disable_assignment_profile', to: 'assignments_profiles#disable', as: 'disable_assignment_profile'

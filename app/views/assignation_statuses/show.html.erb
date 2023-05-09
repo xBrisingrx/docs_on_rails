@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @assignation_status.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @assignation_status.description %>
+</p>
+
+<p>
+  <strong>Blocks:</strong>
+  <%= @assignation_status.blocks %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @assignation_status.active %>
+</p>
+
+<%= link_to 'Edit', edit_assignation_status_path(@assignation_status) %> |
+<%= link_to 'Back', assignation_statuses_path %>

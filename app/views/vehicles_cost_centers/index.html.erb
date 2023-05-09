@@ -1,8 +1,8 @@
-<h1>Estado de vehiculos</h1>
+<h1>Listado de vehiculos asignados</h1>
 <div class="row justify-content-between">
   <div class="col-4">
-    <%= link_to "<i class='fa fa-plus'></i> Asignar vehiculo".html_safe, new_vehicle_state_path(),
-          remote: true, data: { toggle: :modal, target: '#modal' }, 
+    <%= link_to "<i class='fa fa-plus'></i> Asignar vehiculo".html_safe, new_vehicles_cost_center_path(),
+          remote: true, 
           class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
   </div>
   <div class="col-4">
@@ -15,11 +15,12 @@
 
 
 <%= render( partial: 'shared/table', 
-            locals: { table_id: 'vehicle_states', 
+            locals: { table_id: 'vehicles_cost_centers', 
                       color: 'blue', 
                       icon: 'fa-gear',
                       title: "", 
-                      col_names: [ 'Interno', 'Dominio', 'Estado', 'Empresa', 'Centro de costo', 'Subcentro', 'Operadora','Cliente' ] }) %>
+                      col_names: [ 'Interno', 'Dominio', 'Estado', 'Empresa', 'Centro de costo', 'Subcentro', 'Operadora','Cliente', 'Desde', 'Hasta' ] }) %>
+
 <!-- Modal para eliminar cost_center -->
 <div class="modal fade" id="modal-disable-cost_center" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

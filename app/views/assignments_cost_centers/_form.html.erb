@@ -1,0 +1,57 @@
+<%= form_with(model: @assignments_cost_center, local: true) do |form| %>
+  <% if assigments_cost_center.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(assigments_cost_center.errors.count, "error") %> prohibited this assigments_cost_center from being saved:</h2>
+
+      <ul>
+      <% assigments_cost_center.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :cost_center_id %>
+    <%= form.text_field :cost_center_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :assignated_id %>
+    <%= form.text_field :assignated_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :operator %>
+    <%= form.text_field :operator %>
+  </div>
+
+  <div class="field">
+    <%= form.label :client_id %>
+    <%= form.text_field :client_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :active %>
+    <%= form.check_box :active %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_date %>
+    <%= form.date_select :start_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_date %>
+    <%= form.date_select :end_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :assignation_status_id %>
+    <%= form.text_field :assignation_status_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

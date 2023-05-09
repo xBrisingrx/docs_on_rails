@@ -38,6 +38,9 @@
 //= require cost_centers
 //= require vehicle_states
 //= require zones
+//= require cost_center_documents
+//= require assignation_statuses
+//= require vehicles_cost_centers
 
 $(document).on('ready', function () {
   // initialization of header

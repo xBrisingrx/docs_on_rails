@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Cost center:</strong>
+  <%= @cost_center_document.cost_center %>
+</p>
+
+<p>
+  <strong>Document:</strong>
+  <%= @cost_center_document.document %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @cost_center_document.active %>
+</p>
+
+<p>
+  <strong>D type:</strong>
+  <%= @cost_center_document.d_type %>
+</p>
+
+<%= link_to 'Edit', edit_cost_center_document_path(@cost_center_document) %> |
+<%= link_to 'Back', cost_center_documents_path %>

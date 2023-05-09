@@ -112,5 +112,5 @@ function hide_table( table_id ) {
 }
 
 function close_modal( modal_id) {
-  $(`$${modal_id}`).modal('hide')
+  $(`#${modal_id}`).modal('hide')
 }

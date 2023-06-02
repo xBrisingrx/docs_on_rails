@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   # get 'cost_center_documents/:id/modal_reactive', to: 'cost_center_documents#modal_reactive', as: 'modal_reactive_cost_center_documents'
   # post 'reactive_cost_center_documents', to: 'cost_center_documents#reactive', as: 'reactive_cost_center_documents'
 
-  resources :vehicle_states
+  resources :vehicle_states do 
+    get 'check_dates', on: :collection
+  end
   resources :cost_centers
   post 'disable_cost_center', to: 'cost_centers#disable', as: 'disable_cost_center'
   resources :people_clothes, only: [:index, :show,:new, :create, :edit, :update]

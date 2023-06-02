@@ -16,6 +16,8 @@ $(document).ready(function(){
     {'data': 'code'},
     {'data': 'domain'},
     {'data': 'status'},
+    {'data': 'start_date'},
+    {'data': 'end_date'},
     {'data': 'company'},
     {'data': 'cost_center'},
     {'data': 'sub_center'},

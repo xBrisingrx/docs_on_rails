@@ -24,7 +24,6 @@ class VehicleStatesController < ApplicationController
   # POST /vehicle_states or /vehicle_states.json
   def create
     @vehicle_state = VehicleState.new(vehicle_state_params)
-
     respond_to do |format|
       if @vehicle_state.save
         format.json { render json: { status: 'success', msg: 'Exito'}, status: :created }
@@ -59,6 +58,17 @@ class VehicleStatesController < ApplicationController
     end
   end
 
+  def check_dates
+    state = VehicleState.check_dates(params[:vehicle_id],params[:start_date], params[:end_date])
+    if state.blank?
+      render json: { status: 'available' }
+    else
+      msg = ''
+      msg = state.map { |s| msg.concat("<li>La unidad se encuentra de <b>#{ s.assignation_status.name }</b> desde <b>#{s.start_date.strftime('%d-%m-%y')}</b> hasta <b>#{s.end_date.strftime('%d-%m-%y')}</b></li>") }
+      render json: { status: 'not_available', msg: msg }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_vehicle_state
@@ -67,7 +77,11 @@ class VehicleStatesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def vehicle_state_params
-      params.require(:vehicle_state).permit(:vehicle_id, :cost_center_id, :sub_zone_id, 
-        :list_states_vehicle_id, :operator_id, :client_id, :start_date, :end_date)
+      params.require(:vehicle_state).permit(:vehicle_id, 
+        :cost_center_id, :sub_zone_id, 
+        :assignation_status_id, :operator_id, 
+        :client_id, :start_date, :end_date,
+        vehicle_state_clients_attributes: [ :id, :client_id ],
+        vehicle_state_operators_attributes: [ :id, :operator_id ])
     end
 end

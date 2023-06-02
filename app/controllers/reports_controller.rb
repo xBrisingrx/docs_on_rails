@@ -31,27 +31,30 @@ class ReportsController < ApplicationController
 	def matriz_vehicles
 		@column_titles = ['INT', 'DOMINIO', 'ESTADO', 'EMPRESA', 'Centro de costos', 'Subcentro', 'CC DES', 'SUB-DES']
 		@index_name = {'code'=> '' , 'domain'=> '', 'status' => '', 'company' => '', 'cost_center' => '', 'sub_center' => '', 'cc_des' => '' }
-		@data = []
+		@data = Array.new
 		@vehicles = Vehicle.actives
 		vehicles_cost_centers = AssignmentsCostCenter.where(assignated_type: 'Vehicle')
 		@documents = Document.where(d_type: :vehicles).actives.pluck(:id, :name)
 		@title = 'Matriz vehiculos final'
 		@documents.map { |document|
-			@index_name["#{document[0]}"] = ''
+			@index_name["#{document[0]}"] = 'No cargado'
 			@column_titles << document[1]
 		} 
 
-		row = @index_name
+		row = @index_name.clone
 		vehicles_cost_centers.map { |cc|
-			byebug
+			puts "\n\n un pase \n\n "
 			row['code'] = cc.assignated.code
 			row['domain'] = cc.assignated.domain 
+			row['company'] = cc.assignated.company.name
+			row['cost_center'] = cc.cost_center.center
 			cc.cost_center.documents.actives.map { |document|
 				renovation = cc.assignated.assignments_documents.find_by( assignated: cc.assignated, document_id: document.id ).last_renovation
-				row["#{document.id}"] = ( renovation ) ? renovation : 'No cargado'
+				row["#{document.id}"] = ( renovation ) ? renovation.expiration_date : 'No cargado'
 			}
-			@data << row
-			row = @index_name
+			@data.push(row) 
+			row = @index_name.clone
 		}
 	end
+
 end

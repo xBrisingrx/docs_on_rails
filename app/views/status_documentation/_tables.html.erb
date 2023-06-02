@@ -3,7 +3,7 @@
                       color: 'cyan', 
                       icon: 'fa-address-card-o',
                       title: "Centro de costo asignados a la #{@type}", 
-                      col_names: [ 'Centro de costos','Sub centro de costos','Dese','Hasta', 'Estado' ] }) %>
+                      col_names: [ 'Centro de costos','Sub centro de costos','Desde','Hasta', 'Estado' ] }) %>
 
 <%= link_to "<i class='fa fa-plus'></i> Asignar un documento".html_safe, 
       new_assignments_document_path(assignated_type: 'Person'), 

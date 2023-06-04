@@ -12,6 +12,9 @@
 #  d_type     :integer          not null
 #
 class CostCenter < ApplicationRecord
+  # un centro de costos se compone de un perfil, puesto laboral y zona
+  # cada centro de acostos tiene asociada documentacion
+  # cuando a una unidad/persona se la asgina a un centro de costos , ahi le asignamos los documentos del centro de costos
   belongs_to :profile
   belongs_to :job
   belongs_to :zone
@@ -22,6 +25,10 @@ class CostCenter < ApplicationRecord
     people: 1, 
     vehicles: 2
   }
+
+  validates :profile, uniqueness: { 
+    scope: [:job_id, :zone_id],
+    message: 'Este centro de costos ya se encuentra registrado' }
 
   scope :actives, -> { where(active: true) }
   

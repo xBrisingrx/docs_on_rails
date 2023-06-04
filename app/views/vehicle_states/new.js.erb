@@ -84,7 +84,7 @@ function vehicle_state_form(){
   form.append('vehicle_state[vehicle_id]', $('#vehicle_state_vehicle_id option:selected').val() )
   form.append('vehicle_state[cost_center_id]', $('#vehicle_state_cost_center_id option:selected').val() )
   form.append('vehicle_state[assignation_status_id]', $('#vehicle_state_assignation_status_id option:selected').val() )
-  form.append('vehicle_state[sub_zone_id]', $('#vehicle_state_sub_zone_id option:selected').val() )
+  // form.append('vehicle_state[sub_zone_id]', $('#vehicle_state_sub_zone_id option:selected').val() )
 
   const operators = Array.from( document.getElementsByClassName('operator-to-add') )
   operators.map( (operator,index) => {

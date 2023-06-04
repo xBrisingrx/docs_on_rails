@@ -33,15 +33,17 @@ class VehicleState < ApplicationRecord
   validates :end_date, presence: !:start_date.blank?
 
   validate :vehicle_blocked, :create_blocked_state, :valid_dates
- 
+  after_create :update_documents
+  before_validation :set_sub_zone
   accepts_nested_attributes_for :vehicle_state_clients, :vehicle_state_operators
 
   scope :actives, -> { where(active: true) }
 
   def self.check_dates(vehicle_id, start_date, end_date)
-    VehicleState
-      .where( 'vehicle_states.vehicle_id': vehicle_id )
-      .where('vehicle_states.start_date BETWEEN ? AND ?', start_date, end_date)
+    state = VehicleState.where( 'vehicle_states.vehicle_id': vehicle_id )
+
+
+      state.where('vehicle_states.start_date BETWEEN ? AND ?', start_date, end_date)
       .or(VehicleState.where('vehicle_states.end_date BETWEEN ? AND ?', start_date, end_date))
   end
 
@@ -77,6 +79,26 @@ class VehicleState < ApplicationRecord
 
   def valid_dates
     errors.add(:start_date, "La fecha de inicio no puede ser mayor a la de fin") if self.start_date > self.end_date
+  end
+
+  def update_documents
+    
+    assignment = AssignmentsCostCenter.where( cost_center_id: self.cost_center_id, 
+      assignated: self.vehicle )
+    byebug
+    if assignment.blank?
+      puts 'blank'
+      AssignmentsCostCenter.create( cost_center_id: self.cost_center_id, 
+      assignated: self.vehicle )
+    else
+      puts 'update'
+      assignment.assign_documents
+    end
+    byebug
+  end
+
+  def set_sub_zone
+    self.sub_zone_id = self.cost_center.zone.id
   end
 
 end

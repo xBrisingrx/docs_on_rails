@@ -13,10 +13,10 @@
             </button>
             <!-- End Responsive Toggle Button -->
             <!-- Logo -->
-            <% link_to root_path, class: 'navbar-brand mr-4' do %>
-              <%# image_tag('logo.png', alt: 'Logo') %>
+            <%= link_to root_path, class: 'navbar-brand mr-4' do %>
+              <%= image_tag('logo_etap.png', alt: 'Logo') %>
             <% end %>
-            <%= link_to '<i class="fa fa-bus g-font-size-42"> </i>'.html_safe, root_path %>
+            <%# link_to '<i class="fa fa-bus g-font-size-42"> </i>'.html_safe, root_path %>
             <!-- End Logo -->
 
             <!-- Navigation -->
@@ -48,7 +48,7 @@
                     <li><%= link_to 'Admin. puestos laborales', jobs_path( d_type: :vehicles ) %></li>
                     <li><%= link_to 'Admin. perfiles', profiles_path( d_type: :vehicles ) %></li>
                     <li><%= link_to 'Admin. documentos', documents_path( d_type: :vehicles ) %></li>
-                    <li><%= link_to 'Asignación de perfiles', vehicles_profiles_path() %></li>
+                    <!-- <li><%# link_to 'Asignación de perfiles', vehicles_profiles_path() %></li> -->
                     <li><%= link_to 'Admin. motivos de baja', reasons_to_disables_path(d_type: :vehicles) %></li>
                     <li><%= link_to 'Seguros', insurances_path() %></li>
                     <li><%= link_to 'Centros de costos', cost_centers_path(d_type: :vehicles) %></li>

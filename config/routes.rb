@@ -118,5 +118,6 @@ Rails.application.routes.draw do
     get 'people', on: :collection
     get 'matriz', on: :collection
     get 'matriz_vehicles', on: :collection
+    get 'matriz_vehicles_mail', on: :collection
   end
 end

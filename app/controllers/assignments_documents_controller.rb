@@ -65,7 +65,7 @@ class AssignmentsDocumentsController < ApplicationController
         document: d.document.name,
         category: d.document.document_category.name,
         expire: d.document.expires? ? 'Si' : 'No',
-        expire_date: (d.last_renovation) ? d.last_renovation.expiration_date.strftime('%d-%m-%y') : '',
+        expire_date: d.last_renovation_date,
         last_renovation: d.last_renovation,
         has_renovations: d.has_renovations?,
         custom: false

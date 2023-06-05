@@ -1,0 +1,127 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form' } ) %>")
+
+$('.select-2-assignated').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione vehiculo (*)" })
+$('.select-2-unit-business').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione tipo (*)" })
+$('.select-2-unit-state').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione estado (*)" })
+$('.select-2-sub-zone').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione sub centro (*)" })
+$('.select-2-operator').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione operadora (*)" })
+$('.select-2-client').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione cliente (*)" })
+
+$("#modal").modal('show')
+
+document.getElementById('add_operator').addEventListener('click', e => {
+  e.preventDefault()
+  let operator = document.querySelector('#assignment_operator_id').options[document.querySelector('#assignment_operator_id').selectedIndex]
+  if ( operator.value == '') {
+    noty_alert('info', 'Seleccione operadora')
+    return
+  }
+  document.getElementById('operators-list').innerHTML += `<li class='operator-to-add' data-id=${operator.value}>${operator.text}</li>`
+  document.getElementById('operators-list').style.display = ''
+
+  $('#assignment_operator_id option:selected').attr('disabled', 'disabled')
+  $('.select-2-operator').val('').trigger('change')
+})
+
+document.getElementById('add_client').addEventListener('click', e => {
+  e.preventDefault()
+  let client = document.querySelector('#assignment_client_id').options[document.querySelector('#assignment_client_id').selectedIndex]
+  if ( client.value == '') {
+    noty_alert('info', 'Seleccione cliente')
+    return
+  }
+  document.getElementById('clients-list').innerHTML += `<li class='client-to-add' data-id=${client.value}>${client.text}</li>`
+  document.getElementById('clients-list').style.display = ''
+  
+  $('#assignment_client_id option:selected').attr('disabled', 'disabled')
+  $('.select-2-client').val('').trigger('change')
+
+})
+
+
+document.getElementById('form-assignment').addEventListener('submit', e => {
+  e.preventDefault()
+  e.stopPropagation()
+  
+  check_vahicle_state_dates()
+
+  if (!assignment_form_valid()) {
+    return
+  }
+  fetch('/assignments', {
+    method: 'POST',
+    headers: {           
+        'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+      },
+      body: assignment_form()
+  })
+  .then( response => response.json() )
+  .then( response => {
+    if (response.status === 'success') {
+      noty_alert(response.status, response.msg)
+      assignments_vehicles_table.ajax.reload(null,false)
+      $("#modal").modal('hide')
+    } else {
+      set_input_status_form('form-assignment', 'assignment', response)
+    }
+  })
+})
+
+function assignment_form(){
+  let form = new FormData()
+  form.append('assignment[assignated_type]', document.getElementById('assignment_assignated_type').value )
+  form.append('assignment[assignated_id]', $('#assignment_assignated_id option:selected').val() )
+  form.append('assignment[start_date]', document.getElementById('assignment_start_date').value )
+  form.append('assignment[end_date]', document.getElementById('assignment_end_date').value )
+  form.append('assignment[cost_center_id]', $('#assignment_cost_center_id option:selected').val() )
+  form.append('assignment[assignation_status_id]', $('#assignment_assignation_status_id option:selected').val() )
+
+  const operators = Array.from( document.getElementsByClassName('operator-to-add') )
+  operators.map( (operator,index) => {
+    form.append(`assignment[assignment_operators_attributes][${index}][operator_id]`, operator.dataset.id )
+  } )
+
+  const clients = Array.from( document.getElementsByClassName('client-to-add') )
+  clients.map( (client,index) => {
+    form.append(`assignment[assignment_clients_attributes][${index}][client_id]`, client.dataset.id )
+  } )
+  return form
+}
+
+function assignment_form_valid(){
+   return true
+}
+
+document.getElementById('assignment_start_date').addEventListener('change', e => {
+  check_vahicle_state_dates()
+})
+
+document.getElementById('assignment_end_date').addEventListener('change', e => {
+  check_vahicle_state_dates()
+})
+
+function check_vahicle_state_dates(){
+  const assignated_id = $('#assignment_assignated_id option:selected').val()
+  const assignated_type = $('#assignment_assignated_type').val()
+  const start_date = document.getElementById('assignment_start_date').value
+  const end_date = document.getElementById('assignment_end_date').value
+  if (start_date != '' && end_date != '') {
+    fetch(`/assignments/check_dates?assignated_type=${assignated_type}&assignated_id=${assignated_id}&start_date=${start_date}&end_date=${end_date}`)
+      .then( response => response.json())
+      .then( response => {
+        if (response.status == 'not_available') {
+          document.querySelector('#form-assignment .info-messages').innerHTML = `
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              Tenga en cuenta que:
+              <ul>${response.msg[0]}</ul>
+            </div>
+          `
+        } else {
+          document.querySelector('#form-assignment .info-messages').innerHTML = ''
+        }
+      })
+  }
+}

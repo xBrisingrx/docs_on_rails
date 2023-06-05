@@ -2,8 +2,7 @@
   Default Styles
 ------------------------------------*/
 html {
-  font-size: 14px;
-}
+  font-size: 14px; }
 
 body {
   font-weight: 400;
@@ -15,43 +14,35 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -moz-font-feature-settings: "liga", "kern";
   text-rendering: optimizelegibility;
-  background-color: #fff;
-}
+  background-color: #fff; }
 
 a {
-  color: #3398dc;
-  outline: none;
-}
+  color: #a663cc;
+  outline: none; }
 
 a:focus,
 a:hover {
-  color: #248cd2;
-}
+  color: #9b50c6; }
 
 .nav-link {
-  color: #555;
-}
+  color: #555; }
 
 .nav-link:focus,
 .nav-link:hover {
-  color: #555;
-}
+  color: #555; }
 
 figure {
-  margin-bottom: 0;
-}
+  margin-bottom: 0; }
 
 /*------------------------------------
   Headings
 ------------------------------------*/
 .h1, .h2, .h3, .h4, .h5, .h6, .h7,
 h1, h2, h3, h4, h5, h6 {
-  line-height: 1.4;
-}
+  line-height: 1.4; }
 
 .h7 {
-  font-size: 0.75rem;
-}
+  font-size: .75rem; }
 
 /*------------------------------------
   Displays
@@ -59,30 +50,25 @@ h1, h2, h3, h4, h5, h6 {
 .display-5 {
   font-size: 3rem;
   font-weight: 300;
-  line-height: 1.1;
-}
+  line-height: 1.1; }
 
 /*------------------------------------
   Highlight Color
 ------------------------------------*/
 ::-moz-selection {
   color: #fff;
-  background-color: #3398dc;
-}
+  background-color: #a663cc; }
 
 ::selection {
   color: #fff;
-  background-color: #3398dc;
-}
+  background-color: #a663cc; }
 
 .g-bg-primary ::-moz-selection {
-  color: #3398dc;
-  background-color: #fff;
-}
+  color: #a663cc;
+  background-color: #fff; }
 
 .g-bg-primary ::selection {
-  color: #3398dc;
-  background-color: #fff;
-}
+  color: #a663cc;
+  background-color: #fff; }
 
 /*# sourceMappingURL=unify-core.css.map */

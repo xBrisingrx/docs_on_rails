@@ -33,6 +33,8 @@ class Person < ApplicationRecord
   has_many :activity_histories, as: :record
   has_many :people_clothes
   has_many :clothes, through: :people_clothes
+  has_many :assignments, as: :assignated # asignaciones a este vehiculo
+  has_many :cost_centers, through: :assignments
 
   validates :file, presence: true, uniqueness: { message: "Este legajo pertenece a otra persona" }
   validates :name, presence: true, length: { minimum: 3, too_short: "Minimo son %{count} caracteres." }

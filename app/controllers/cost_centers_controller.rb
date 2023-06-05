@@ -3,6 +3,7 @@ class CostCentersController < ApplicationController
 
   # GET /cost_centers or /cost_centers.json
   def index
+    @title = 'Centros de costos'
     @cost_centers = CostCenter.actives.where(d_type: params[:d_type])
   end
 

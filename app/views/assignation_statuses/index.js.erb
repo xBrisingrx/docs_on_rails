@@ -2,7 +2,7 @@ $("#modal-index").html("<%= j (render partial: 'shared/modal', locals:{ size: 'x
 
 $(document).ready(function(){
   assignation_statuses_table = $("#assignation_statuses_table").DataTable({
-    'ajax': `assignation_statuses?d_type=<%= @d_type %>`,
+    'ajax': `/assignation_statuses?d_type=<%= @d_type %>`,
     'columns': [
     {'data': 'name'},
     {'data': 'description'},

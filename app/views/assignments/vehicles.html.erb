@@ -1,0 +1,25 @@
+<h1>Estado de vehiculos</h1>
+<div class="row justify-content-between">
+  <div class="col-4">
+    <%= link_to "<i class='fa fa-plus'></i> Asignar vehiculo".html_safe, new_assignment_path(assignated_type: 'vehicle'),
+          remote: true, data: { toggle: :modal, target: '#modal' }, 
+          class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+  </div>
+  <div class="col-4">
+    <%= link_to "<i class='fa fa-circle-o-notch'></i> Ver estados".html_safe, 
+          assignation_statuses_path( d_type: :vehicles ),
+          remote: true, 
+          class: 'btn u-btn-outline-blue u-btn-hover-v1-2 mb-2' %>
+    <%= link_to "<i class='fa fa-plus'></i> Reporte".html_safe, matriz_vehicles_reports_path(format: :xlsx ), class: 'btn u-btn-outline-pink u-btn-hover-v1-2 mb-2 ml-2'%>
+  </div>
+</div>
+
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'assignments_vehicles', 
+                      color: 'blue', 
+                      icon: 'fa-gear',
+                      title: "", 
+                      col_names: @table_cols }) %>
+
+<div class="modal fade" id="modal-index" tabindex="-1" role="dialog"></div>

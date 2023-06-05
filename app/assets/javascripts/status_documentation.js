@@ -1,4 +1,4 @@
-let assignments_assigned_profiles, assignments_assigned_documents, assignments_vehicle_profiles, assignments_vehicle_documents
+let assignments_assigned_cost_centers, assignments_assigned_documents, assignments_vehicle_profiles, assignments_vehicle_documents
 const status_documentation = {
 	populate_with_person_data: ()=> {
 		let person_id = document.getElementById("person_select").value
@@ -67,8 +67,8 @@ const status_documentation = {
 
 				$('#person_information').show('slow')
 				document.getElementById("form_people_documentation").reset()
-				assignments_assigned_profiles.ajax.url(`/assignments_profiles/${person_id}?assignated=person`)
-				assignments_assigned_profiles.ajax.reload(null,false)
+				assignments_assigned_cost_centers.ajax.url(`/assignments/${person_id}?assignated=person`)
+				assignments_assigned_cost_centers.ajax.reload(null,false)
 				
 				assignments_assigned_documents.ajax.url(`/assignments_documents/${person_id}?assignated=person`)
 				assignments_assigned_documents.ajax.reload(null,false)
@@ -94,8 +94,8 @@ const status_documentation = {
 
 				$('#vehicle_information').show('slow')
 				document.getElementById("form_vehicle_documentation").reset()
-				assignments_assigned_profiles.ajax.url(`/assignments_cost_centers/${vehicle_id}?assignated=vehicle`)
-				assignments_assigned_profiles.ajax.reload(null,false)
+				assignments_assigned_cost_centers.ajax.url(`/assignments/${vehicle_id}?assignated=vehicle`)
+				assignments_assigned_cost_centers.ajax.reload(null,false)
 				
 				assignments_assigned_documents.ajax.url(`/assignments_documents/${vehicle_id}?assignated=vehicle`)
 				assignments_assigned_documents.ajax.reload(null,false)
@@ -111,7 +111,7 @@ $(document).ready(function(){
 		
 		let select_placeholder = ( document.getElementById('assigned_type').value == 'people' ) ? 'Seleccione persona' : 'Seleccione interno'
 		$('.assigned_select_data').select2({ width: '100%',theme: "bootstrap4", placeholder: select_placeholder })
-		assignments_assigned_profiles = $("#assignments_assigned_profiles_table").DataTable({
+		assignments_assigned_cost_centers = $("#assignments_assigned_cost_centers_table").DataTable({
 			"columnDefs": [
 		    { "width": "40%", "targets": 0 }
 		  ],

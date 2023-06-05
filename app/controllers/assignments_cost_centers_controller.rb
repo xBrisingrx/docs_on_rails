@@ -50,16 +50,6 @@ class AssignmentsCostCentersController < ApplicationController
     end
   end
 
-  # DELETE /assignments_cost_centers/1 or /assignments_cost_centers/1.json
-  def destroy
-    @assignments_cost_center.destroy
-
-    respond_to do |format|
-      format.html { redirect_to assignments_cost_centers_url, notice: "Assigments cost center was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
   def check_disponibility
     assignment = AssignmentsCostCenter.where( assignated_id: params[:assignated_id]) 
       .where(assignated_type: params[:assignated_type])
@@ -77,6 +67,17 @@ class AssignmentsCostCentersController < ApplicationController
     end
   end
 
+  def check_dates
+    state = VehicleState.check_dates(params[:vehicle_id],params[:start_date], params[:end_date])
+    if state.blank?
+      render json: { status: 'available' }
+    else
+      msg = ''
+      msg = state.map { |s| msg.concat("<li>La unidad se encuentra de <b>#{ s.assignation_status.name }</b> desde <b>#{s.start_date.strftime('%d-%m-%y')}</b> hasta <b>#{s.end_date.strftime('%d-%m-%y')}</b></li>") }
+      render json: { status: 'not_available', msg: msg }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_assignments_cost_center
@@ -86,6 +87,8 @@ class AssignmentsCostCentersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def assignments_cost_center_params
       params.require(:assignments_cost_center).permit(:cost_center_id, :assignated_id, :assignated_type, :operator_id, 
-        :client_id, :active, :start_date, :end_date, :assignation_status_id)
+        :client_id, :active, :start_date, :end_date, :assignation_status_id,
+        vehicle_state_clients_attributes: [ :id, :client_id ],
+        vehicle_state_operators_attributes: [ :id, :operator_id ])
     end
 end

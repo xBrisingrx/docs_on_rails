@@ -10,10 +10,13 @@
 #  active         :boolean          default(TRUE)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  end_date       :date
 #
 class CostCenterDocument < ApplicationRecord
   belongs_to :cost_center
   belongs_to :document
+  validates :cost_center_id, uniqueness: {scope: :document_id}
+  after_create :update_asociations
 
   scope :actives, -> { where(active: true) }
 
@@ -30,10 +33,10 @@ class CostCenterDocument < ApplicationRecord
 
 
   def update_asociations
-    # Si le asigno un documento a un perfil se debe asignar dichos documentos a los asociados
+    # Si le asigno un documento a un centro de costos se debe asignar dichos documentos a los asociados
+    # los asociados estan conectados al centro de costros a travez del modelo asignacion
     @documents = CostCenter.find( self.cost_center_id ).documents
-    @assigned_cost_center = AssignmentsCostCenter.where(cost_center_id: self.cost_center_id).actives
-
+    @assigned_cost_center = Assignment.where(cost_center_id: self.cost_center_id).where( 'end_date >= ?' , Time.now.to_date).actives
     ActiveRecord::Base.transaction do
       @assigned_cost_center.each do |assignated|
         @documents.each do |document|
@@ -55,7 +58,7 @@ class CostCenterDocument < ApplicationRecord
   def disable end_date
     ActiveRecord::Base.transaction do
       self.update(active: false, end_date: end_date)
-      affected = AssignmentsCostCenter.where(cost_center_id: self.cost_center_id, active: true)
+      affected = Assignment.where(cost_center_id: self.cost_center_id).actives
 
       affected.each do |entry|
         puts "\n\n\n shared docs => #{entry.shared_document(self.document_id)} \n\n\n\n"
@@ -73,9 +76,9 @@ class CostCenterDocument < ApplicationRecord
   def reactive start_date
     ActiveRecord::Base.transaction do
       self.update(active: true, start_date: start_date)
-      affected = AssignmentsCostCenter.where(cost_center_id: self.cost_center_id, active: true)
+      affected = Assignment.where(cost_center_id: self.cost_center_id, active: true).where( 'end_date >= ?' , Time.now.to_date)
       affected.each do |entry|
-        entry_to_reactive = AssignmentsDocument.find_by( assignated_id: entry.assignated_id, assignated_type: entry.assignated_type, document_id: self.document_id )
+        entry_to_reactive = AssignmentsDocument.find_by( assignated: entry.assignated, document_id: self.document_id )
         if !entry_to_reactive.custom
           entry_to_reactive.update( active: true, start_date: start_date)
         end

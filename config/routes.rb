@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
+  resources :assignments do 
+    get 'vehicles', on: :collection
+    get 'poeple', on: :collection
+    get 'check_dates', on: :collection
+  end
   resources :assignments_cost_centers do 
     get 'check_disponibility', on: :collection
+    get 'asignaciones_vehiculos', on: :collection
   end
-  resources :assignation_statuses
+  resources :assignation_statuses, except: [:destroy, :show]
     post 'disable_assignation_status', to: 'assignation_statuses#disable', as: 'disable_assignation_status'
   resources :cost_center_documents do 
     get 'modal_disable', on: :member
@@ -10,10 +16,6 @@ Rails.application.routes.draw do
     post 'disable', on: :member
     post 'reactive', on: :member 
   end
-  # get 'cost_center_documents/:id/modal_disable', to: 'cost_center_documents#modal_disable', as: 'modal_disable_cost_center_documents'
-  # post 'disable_cost_center_documents', to: 'cost_center_documents#disable', as: 'disable_cost_center_documents'
-  # get 'cost_center_documents/:id/modal_reactive', to: 'cost_center_documents#modal_reactive', as: 'modal_reactive_cost_center_documents'
-  # post 'reactive_cost_center_documents', to: 'cost_center_documents#reactive', as: 'reactive_cost_center_documents'
 
   resources :vehicle_states do 
     get 'check_dates', on: :collection

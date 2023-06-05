@@ -40,6 +40,14 @@ class CostCenter < ApplicationRecord
     "#{self.zone.name} (#{self.zone.code})"
   end
 
+  def number_center
+    "#{self.job.code} - #{self.profile.code}"
+  end
+
+  def name_center
+    "#{self.job.name} - #{self.profile.name}"
+  end
+
   def self.cost_center_order d_type
     CostCenter.joins(:profile, :job, :zone)
       .where(cost_centers: { d_type: d_type })

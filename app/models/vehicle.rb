@@ -24,8 +24,10 @@ class Vehicle < ApplicationRecord
   belongs_to :vehicle_location
   has_one :vehicle_brand, through: :vehicle_model
   belongs_to :company
-  has_many :assignments_profiles, as: :assignated # relacion entre perfil y vehiculo
-  has_many :assignments_cost_centers, as: :assignated # relacion entre cost_center y vehiculo
+  # has_many :assignments_profiles, as: :assignated # relacion entre perfil y vehiculo
+  has_many :assignments, as: :assignated # asignaciones a este vehiculo
+  # has_many :assignments_cost_centers, as: :assignated # relacion entre cost_center y vehiculo
+  has_many :cost_centers, through: :assignments
   has_many :profiles, through: :assignments_profiles
   has_many :assignments_documents, as: :assignated
   has_many :documents, through: :assignments_documents

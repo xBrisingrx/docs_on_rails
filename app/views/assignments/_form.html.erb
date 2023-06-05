@@ -1,0 +1,93 @@
+<%= form_with(model: @assignment, id: 'form-assignment', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+  <%= form.hidden_field :assignated_type, value: @assignated_type %>
+  <div class="form-group row">
+    <%= form.label :vehicle_id, 'Vehiculo:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:assignated_id, @assignateds.collect { |e| ["#{e.code}", e.id] }, 
+        { include_blank: true},
+        required: true,
+        class: 'form-control select-2-assignated') %>
+    <small class="form-control-feedback text-danger "></small>
+    </div>
+  </div>
+ <div class="form-group row">
+    <%= form.label :cost_center_id, 'Centro de costos:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:cost_center_id, @cost_centers.collect { |e| ["#{e.center} #{e.subcenter}", e.id] }, 
+        { include_blank: true},
+        required: true,
+        class: 'form-control select-2-unit-business') %>
+    <small class="form-control-feedback text-danger assignment_cost_center_id"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :assignation_status_id, 'Estado:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:assignation_status_id, @assignation_statuses.collect { |e| ["#{e.name}", e.id] }, 
+        { include_blank: true},
+        required: true,
+        class: 'form-control select-2-unit-state') %>
+    <small class="form-control-feedback text-danger assignment_assignation_status_id"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :operator_id, 'Operadora:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:operator_id, Operator.actives.order(:name).collect { |e| ["#{e.name}", e.id] }, 
+        { include_blank: true},
+        class: 'form-control select-2-operator') %>
+    <small class="form-control-feedback text-danger "></small>
+    </div>
+    <div class="col-2">
+      <button id="add_operator" type="button" class="btn u-btn-primary"><i class="fa fa-plus"></i></button>
+    </div>
+  </div>
+
+  <div class="row">
+    <ul id="operators-list" class="col-3 offset-md-4 offset-sm-3" style="display:none;"></ul>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :client_id, 'Cliente:' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:client_id, Client.actives.order(:name).collect { |e| ["#{e.name}", e.id] }, 
+        { include_blank: true},
+        class: 'form-control select-2-client') %>
+    <small class="form-control-feedback text-danger "></small>
+    </div>
+    <div class="col-2">
+      <button id="add_client" type="button" class="btn u-btn-pink"><i class="fa fa-plus"></i></button>
+    </div>
+  </div>
+
+  <div class="row">
+    <ul id="clients-list" class="col-3 offset-md-4 offset-sm-3" style="display:none;"></ul>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :start_date, 'Desde:', class: "col-form-label col-sm-3 col-md-4" %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.date_field :start_date, class: "form-control u-form-control" %>
+      <small class="form-control-feedback text-danger assignment_start_date"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :end_date, 'Hasta:', class: "col-form-label col-sm-3 col-md-4" %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.date_field :end_date, class: "form-control u-form-control" %>
+      <small class="form-control-feedback text-danger assignment_end_date"></small>
+    </div>
+  </div>
+  <div class="info-messages"></div>
+  <div class="text-center">
+    <small class="form-control-feedback text-danger assignment_base"></small>
+  </div>
+  
+  <div class="actions mt-2">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

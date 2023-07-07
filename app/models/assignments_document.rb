@@ -43,12 +43,12 @@ class AssignmentsDocument < ApplicationRecord
   end
 
   def last_renovation
-    self.document_renovations.actives.order(expiration_date: :ASC).first
+    self.document_renovations.actives.order(expiration_date: :DESC).first
   end
 
   def last_renovation_date
     return '' if !self.document.expires?
-    renovation = self.document_renovations.actives.order(expiration_date: :ASC).first
+    renovation = self.document_renovations.actives.order(expiration_date: :DESC).first
 
     if renovation.blank?
       ''

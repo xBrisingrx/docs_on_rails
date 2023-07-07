@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_09_083546) do
+ActiveRecord::Schema.define(version: 2023_06_04_203555) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -56,6 +56,39 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "assignment_clients", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "client_id"
+    t.bigint "assignment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignment_id"], name: "index_assignment_clients_on_assignment_id"
+    t.index ["client_id"], name: "index_assignment_clients_on_client_id"
+  end
+
+  create_table "assignment_operators", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "operator_id"
+    t.bigint "assignment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignment_id"], name: "index_assignment_operators_on_assignment_id"
+    t.index ["operator_id"], name: "index_assignment_operators_on_operator_id"
+  end
+
+  create_table "assignments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "assignated_type"
+    t.bigint "assignated_id"
+    t.bigint "cost_center_id"
+    t.bigint "assignation_status_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignated_type", "assignated_id"], name: "index_assignments_on_assignated_type_and_assignated_id"
+    t.index ["assignation_status_id"], name: "index_assignments_on_assignation_status_id"
+    t.index ["cost_center_id"], name: "index_assignments_on_cost_center_id"
   end
 
   create_table "assignments_cost_centers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -186,8 +219,8 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
 
   create_table "document_renovations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.bigint "assignments_document_id"
-    t.date "renovation_date", null: false
-    t.date "expiration_date", null: false
+    t.date "renovation_date"
+    t.date "expiration_date"
     t.boolean "active", default: true
     t.string "comment"
     t.datetime "created_at", null: false
@@ -271,14 +304,6 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "code", limit: 4
-  end
-
-  create_table "list_states_vehicles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "description"
-    t.boolean "active"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "operators", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -415,6 +440,24 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
     t.index ["vehicle_brand_id"], name: "index_vehicle_models_on_vehicle_brand_id"
   end
 
+  create_table "vehicle_state_clients", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "vehicle_state_id"
+    t.bigint "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_vehicle_state_clients_on_client_id"
+    t.index ["vehicle_state_id"], name: "index_vehicle_state_clients_on_vehicle_state_id"
+  end
+
+  create_table "vehicle_state_operators", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "vehicle_state_id"
+    t.bigint "operator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["operator_id"], name: "index_vehicle_state_operators_on_operator_id"
+    t.index ["vehicle_state_id"], name: "index_vehicle_state_operators_on_vehicle_state_id"
+  end
+
   create_table "vehicle_states", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.bigint "vehicle_id"
     t.bigint "cost_center_id"
@@ -423,13 +466,13 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
     t.bigint "client_id"
     t.date "start_date"
     t.date "end_date"
-    t.boolean "active"
+    t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "list_states_vehicle_id"
+    t.bigint "assignation_status_id"
+    t.index ["assignation_status_id"], name: "index_vehicle_states_on_assignation_status_id"
     t.index ["client_id"], name: "index_vehicle_states_on_client_id"
     t.index ["cost_center_id"], name: "index_vehicle_states_on_cost_center_id"
-    t.index ["list_states_vehicle_id"], name: "index_vehicle_states_on_list_states_vehicle_id"
     t.index ["operator_id"], name: "index_vehicle_states_on_operator_id"
     t.index ["sub_zone_id"], name: "index_vehicle_states_on_sub_zone_id"
     t.index ["vehicle_id"], name: "index_vehicle_states_on_vehicle_id"
@@ -504,6 +547,12 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activity_histories", "reasons_to_disables"
   add_foreign_key "activity_histories", "users"
+  add_foreign_key "assignment_clients", "assignments"
+  add_foreign_key "assignment_clients", "clients"
+  add_foreign_key "assignment_operators", "assignments"
+  add_foreign_key "assignment_operators", "operators"
+  add_foreign_key "assignments", "assignation_statuses"
+  add_foreign_key "assignments", "cost_centers"
   add_foreign_key "assignments_cost_centers", "assignation_statuses"
   add_foreign_key "assignments_cost_centers", "clients"
   add_foreign_key "assignments_cost_centers", "cost_centers"
@@ -528,9 +577,13 @@ ActiveRecord::Schema.define(version: 2023_05_09_083546) do
   add_foreign_key "vehicle_insurances", "insurances"
   add_foreign_key "vehicle_insurances", "vehicles"
   add_foreign_key "vehicle_models", "vehicle_brands"
+  add_foreign_key "vehicle_state_clients", "clients"
+  add_foreign_key "vehicle_state_clients", "vehicle_states"
+  add_foreign_key "vehicle_state_operators", "operators"
+  add_foreign_key "vehicle_state_operators", "vehicle_states"
+  add_foreign_key "vehicle_states", "assignation_statuses"
   add_foreign_key "vehicle_states", "clients"
   add_foreign_key "vehicle_states", "cost_centers"
-  add_foreign_key "vehicle_states", "list_states_vehicles"
   add_foreign_key "vehicle_states", "operators"
   add_foreign_key "vehicle_states", "sub_zones"
   add_foreign_key "vehicle_states", "vehicles"

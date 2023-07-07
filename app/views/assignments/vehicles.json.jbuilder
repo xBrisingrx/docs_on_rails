@@ -1,5 +1,5 @@
 json.data @assignments do |assignment|
-	json.code assignment.assignated.code
+	json.code "#{assignment.status_asignation}#{assignment.assignated.code}"
 	json.domain assignment.assignated.domain 
 	json.status assignment.assignation_status.name
 	json.start_date date_format(assignment.start_date)

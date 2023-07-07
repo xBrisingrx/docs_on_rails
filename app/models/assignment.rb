@@ -41,6 +41,28 @@ class Assignment < ApplicationRecord
       .or(Assignment.where(assignated_type: assignated_type ,assignated_id: assignated_id).where('end_date BETWEEN ? AND ?', start_date, end_date))
   end
 
+  def status_asignation
+    green = '32CD32'
+    red = 'FF0000'
+    orange = 'FF4500'
+
+    status = self.expires_documents
+    if status == green
+      icon = 'fa-thumbs-up'
+      color = 'green'
+    end
+    if status == orange
+      icon = 'fa-certificate'
+      color = 'orange'
+    end
+    if status == red
+      icon = 'fa-warning'
+      color = 'red'
+    end
+
+    "<span class='u-label g-rounded-20 g-bg-#{color} g-px-10 g-mr-5 g-mb-10'><i class='fa #{icon} g-mr-3'></i></span>"
+  end
+
   private
   def is_available_to_assignment #verifico la unidad/persona se encuentra bloqueado en esas fechas
     blocked = Assignment
@@ -95,6 +117,64 @@ class Assignment < ApplicationRecord
           @entry.update(active: true)
         end
       end
+    end
+  end
+
+  def expires_documents
+    # vemos si tiene algun documento vencido o por vencer en esta asignacion
+    green = '32CD32'
+    yellow = 'FFFF00'
+    orange = 'FF4500'
+    red = 'FF0000'
+    white = 'FFFFFF'
+    today = Date.today
+    proximo_a_vencer = 0
+    self.cost_center.documents.actives.map { |document|
+      renovation = self.assignated.assignments_documents.find_by( assignated: self.assignated, document_id: document.id ).last_renovation
+      if !renovation.blank?
+        if renovation.expires?
+          status_document = self.days_to_expire_document(renovation.expiration_date)
+          if status_document >= 16 && status_document <= 30 
+            proximo_a_vencer += 1
+          end
+
+          if status_document < 16
+            return red 
+          end
+        end
+      else
+        return red
+      end
+    }
+
+    if proximo_a_vencer > 1
+      return orange
+    else 
+      return green
+    end
+
+  end
+
+  def days_to_expire_document date
+    today = Date.today
+    expire_date = Date.parse(date)
+    diff = expire_date - today
+
+    diff
+    if diff < 1
+      return red
+    end
+
+    if diff >= 1 && diff <= 15
+      return orange
+    end
+
+    if diff >= 16 && diff <= 30
+      return yellow
+    end
+
+    if diff > 30
+      return green
     end
   end
 

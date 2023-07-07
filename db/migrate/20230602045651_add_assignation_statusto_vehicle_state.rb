@@ -1,6 +1,6 @@
 class AddAssignationStatustoVehicleState < ActiveRecord::Migration[5.2]
   def up
-    remove_reference :vehicle_states, :list_states_vehicle
+    # remove_reference :vehicle_states, :list_states_vehicle
     add_reference :vehicle_states, :assignation_status, foreign_key: true
   end
 

@@ -4,7 +4,15 @@ class ReportsController < ApplicationController
 		@documents = Document.actives.order(:name)
 	end
 
+	def vehicles
+		@documents = Document.actives.order(:name)
+	end
+
 	def people
+		@documents = Document.actives.order(:name)
+	end
+
+	def people_list
 		@people = Person.actives
 		respond_to do |format|
 			format.xlsx {
@@ -15,19 +23,58 @@ class ReportsController < ApplicationController
 
 	def matriz
 		@column_titles = ['LEGAJO', 'APELLIDO/S, NOMBRE/S (DNI)']
-		@index_name = ['file', 'fullname']
-		@documents = Document.where(d_type: 1).actives.pluck(:id, :name)
-		@title = 'Excel title'
+		@index_name = {'file' => '', 'fullname' => ''}
+		@data = Array.new
+		if params[:document_ids].blank?
+			@documents = Document.where(d_type: :people).actives.order(:name).pluck(:id, :name)
+		else
+			@documents = Document.where(id: params[:document_ids][0].split(',')).order(:name).pluck(:id, :name)
+		end
+
+		@title = 'Matriz personas final '
+		if !params[:start_date].blank?
+			start_date = Date.parse(params[:start_date])
+			@title += "desde #{ start_date.strftime('%d-%m-%y') }"
+		end
+		
+		if !params[:end_date].blank?
+			end_date = Date.parse(params[:end_date])
+			@title += " hasta #{ end_date.strftime('%d-%m-%y') }"
+		end
+
 		@documents.map { |document|
-			@index_name << document[0]
+			@index_name["#{document[0]}"] = ''
 			@column_titles << document[1]
 		}
 
-		respond_to do |format|
-			format.xlsx {
-        response.headers['Content-Disposition'] = 'attachment; filename="informe_matriz_personas.xlsx"'
-      }
-		end
+		row = @index_name.clone
+		assignments = Assignment.where(assignated_type: 'Person').order(:start_date)
+		assignments.map { |assignment|
+			row['file'] = assignment.assignated.file
+			row['fullname'] = assignment.assignated.fullname
+
+			if params[:document_ids].blank?
+				assignments_documents = assignment.cost_center.documents.actives
+			else
+				assignments_documents = assignment.cost_center.documents.actives.where( id: params[:document_ids][0].split(',') )
+			end
+
+			assignments_documents.map { |document|
+				renovation = assignment.assignated.assignments_documents.find_by( assignated: assignment.assignated, document_id: document.id ).last_renovation_between_dates( params[:start_date], params[:end_date] )
+				if renovation.blank?
+					row["#{document.id}"] = 'No cargado'
+				elsif renovation === '---'
+					# esta el documento cargado pero no hay vencimiento en estas fechas
+					row["#{document.id}"] = ''
+				else
+					row["#{document.id}"] = ( document.expires? ) ? renovation : 'Cargado'
+				end
+			}
+			
+			@data.push(row) 
+			row = @index_name.clone
+		}
+		render xlsx: "matriz", template: 'reports/matriz_vehicles' 
 	end
 
 	def matriz_vehicles

@@ -1,7 +1,7 @@
 
 $( document ).ready(function() {
 	 $('.select_multiple_vehicle_documents').select2({
-      theme: 'bootstrap4',
+
       width: '90%'
   })
 

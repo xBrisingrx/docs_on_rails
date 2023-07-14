@@ -119,6 +119,8 @@ Rails.application.routes.draw do
     get 'people', on: :collection
     get 'matriz', on: :collection
     get 'matriz_vehicles', on: :collection
+    post 'matriz_vehicles', on: :collection
     get 'matriz_vehicles_mail', on: :collection
+    post 'expiration_of_vehicle_documents_between_dates', on: :collection 
   end
 end

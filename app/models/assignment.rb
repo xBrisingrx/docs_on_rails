@@ -3,7 +3,7 @@ class Assignment < ApplicationRecord
   # Eso quiere decir que se la envia a un lugar a cubrir un trabajo por un tiempo determinado
   # Depende el estado de la asignacion puede o no estar asignado a mas de un lugar en el mismo periodo de tiempo
   belongs_to :assignated, polymorphic: true
-  belongs_to :cost_center
+  belongs_to :cost_center, optional: true
   belongs_to :assignation_status
   has_many :assignment_clients, dependent: :destroy
   has_many :assignment_operators, dependent: :destroy
@@ -14,7 +14,11 @@ class Assignment < ApplicationRecord
 
   validates :start_date, presence: !:end_date.blank?
   validates :end_date, presence: !:start_date.blank?
-  validate :is_available_to_assignment, :valid_dates, :create_assignment_with_blocked_state
+
+  validate :is_available_to_assignment, 
+    :valid_dates, 
+    :create_assignment_with_blocked_state, 
+    :cost_center_required
 
   after_create :assign_documents
   # before_validation :set_sub_zone
@@ -127,6 +131,10 @@ class Assignment < ApplicationRecord
         errors.add(:base, "No puede asignar al vehiculo un estado que bloquea si se encuentra asignado en esas fechas")
       end
     end
+  end
+
+  def cost_center_required
+    errors.add(:cost_center_id, "Debe seleccionar centro costos") if !self.assignation_status.blocks?
   end
 
   def valid_dates

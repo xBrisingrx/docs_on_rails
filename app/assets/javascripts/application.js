@@ -42,6 +42,7 @@
 //= require assignation_statuses
 //= require vehicles_cost_centers
 //= require assignments
+//= require reports
 
 $(document).on('ready', function () {
   // initialization of header

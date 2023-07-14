@@ -6,14 +6,22 @@ wb.styles do |style|
 		:alignment => { :horizontal=> :center }, 
 		border: Axlsx::STYLE_THIN_BORDER )
 
-		wb.add_worksheet(name: "Unificador") do |sheet|
+	wb.add_worksheet(name: "Unificador") do |sheet|
+		sheet.add_row [@title], style: title_cell
 		sheet.add_row @column_titles, style: title_cell
+		sheet.merge_cells("A1:L1")
 	  @data.each_with_index do |d, index|
-	  	if index.odd?
-	  		sheet.add_row d.values, style: grey_cell
-	  	else
-	  		sheet.add_row d.values, style: no_bg_cell
+	  	styles = []
+
+	  	d.each do |expire_date|
+	  		if expire_date[0].to_i >= 1
+	  			styles << style.add_style( bg_color: Report.set_color( expire_date[1] ), border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center } )
+	  		else
+	  			styles << style.add_style( border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center } )
+	  		end
 	  	end
+
+	  	sheet.add_row d.values, style: styles
 	  end
 	end
 end

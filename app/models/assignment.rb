@@ -63,6 +63,40 @@ class Assignment < ApplicationRecord
     "<span class='u-label g-rounded-20 g-bg-#{color} g-px-10 g-mr-5 g-mb-10'><i class='fa #{icon} g-mr-3'></i></span>"
   end
 
+  def document_by_cost_center
+    documents = Array.new
+
+    self.cost_center.documents.actives.order(:name).map { |document|
+      renovation = self.assignated.assignments_documents.find_by( assignated: self.assignated, document_id: document.id ).last_renovation
+      if renovation.blank?
+        expiration_date = 'No esta cargado'
+        expires = '<span class="u-label g-bg-lightred g-rounded-3 g-mr-10 g-mb-15">No esta cargado</span>'
+      else
+        if document.expires?
+          expiration_date = renovation.expiration_date.strftime('%d-%m-%y')
+          status_renovation = days_to_expire_document( renovation.expiration_date )
+          if status_renovation >= 30
+            expires = '<span class="u-label g-bg-green g-rounded-3 g-mr-10 g-mb-15">Correcto</span>'
+          elsif status_renovation >= 1 && status_renovation < 30
+            expires = '<span class="u-label g-bg-orange g-rounded-3 g-mr-10 g-mb-15">Próximo a vencer</span>'
+          else
+            expires = '<span class="u-label g-bg-lightred g-rounded-3 g-mr-10 g-mb-15">Vencido</span>'
+          end
+          
+        else
+          expiration_date = 'Cargado'
+          expires = '<span class="u-label g-bg-green g-rounded-3 g-mr-10 g-mb-15">Cargado</span>'
+        end
+      end
+      documents << {
+        name: document.name,
+        expiration_date: expiration_date,
+        expires: expires
+      }
+    }
+    documents
+  end
+
   private
   def is_available_to_assignment #verifico la unidad/persona se encuentra bloqueado en esas fechas
     blocked = Assignment
@@ -132,7 +166,7 @@ class Assignment < ApplicationRecord
     self.cost_center.documents.actives.map { |document|
       renovation = self.assignated.assignments_documents.find_by( assignated: self.assignated, document_id: document.id ).last_renovation
       if !renovation.blank?
-        if renovation.expires?
+        if renovation.document.expires?
           status_document = self.days_to_expire_document(renovation.expiration_date)
           if status_document >= 16 && status_document <= 30 
             proximo_a_vencer += 1
@@ -146,36 +180,19 @@ class Assignment < ApplicationRecord
         return red
       end
     }
-
-    if proximo_a_vencer > 1
+    if proximo_a_vencer >= 1
       return orange
     else 
       return green
     end
-
   end
 
   def days_to_expire_document date
     today = Date.today
-    expire_date = Date.parse(date)
-    diff = expire_date - today
+    # expire_date = Date.parse(date)
+    diff = date.to_date - today
 
     diff
-    if diff < 1
-      return red
-    end
-
-    if diff >= 1 && diff <= 15
-      return orange
-    end
-
-    if diff >= 16 && diff <= 30
-      return yellow
-    end
-
-    if diff > 30
-      return green
-    end
   end
 
 end

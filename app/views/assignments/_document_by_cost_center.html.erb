@@ -1,0 +1,27 @@
+<div class="card g-brd-pink rounded g-mb-30">
+  <h3 class="card-header g-bg-pink g-brd-transparent g-color-white g-font-size-16 mb-2 rounded-0">
+    <i class="fa fa-file"></i>
+    Documentos del centro de costos <%= @assignment.cost_center.name_center %>
+  </h3>
+   <div class="px-2  pb-2">
+    <table class="table table-sm table-hover w-100 u-table--v1">
+      <thead>
+        <tr>
+          <th> Documento </th>
+          <th> Estado </th>
+          <th> Vencimiento </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @documents.each do |document| %>
+          <tr>
+            <td> <%= document[:name] %> </td>
+            <td> <%= document[:expires].html_safe %> </td>
+            <td> <%= document[:expiration_date] %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

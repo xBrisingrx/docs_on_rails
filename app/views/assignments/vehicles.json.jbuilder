@@ -1,5 +1,5 @@
 json.data @assignments do |assignment|
-	json.code "#{assignment.status_asignation}#{assignment.assignated.code}"
+	json.code "#{ link_to assignment.status_asignation.html_safe, document_by_cost_center_assignments_path( id: assignment.id ), remote: true }#{assignment.assignated.code}"
 	json.domain assignment.assignated.domain 
 	json.status assignment.assignation_status.name
 	json.start_date date_format(assignment.start_date)

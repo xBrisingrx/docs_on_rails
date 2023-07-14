@@ -82,6 +82,11 @@ class AssignmentsController < ApplicationController
     end
   end 
 
+  def document_by_cost_center
+    @assignment = Assignment.find(params[:id])
+    @documents = @assignment.document_by_cost_center
+  end
+
   private
     def set_assignment
       @assignment = Assignment.find(params[:id])

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     get 'vehicles', on: :collection
     get 'poeple', on: :collection
     get 'check_dates', on: :collection
+    get 'document_by_cost_center', on: :collection
   end
   resources :assignments_cost_centers do 
     get 'check_disponibility', on: :collection

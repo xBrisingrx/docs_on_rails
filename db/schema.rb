@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_04_203555) do
+ActiveRecord::Schema.define(version: 2023_07_21_101541) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -46,6 +46,20 @@ ActiveRecord::Schema.define(version: 2023_06_04_203555) do
     t.index ["reasons_to_disable_id"], name: "index_activity_histories_on_reasons_to_disable_id"
     t.index ["record_type", "record_id"], name: "index_activity_histories_on_record_type_and_record_id"
     t.index ["user_id"], name: "index_activity_histories_on_user_id"
+  end
+
+  create_table "add_migration_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "record_type"
+    t.bigint "record_id"
+    t.string "column"
+    t.string "path"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_created_id", null: false
+    t.integer "user_last_updated_id", null: false
+    t.integer "exist_file", limit: 1, default: 1, null: false
+    t.index ["record_type", "record_id"], name: "index_add_migration_files_on_record_type_and_record_id"
   end
 
   create_table "assignation_statuses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -120,6 +134,10 @@ ActiveRecord::Schema.define(version: 2023_06_04_203555) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "pdf_path"
+    t.integer "cargado", limit: 1, null: false
+    t.integer "user_created_id", null: false
+    t.integer "user_last_updated_id", null: false
     t.index ["assignated_type", "assignated_id"], name: "index_assignments_documents_on_assignated_type_and_assignated_id"
     t.index ["document_id"], name: "index_assignments_documents_on_document_id"
   end
@@ -127,14 +145,16 @@ ActiveRecord::Schema.define(version: 2023_06_04_203555) do
   create_table "assignments_profiles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "assignated_type"
     t.bigint "assignated_id"
+    t.bigint "profile_id"
     t.date "start_date"
     t.date "end_date"
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "zone_job_profile_id"
+    t.integer "user_created_id", null: false
+    t.integer "user_last_updated_id", null: false
     t.index ["assignated_type", "assignated_id"], name: "index_assignments_profiles_on_assignated_type_and_assignated_id"
-    t.index ["zone_job_profile_id"], name: "index_assignments_profiles_on_zone_job_profile_id"
+    t.index ["profile_id"], name: "index_assignments_profiles_on_profile_id"
   end
 
   create_table "clients", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -225,6 +245,9 @@ ActiveRecord::Schema.define(version: 2023_06_04_203555) do
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "pdf_path", null: false
+    t.integer "user_created_id", null: false
+    t.integer "user_last_updated_id", null: false
     t.index ["assignments_document_id"], name: "index_document_renovations_on_assignments_document_id"
   end
 
@@ -332,6 +355,8 @@ ActiveRecord::Schema.define(version: 2023_06_04_203555) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_people_on_company_id"
   end
 
   create_table "people_clothes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -558,7 +583,7 @@ ActiveRecord::Schema.define(version: 2023_06_04_203555) do
   add_foreign_key "assignments_cost_centers", "cost_centers"
   add_foreign_key "assignments_cost_centers", "operators"
   add_foreign_key "assignments_documents", "documents"
-  add_foreign_key "assignments_profiles", "zone_job_profiles"
+  add_foreign_key "assignments_profiles", "profiles"
   add_foreign_key "clothes_packs", "clothes"
   add_foreign_key "clothes_packs", "clothing_packages"
   add_foreign_key "cost_center_documents", "cost_centers"
@@ -571,6 +596,7 @@ ActiveRecord::Schema.define(version: 2023_06_04_203555) do
   add_foreign_key "documents", "expiration_types"
   add_foreign_key "documents_profiles", "documents"
   add_foreign_key "documents_profiles", "profiles"
+  add_foreign_key "people", "companies"
   add_foreign_key "people_clothes", "clothing_packages"
   add_foreign_key "people_clothes", "people"
   add_foreign_key "sub_zones", "geographic_zones"

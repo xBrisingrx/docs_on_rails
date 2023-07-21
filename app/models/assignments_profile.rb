@@ -14,8 +14,9 @@
 #
 class AssignmentsProfile < ApplicationRecord
   belongs_to :assignated, polymorphic: true
-  belongs_to :zone_job_profile
-  has_one :profile, through: :zone_job_profile
+  # belongs_to :zone_job_profile
+  # has_one :profile, through: :zone_job_profile
+  belongs_to :profile
   has_many :documents, through: :profile
 
   validate :unique_association, on: :create

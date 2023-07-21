@@ -22,6 +22,7 @@
 #  updated_at          :datetime         not null
 #
 class Person < ApplicationRecord
+  belongs_to :company
   has_one_attached :dni_file
   has_one_attached :cuil_file
   has_one_attached :start_activity_file

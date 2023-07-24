@@ -1,6 +1,6 @@
 
 $( document ).ready(function() {
-	 $('.select_multiple_vehicle_documents').select2({
+	 $('.select_multiple_documents').select2({
       width: '90%'
   })
 

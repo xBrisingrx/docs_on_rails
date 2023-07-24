@@ -26,7 +26,7 @@ $(document).ready(function(){
     {'data': 'start_activity_file'},
     {'data': 'direction'},
     {'data': 'phone'},
-    {'data': 'nationality'},
+    {'data': 'company'},
     {'data': 'actions'}
     ],
     'language': {'url': datatables_lang}

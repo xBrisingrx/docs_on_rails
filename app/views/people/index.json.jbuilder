@@ -37,7 +37,7 @@ json.data @people do |person|
 	json.birth_date (person.birth_date) ? date_format(person.birth_date) : ''
 	json.direction person.direction 
 	json.phone person.phone 
-	json.nationality person.nationality
+	json.company person.company.name
 	
 	json.actions "#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_person_path(person), 
                   class: 'btn btn-warning btn-sm',  data: {toggle: 'tooltip'}, title: 'Editar', remote: true }

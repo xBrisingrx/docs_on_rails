@@ -59,7 +59,7 @@ Rails.application.routes.draw do
   resources :vehicle_models
   resources :vehicle_brands
   resources :vehicle_types
-  root 'main#welcome'
+  root 'people#index'
   get 'main/welcome'
 
   namespace :authentication, path: '', as: '' do

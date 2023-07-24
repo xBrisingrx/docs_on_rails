@@ -5,11 +5,11 @@ class ReportsController < ApplicationController
 	end
 
 	def vehicles
-		@documents = Document.actives.order(:name)
+		@documents = Document.actives.where(d_type: :vehicles).order(:name)
 	end
 
 	def people
-		@documents = Document.actives.order(:name)
+		@documents = Document.actives.where(d_type: :people).order(:name)
 	end
 
 	def people_list
@@ -126,8 +126,8 @@ class ReportsController < ApplicationController
 			operators = assignment.operators.map { |operator| operators.insert(-1,"#{operator.name} / ") }
 			clients = assignment.clients.map { |client| clients.concat("#{client.name} / ") }
 			
-			row['operators'] = operators[0].chop.chop
-			row['clients'] = clients[0].chop.chop
+			row['operators'] = ( !operators[0].blank? ) ? operators[0].chop.chop : ''
+			row['clients'] = ( !clients[0].blank? ) ? clients[0].chop.chop : ''
 
 			if params[:document_ids].blank?
 				assignments_documents = assignment.cost_center.documents.actives
@@ -190,8 +190,8 @@ class ReportsController < ApplicationController
 			operators = assignment.operators.map { |operator| operators.insert(-1,"#{operator.name} / ") }
 			clients = assignment.clients.map { |client| clients.concat("#{client.name} / ") }
 			
-			row['operators'] = operators[0].chop.chop
-			row['clients'] = clients[0].chop.chop
+			row['operators'] = ( !operators[0].blank? ) ? operators[0].chop.chop : ''
+			row['clients'] = ( !clients[0].blank? ) ? clients[0].chop.chop : ''
 			assignment.cost_center.documents.actives.map { |document|
 				renovation = assignment.assignated.assignments_documents.find_by( assignated: assignment.assignated, document_id: document.id ).last_renovation
 				if !renovation.blank?

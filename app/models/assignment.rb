@@ -135,7 +135,9 @@ class Assignment < ApplicationRecord
   end
 
   def cost_center_required
-    errors.add(:cost_center_id, "Debe seleccionar centro costos") if !self.assignation_status.blocks?
+    if !self.assignation_status.blocks? && self.cost_center_id.blank?
+      errors.add(:cost_center_id, "Debe seleccionar centro costos") 
+    end
   end
 
   def valid_dates

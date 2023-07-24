@@ -6,6 +6,11 @@ class ProfilesController < ApplicationController
     @profile_type = ( params[:d_type] == 'people' ) ? 'personal' : 'vehiculos'
   end
 
+  def people
+    @profiles = Profile.where(d_type: :people)
+    @profile_type = 'personal'
+  end
+
   def show
   end
 

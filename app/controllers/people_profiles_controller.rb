@@ -24,6 +24,13 @@ class PeopleProfilesController < ApplicationController
     @documents = @person_profile.zone_job_profile.documents
   end
 
+  def by_person
+    @people_profiles = AssignmentsProfile.where( assignated_id: params[:person_id] ).where( assignated_type: 'Person')
+    respond_to do |format|
+      format.json :index
+    end
+  end
+
   private
     def set_people_profile
       @people_profile = AssignmentsProfile.find(params[:id])

@@ -35,8 +35,8 @@ class AssignmentsProfile < ApplicationRecord
   def assign_documents
     # Si le asigno un perfil a una persona tengo que tambien asociarles los documentos que tiene el perfil
     # Obtengo los documentos que tiene el perfil
-    # @documents = DocumentsProfile.where( profile_id: self.profile_id, active: true )
-    @documents = ZoneJobProfileDoc.where( zone_job_profile_id: self.zone_job_profile_id, active: true )
+    @documents = DocumentsProfile.where( profile_id: self.profile_id, active: true )
+    # @documents = ZoneJobProfileDoc.where( zone_job_profile_id: self.zone_job_profile_id, active: true )
     ActiveRecord::Base.transaction do
       @documents.each do |document|
         @entry = AssignmentsDocument.find_by( assignated: self.assignated,

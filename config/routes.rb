@@ -80,7 +80,10 @@ Rails.application.routes.draw do
   post 'people/enable_person', to: 'people#enable_person', as: 'enable_person'
   resources :companies, except: [:destroy, :show]
   post 'disable_company', to: 'companies#disable', as: 'disable_company'
-  resources :profiles, except: [:destroy, :show]
+  
+  resources :profiles, except: [:destroy, :show] 
+  get 'profiles_people', to: "profiles#people", as: 'profiles_people'
+
   post 'disable_profile', to: 'profiles#disable', as: 'disable_profile'
   resources :documents
   post 'disable_document', to: 'documents#disable', as: 'disable_document'
@@ -91,12 +94,15 @@ Rails.application.routes.draw do
   resources :documents_profiles, except: [:destroy, :show]
   post 'disable_document_profile', to: 'documents_profiles#disable', as: 'disable_document_profile'
   
-  resources :people_profiles, except: [:destroy, :show]
+  resources :people_profiles, except: [:destroy, :show] do 
+    get 'by_person', on: :collection
+  end
   resources :vehicles_profiles, except: [:destroy, :show] 
 
   resources :vehicles_cost_centers, except: [:destroy, :show] 
 
   resources :assignments_profiles, except: [:index, :destroy]
+
   post 'disable_assignment_profile', to: 'assignments_profiles#disable', as: 'disable_assignment_profile'
   post 'reactive_profile_assignment_profile', to: 'assignments_profiles#reactive_profile', as: 'reactive_profile_assignment_profile'
 
@@ -125,4 +131,5 @@ Rails.application.routes.draw do
     get 'matriz_vehicles_mail', on: :collection
     post 'expiration_of_vehicle_documents_between_dates', on: :collection 
   end
+
 end

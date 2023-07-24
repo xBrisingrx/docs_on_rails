@@ -1,4 +1,4 @@
-let assignments_assigned_cost_centers, assignments_assigned_documents, assignments_vehicle_profiles, assignments_vehicle_documents
+let assignments_assigned_cost_centers, assignments_assigned_documents, assignated_person_profiles
 const status_documentation = {
 	populate_with_person_data: ()=> {
 		let person_id = document.getElementById("person_select").value
@@ -67,9 +67,12 @@ const status_documentation = {
 
 				$('#person_information').show('slow')
 				document.getElementById("form_people_documentation").reset()
-				assignments_assigned_cost_centers.ajax.url(`/assignments/${person_id}?assignated=person`)
-				assignments_assigned_cost_centers.ajax.reload(null,false)
+				// assignments_assigned_cost_centers.ajax.url(`/assignments/${person_id}?assignated=person`)
+				// assignments_assigned_cost_centers.ajax.reload(null,false)
 				
+				assignated_person_profiles.ajax.url(`/people_profiles/by_person?person_id=${person_id}`)
+				assignated_person_profiles.ajax.reload(null,false)
+
 				assignments_assigned_documents.ajax.url(`/assignments_documents/${person_id}?assignated=person`)
 				assignments_assigned_documents.ajax.reload(null,false)
 		})
@@ -132,6 +135,14 @@ $(document).ready(function(){
 			 {'data': 'expire_date'},
 			 {'data': 'file'},
 			 {'data': 'actions'}
+			],
+			'language': {'url': datatables_lang}
+		})
+
+		assignated_person_profiles = $("#assignments_person_profiles_table").DataTable({
+			'columns': [
+			 {'data': 'profile'},
+			 {'data': 'status'}
 			],
 			'language': {'url': datatables_lang}
 		})

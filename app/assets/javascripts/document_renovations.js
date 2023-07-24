@@ -22,12 +22,12 @@ const document_renovation = {
 	    form.querySelector('#error_expiration_date').innerHTML = ''
 	  }
 
-	  if (form.querySelector('#document_renovation_file').value == '') {
-	    form.querySelector('#document_renovation_file').parentElement.classList.add('u-has-error-v1')
+	  if (form.querySelector('#document_renovation_files').value == '') {
+	    form.querySelector('#document_renovation_files').parentElement.classList.add('u-has-error-v1')
 	    form.querySelector('.error_renovation_file').innerHTML = 'Debe ingresar un documento'
 	    return
 	  } else {
-	    form.querySelector('#document_renovation_file').parentElement.classList.remove('u-has-error-v1')
+	    form.querySelector('#document_renovation_files').parentElement.classList.remove('u-has-error-v1')
 	    form.querySelector('.error_renovation_file').innerHTML = ''
 	  }
 
@@ -38,12 +38,12 @@ const document_renovation = {
 	  formData.append('document_renovation[assignments_document_id]', asignated_document_id )
 	  formData.append('document_renovation[renovation_date]', form.querySelector('#document_renovation_renovation_date').value )
 	  formData.append('document_renovation[expiration_date]', form.querySelector('#document_renovation_expiration_date').value )
-	  let files = form.querySelector('#document_renovation_file')
+	  let files = form.querySelector('#document_renovation_files')
 	  if (files !== null) {
 	    let totalFiles = files.files.length
 	    if (totalFiles > 0) {
 	      for (let n = 0; n < totalFiles; n++) {
-	        formData.append(`document_renovation[file][]`, files.files[n])
+	        formData.append(`document_renovation[files][]`, files.files[n])
 	      }
 	    }
 	  }

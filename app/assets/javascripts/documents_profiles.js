@@ -7,7 +7,7 @@ $(document).ready(function(){
     documents_profiles_type = document.getElementById('d_type').value
   }
 	documents_profiles_table = $("#documents_profiles_table").DataTable({
-    'ajax': `documents_profiles?d_type=${documents_profiles_type}`,
+    'ajax': `/documents_profiles?d_type=${documents_profiles_type}`,
     'columns': [
     {'data': 'profile'},
     {'data': 'document'},

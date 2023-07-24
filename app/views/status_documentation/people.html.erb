@@ -64,4 +64,11 @@
   <!-- End Figure -->
 </div>
 
+<%# render( partial: 'shared/table', 
+            locals: { table_id: 'assignments_person_profiles', 
+                      color: 'cyan', 
+                      icon: 'fa-address-card-o',
+                      title: "Perfiles asignados", 
+                      col_names: [ 'Perfil', 'Estado' ] }) %>
+
 <%= render 'tables' %>

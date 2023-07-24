@@ -12,13 +12,14 @@ class Assignment < ApplicationRecord
 
   accepts_nested_attributes_for :assignment_clients, :assignment_operators
 
-  validates :start_date, presence: !:end_date.blank?
-  validates :end_date, presence: !:start_date.blank?
+  # validates :start_date, presence: !:end_date.blank?
+  # validates :end_date, presence: !:start_date.blank?
 
-  validate :is_available_to_assignment, 
-    :valid_dates, 
-    :create_assignment_with_blocked_state, 
-    :cost_center_required
+  validate :cost_center_required
+    # :is_available_to_assignment, 
+    # :valid_dates, 
+    # :create_assignment_with_blocked_state
+    
 
   after_create :assign_documents
   # before_validation :set_sub_zone

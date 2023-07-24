@@ -1,4 +1,4 @@
-let profiles_table
+let profiles_table, profiles_people_table
 let profiles_type = ''
 function modal_disable_profile(id) {
   $('#modal-disable-profile #profile_id').val(id)
@@ -12,6 +12,7 @@ $(document).ready(function(){
   if ( document.getElementById('d_type') != undefined ) {
     profiles_type = document.getElementById('d_type').value
   }
+
 	profiles_table = $("#profiles_table").DataTable({
     'ajax': `profiles?d_type=${profiles_type}`,
     'columns': [
@@ -25,6 +26,19 @@ $(document).ready(function(){
     ],
     'language': {'url': datatables_lang}
 	})
+
+  profiles_table = $("#profiles_people_table").DataTable({
+    'ajax': `/profiles?d_type=${profiles_type}`,
+    'columns': [
+      {'data': 'name'},
+      {'data': 'start_date'},
+      {'data': 'end_date'},
+      {'data': 'status'},
+      {'data': 'description'},
+      {'data': 'actions'}
+    ],
+    'language': {'url': datatables_lang}
+  })
 
   $("#form-disable-profile").on("ajax:success", function(event) {
     profiles_table.ajax.reload(null,false)

@@ -74,8 +74,8 @@ class AssignmentsDocument < ApplicationRecord
   def last_renovation_date
     return '' if !self.document.expires?
     renovation = self.document_renovations.actives.order(expiration_date: :DESC).first
-
-    if renovation.blank?
+    
+    if renovation.blank? || renovation.expiration_date.blank?
       ''
     else
       renovation.expiration_date.strftime('%d-%m-%y')

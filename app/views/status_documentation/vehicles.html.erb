@@ -53,4 +53,4 @@
                       title: "Centro de costo asignados a la #{@type}", 
                       col_names: [ 'Centro de costos','Sub centro de costos','Desde','Hasta', 'Estado' ] }) %>
 
-<%= render 'tables' %>
+<%= render partial: 'tables', locals: { d_type: 'Vehicle'} %>

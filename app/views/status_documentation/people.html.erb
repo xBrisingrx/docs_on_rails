@@ -71,4 +71,4 @@
                       title: "Perfiles asignados", 
                       col_names: [ 'Perfil', 'Estado' ] }) %>
 
-<%= render 'tables' %>
+<%= render partial: 'tables', locals: { d_type: 'Person'} %>

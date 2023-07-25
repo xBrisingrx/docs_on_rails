@@ -17,6 +17,6 @@ class Authentication::SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_url, notice: "Sessión cerrada."
+    redirect_to root_url, notice: "Sesión cerrada."
   end
 end

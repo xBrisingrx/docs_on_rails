@@ -1,5 +1,5 @@
 <%= link_to "<i class='fa fa-plus'></i> Asignar un documento".html_safe, 
-      new_assignments_document_path(assignated_type: 'Person'), 
+      new_assignments_document_path(assignated_type: d_type), 
       class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2', remote: true %>
 <input type="hidden" id='assignated_id'>
 <%= render( partial: 'shared/table', 

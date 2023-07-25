@@ -4,6 +4,7 @@ class AssignmentsDocumentsController < ApplicationController
     @assignments_document = AssignmentsDocument.new(assignated_type: params[:assignated_type])
     d_type = ( params[:assignated_type] == 'Person' ) ? 'people' : 'vehicles'
     @documents = Document.actives.where(d_type: d_type)
+    @title_modal = 'Asignar un documento'
   end
 
   def create

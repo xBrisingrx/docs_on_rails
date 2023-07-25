@@ -2,7 +2,7 @@ $("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', co
 
 $('.select-assignment-document').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione documento (*)" })
 
-if ( document.getElementById('assignated_id').value != undefined ) {
+if ( !isNaN( parseInt(document.getElementById('assignated_id').value) )  ) {
 	document.querySelector('#form-assignment-document #assignments_document_assignated_id').value = document.getElementById('assignated_id').value
 	$("#modal").modal('show')
 } else {
@@ -10,7 +10,7 @@ if ( document.getElementById('assignated_id').value != undefined ) {
 }
 
 $("#form-assignment-document").on("ajax:success", function(event) {
-    assignments_person_documents.ajax.reload(null,false)
+    assignments_assigned_documents.ajax.reload(null,false)
     let msg = JSON.parse(event.detail[2].response)
     noty_alert(msg.status, msg.msg)
     $("#modal").modal('hide')

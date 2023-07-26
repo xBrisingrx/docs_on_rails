@@ -16,7 +16,9 @@ vehicle_insurances_table = $("#vehicle_insurances_table").DataTable({
   'language': {'url': datatables_lang}
 })
 
-setInputDate('#vehicle_insurance_start_date')
+<% if current_user.admin? %>
+  setInputDate('#vehicle_insurance_start_date')
+<% end %>
 
 $("#renovations_modal").modal('show')
 

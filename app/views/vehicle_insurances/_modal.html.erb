@@ -7,11 +7,13 @@
       </button>
     </div>
     <div class="modal-body">
-      <%= render partial: 'form', locals: { 
-                                    form_id: 'form-vehicle-insurance',
-                                    vehicle_id: @vehicle.id,
-      															vehicle_insurance: @vehicle_insurance
-      														} %>
+      <% if current_user.admin? %>
+        <%= render partial: 'form', locals: { 
+                                      form_id: 'form-vehicle-insurance',
+                                      vehicle_id: @vehicle.id,
+        															vehicle_insurance: @vehicle_insurance
+        														} %>
+      <% end %>
 
 			<%= render( partial: 'shared/table', 
 			            locals: { table_id: 'vehicle_insurances', 

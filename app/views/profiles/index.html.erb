@@ -1,6 +1,8 @@
 <h1>Perfiles de <%= @profile_type %></h1>
-<%= link_to "<i class='fa fa-plus'></i> Registrar perfil".html_safe, new_profile_path( d_type: params[:d_type] ),remote: true, 
-            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+<% if current_user.admin? %>
+  <%= link_to "<i class='fa fa-plus'></i> Registrar perfil".html_safe, new_profile_path( d_type: params[:d_type] ),remote: true, 
+              class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+<% end %>
 <button class="btn u-btn-teal mb-2" onclick="hide_table('profiles_table')"> <i class="fa fa-eye"></i> </button>
 
 <%= render( partial: 'shared/table', 
@@ -23,9 +25,10 @@
 <% end %>
 
 <%if  params[:d_type] == 'vehicles' %>
-
+<% if current_user.admin? %>
   <%= link_to "<i class='fa fa-plus'></i> Agregar documento a un perfil".html_safe, new_zone_job_profile_doc_path( d_type: params[:d_type] ),remote: true, 
               class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2' %>
+<% end %>
   <button class="btn u-btn-teal mb-2" onclick="hide_table('zone_job_profile_docs_table')"> <i class="fa fa-eye"></i> </button>
   <%= render( partial: 'shared/table', 
               locals: { table_id: 'zone_job_profile_docs', 

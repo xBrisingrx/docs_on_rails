@@ -1,7 +1,11 @@
 <h1>Aseguradoras</h1>
-<%= link_to "<i class='fa fa-plus'></i> Registrar aseguradora".html_safe, new_insurance_path(),remote: true, data: { toggle: :modal, target: '#modal' }, 
-  class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
-
+<% if current_user.admin? %>
+  <%= link_to "<i class='fa fa-plus'></i> Registrar aseguradora".html_safe, 
+        new_insurance_path(),
+        remote: true,
+        class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' 
+  %>
+<%end %>
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'insurances', 
                       color: 'blue', 

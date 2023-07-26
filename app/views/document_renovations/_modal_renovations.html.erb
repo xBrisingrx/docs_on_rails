@@ -7,14 +7,16 @@
       </button>
     </div>
     <div class="modal-body">
-      <%= render partial: 'form', locals: { 
-                                    form_id: 'form-document-renovation',
-                                    method: 'POST',
-      															document_renovation: @document_renovation, 
-      															assignments_document: @assigned_document.id,
-      															document_expire: @assigned_document.document.expires?,
-																		enable_expiration_date: ( @assigned_document.document.expires? && @assigned_document.document.allow_modify_expiration? )
-      														} %>
+      <% if current_user.admin? %>
+        <%= render partial: 'form', locals: { 
+                                      form_id: 'form-document-renovation',
+                                      method: 'POST',
+        															document_renovation: @document_renovation, 
+        															assignments_document: @assigned_document.id,
+        															document_expire: @assigned_document.document.expires?,
+  																		enable_expiration_date: ( @assigned_document.document.expires? && @assigned_document.document.allow_modify_expiration? )
+        														} %>
+      <% end %>
 
 			<%= render( partial: 'shared/table', 
 			            locals: { table_id: 'document_renovations', 

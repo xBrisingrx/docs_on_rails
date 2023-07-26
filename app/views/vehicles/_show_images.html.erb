@@ -1,19 +1,22 @@
-<%= form_with(model: @vehicle, multipart: true, class: 'g-pa-5 g-mb-5', id: 'form-vehicle-add-images') do |form| %>
-	<div class="row">
-		<div class='col-4'>
-	    <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
-	      <%= form.file_field :images, multiple: true %>
-	      <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
-	      <span class="js-value">Anexar imágenes</span>
-	      <small class="form-control-feedback text-danger vehicle_images"></small>
-	    </label>
-	  </div>
-	  <div class="col-2">
-	  	<%= form.submit 'Agregar', class: 'btn u-btn-primary' %>
-	  </div>
-	</div>
+<% if current_user.admin? %>
+	<%= form_with(model: @vehicle, multipart: true, class: 'g-pa-5 g-mb-5', id: 'form-vehicle-add-images') do |form| %>
+		<div class="row">
+			<div class='col-4'>
+		    <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+		      <%= form.file_field :images, multiple: true %>
+		      <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+		      <span class="js-value">Anexar imágenes</span>
+		      <small class="form-control-feedback text-danger vehicle_images"></small>
+		    </label>
+		  </div>
+		  <div class="col-2">
+		  	<%= form.submit 'Agregar', class: 'btn u-btn-primary' %>
+		  </div>
+		</div>
+	<% end %>
+	<hr>
 <% end %>
-<hr>
+
 <div class="container-fluid">
 	<div id="vehicle_images_galery" class="row">
 		<% @vehicle.images.each do |image| %>

@@ -1,7 +1,9 @@
 <h1>Perfiles de <%= @profile_type %></h1>
-<%= link_to "<i class='fa fa-plus'></i> Registrar perfil".html_safe, new_profile_path( d_type: :people ),
-            remote: true, 
-            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+<% if current_user.admin? %>
+  <%= link_to "<i class='fa fa-plus'></i> Registrar perfil".html_safe, new_profile_path( d_type: :people ),
+              remote: true, 
+              class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+<% end %>
 
 <!-- <button class="btn u-btn-teal mb-2" onclick="hide_table('profiles_table')"> <i class="fa fa-eye"></i> </button> -->
 

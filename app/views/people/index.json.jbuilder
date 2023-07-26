@@ -39,8 +39,12 @@ json.data @people do |person|
 	json.phone person.phone 
 	json.company person.company.name
 	
-	json.actions "#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_person_path(person), 
+	if current_user.admin?
+		json.actions "#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_person_path(person), 
                   class: 'btn btn-warning btn-sm',  data: {toggle: 'tooltip'}, title: 'Editar', remote: true }
                   <a class='btn btn-danger btn-sm' data-toggle='tooltip' title='Dar de baja' onclick='modal_disable_person( #{ person.id } )'>
                     <i class='fa fa-trash' aria-hidden='true'></i> </a>"
+  else 
+  	json.actions ''
+	end
 end

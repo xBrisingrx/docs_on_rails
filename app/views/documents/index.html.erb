@@ -1,7 +1,8 @@
 <h1>Documentos de <%= @document_type %></h1>
-<%= link_to "<i class='fa fa-plus'></i> Registrar documento".html_safe, new_document_path( d_type: params[:d_type] ),remote: true, 
-            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
-
+<% if current_user.admin? %>
+  <%= link_to "<i class='fa fa-plus'></i> Registrar documento".html_safe, new_document_path( d_type: params[:d_type] ),remote: true, 
+              class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+<% end %>
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'documents', 
                       color: 'purple', 

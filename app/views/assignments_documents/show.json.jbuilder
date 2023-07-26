@@ -14,23 +14,24 @@ json.data @array do |document|
 		json.file document[:file]	
 		json.actions document[:actions]	
 	end
-	
-	if document[:has_renovations] && !document[:custom]
-		json.actions  "#{ link_to '<i class="fa fa-eye"></i>'.html_safe, document_renovations_path( assignments_document_id: document[:id] ), 
-                  					class: 'btn u-btn-orange btn-sm',  
-                  					data: {toggle: 'tooltip'}, title: 'Ver renovaciones', remote: true }
-                  	#{ link_to '<i class="fa fa-trash"></i>'.html_safe, 
-                  		modal_disable_assignments_documents_path(id: document[:id]), 
-                        data: {toggle: 'tooltip'}, remote: :true, 
-                        class: 'btn btn-sm u-btn-red text-white', title: 'Eliminar' }
-                  "
-	elsif !document[:has_renovations] && !document[:custom]
-		json.actions  "#{ link_to '<i class="fa fa-plus"></i>'.html_safe, document_renovations_path( assignments_document_id: document[:id] ), 
-                  					class: 'btn u-btn-indigo btn-sm',  
-                  					data: {toggle: 'tooltip'}, title: 'Ver renovaciones', remote: true }
-                  #{ link_to '<i class="fa fa-trash"></i>'.html_safe, 
-                  		modal_disable_assignments_documents_path(id: document[:id]), 
-                        data: {toggle: 'tooltip'}, remote: :true, 
-                        class: 'btn btn-sm u-btn-red text-white', title: 'Eliminar' }"
+	if !document[:custom]
+		if document[:has_renovations] && 
+			buttons = "#{ link_to '<i class="fa fa-eye"></i>'.html_safe, document_renovations_path( assignments_document_id: document[:id] ), 
+	                  					class: 'btn u-btn-orange btn-sm',  
+	                  					data: {toggle: 'tooltip'}, title: 'Ver renovaciones', remote: true } "
+		elsif !document[:has_renovations] && !document[:custom]
+			buttons = "#{ link_to '<i class="fa fa-plus"></i>'.html_safe, document_renovations_path( assignments_document_id: document[:id] ), 
+	                  					class: 'btn u-btn-indigo btn-sm',  
+	                  					data: {toggle: 'tooltip'}, title: 'Ver renovaciones', remote: true } "
+		end
+
+		if current_user.admin?
+			buttons += "#{ link_to '<i class="fa fa-trash"></i>'.html_safe, 
+	                  		modal_disable_assignments_documents_path(id: document[:id]), 
+	                        data: {toggle: 'tooltip'}, remote: :true, 
+	                        class: 'btn btn-sm u-btn-red text-white', title: 'Eliminar' }"
+		end
+
+		json.actions buttons
 	end
 end

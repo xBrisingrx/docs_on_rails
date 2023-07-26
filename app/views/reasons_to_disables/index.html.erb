@@ -1,6 +1,11 @@
 <h1>Motivos de baja</h1>
-<%= link_to "<i class='fa fa-plus'></i> Registrar motivo".html_safe, new_reasons_to_disable_path( d_type: params[:d_type] ),remote: true, class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
-
+<% if current_user.admin? %>
+  <%= link_to "<i class='fa fa-plus'></i> Registrar motivo".html_safe, 
+    new_reasons_to_disable_path( d_type: params[:d_type] ),
+    remote: true, 
+    class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2'
+  %>
+<% end %>
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'reasons', 
                       color: 'blue', 

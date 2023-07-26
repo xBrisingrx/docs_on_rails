@@ -1,11 +1,13 @@
 <h1>Puestos de trabajo</h1>
-<div class="row justify-content-between">
-    <div class="col-4">
-      <%= link_to "<i class='fa fa-plus'></i> Registrar trabajo".html_safe, new_job_path( d_type: params[:d_type] ),
-        remote: true, 
-        class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
-    </div>
+<% if current_user.admin? %>
+  <div class="row justify-content-between">
+      <div class="col-4">
+        <%= link_to "<i class='fa fa-plus'></i> Registrar trabajo".html_safe, new_job_path( d_type: params[:d_type] ),
+          remote: true, 
+          class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+      </div>
   </div>
+<% end %>
 
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'jobs', 

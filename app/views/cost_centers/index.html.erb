@@ -1,9 +1,11 @@
 <h1>Centros de costo</h1>
 <div class="row justify-content-between">
   <div class="col-4">
-    <%= link_to "<i class='fa fa-plus'></i> Registrar centro de costo".html_safe, new_cost_center_path(d_type: params[:d_type]),
-          remote: true, data: { toggle: :modal, target: '#modal' }, 
-          class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+    <% if current_user.admin? %>
+      <%= link_to "<i class='fa fa-plus'></i> Registrar centro de costo".html_safe, new_cost_center_path(d_type: params[:d_type]),
+            remote: true, data: { toggle: :modal, target: '#modal' }, 
+            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+    <% end %>
   </div>
   <div class="col-4">
     <%= link_to "<i class='fa fa-map'></i> Zonas".html_safe, zones_path( d_type: params[:d_type] ),
@@ -25,11 +27,12 @@
                       title: "Centros de costo registados", 
                       col_names: [ 'Centro de costo', 'Sub centro', 'Acciones' ] }) %>
 
-<%= link_to "<i class='fa fa-plus'></i> Agregar documento a un perfil".html_safe, 
-              new_cost_center_document_path( d_type: params[:d_type] ),
-              remote: true, 
-              class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2' %>
-
+<% if current_user.admin? %>
+  <%= link_to "<i class='fa fa-plus'></i> Agregar documento a un perfil".html_safe, 
+                new_cost_center_document_path( d_type: params[:d_type] ),
+                remote: true, 
+                class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2' %>
+<% end %>
 <button class="btn u-btn-teal mb-2" onclick="hide_table('cost_center_documents_table')"> <i class="fa fa-eye"></i> </button>
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'cost_center_documents', 

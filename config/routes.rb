@@ -1,6 +1,6 @@
-require 'sidekiq/web'
+# require 'sidekiq/web'
 Rails.application.routes.draw do
-  mount Sidekiq::Web => "/sidekiq" # mount Sidekiq::Web in your Rails app
+  # mount Sidekiq::Web => "/sidekiq" # mount Sidekiq::Web in your Rails app
   resources :assignments do 
     get 'vehicles', on: :collection
     get 'poeple', on: :collection

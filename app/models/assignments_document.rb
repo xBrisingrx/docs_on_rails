@@ -67,7 +67,12 @@ class AssignmentsDocument < ApplicationRecord
     if renovation_date.blank?
       return '---'
     else
-      return renovation_date.expiration_date.strftime('%d-%m-%y')
+      if renovation_date.expiration_date.nil?
+        return renovation_date.expiration_date
+      else
+        return renovation_date.expiration_date.strftime('%d-%m-%y')
+      end
+      
     end
   end
 

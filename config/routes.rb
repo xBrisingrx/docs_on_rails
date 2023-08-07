@@ -1,4 +1,6 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
+  mount Sidekiq::Web => "/sidekiq" # mount Sidekiq::Web in your Rails app
   resources :assignments do 
     get 'vehicles', on: :collection
     get 'poeple', on: :collection
@@ -127,8 +129,10 @@ Rails.application.routes.draw do
     get 'people_list', on: :collection
     get 'matriz', on: :collection
     get 'matriz_vehicles', on: :collection
+    get 'vehicle_document_report', on: :collection
     post 'matriz_vehicles', on: :collection
     get 'matriz_vehicles_mail', on: :collection
+    get 'vehicle_document_mail', on: :collection
     post 'expiration_of_vehicle_documents_between_dates', on: :collection 
   end
 

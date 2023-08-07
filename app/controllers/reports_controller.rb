@@ -78,11 +78,15 @@ class ReportsController < ApplicationController
 	end
 
 	def matriz_vehicles
-		@column_titles = ['INT', 'DOMINIO', 'ESTADO', 'DESDE', 'HASTA', 'EMPRESA', 'Centro de costos', 
-											'Subcentro', 'CC DES', 'SUB-DES', 'OPERADORA', 'CLIENTE']
-		@index_name = {'code'=> '' , 'domain'=> '', 'status' => '', 'start_date'=> '', 'end_date'=> '',
-			 'company' => '', 'cost_center' => '', 'sub_center' => '', 'cc_des' => '', 'sub_des' => '',
-			 'operators' => 'operators', 'clients'=> 'clients' }
+		# @column_titles = ['INT', 'DOMINIO', 'ESTADO', 'DESDE', 'HASTA', 'EMPRESA', 'Centro de costos', 
+		# 									'Subcentro', 'CC DES', 'SUB-DES', 'OPERADORA', 'CLIENTE']
+		@column_titles = ['INT', 'DOMINIO','EMPRESA']
+
+		# @index_name = {'code'=> '' , 'domain'=> '', 'status' => '', 'start_date'=> '', 'end_date'=> '',
+		# 	 'company' => '', 'cost_center' => '', 'sub_center' => '', 'cc_des' => '', 'sub_des' => '',
+		# 	 'operators' => 'operators', 'clients'=> 'clients' }
+
+		@index_name = {'code'=> '' , 'domain'=> '', 'company' => ''}
 		@data = Array.new
 
 		if params[:document_ids].blank?
@@ -113,26 +117,28 @@ class ReportsController < ApplicationController
 			row['code'] = assignment.assignated.code
 			row['domain'] = assignment.assignated.domain 
 			row['company'] = assignment.assignated.company.name
-			row['cost_center'] = assignment.cost_center.number_center
-			row['sub_center'] = assignment.cost_center.zone.code
-			row['cc_des'] = assignment.cost_center.name_center
-			row['sub_des'] = assignment.cost_center.zone.name
-			row['status'] = assignment.assignation_status.name
-			row['start_date'] = (assignment.start_date) ? assignment.start_date.strftime('%d-%m-%y') : '' 
-			row['end_date'] = (assignment.end_date) ? assignment.end_date.strftime('%d-%m-%y') : '' 
+			# row['cost_center'] = assignment.cost_center.number_center
+			# row['sub_center'] = assignment.cost_center.zone.code
+			# row['cc_des'] = assignment.cost_center.name_center
+			# row['sub_des'] = assignment.cost_center.zone.name
+			# row['status'] = assignment.assignation_status.name
+			# row['start_date'] = (assignment.start_date) ? assignment.start_date.strftime('%d-%m-%y') : '' 
+			# row['end_date'] = (assignment.end_date) ? assignment.end_date.strftime('%d-%m-%y') : '' 
 
-			operators = ""
-			clients = ""
-			operators = assignment.operators.map { |operator| operators.insert(-1,"#{operator.name} / ") }
-			clients = assignment.clients.map { |client| clients.concat("#{client.name} / ") }
+			# operators = ""
+			# clients = ""
+			# operators = assignment.operators.map { |operator| operators.insert(-1,"#{operator.name} / ") }
+			# clients = assignment.clients.map { |client| clients.concat("#{client.name} / ") }
 			
-			row['operators'] = ( !operators[0].blank? ) ? operators[0].chop.chop : ''
-			row['clients'] = ( !clients[0].blank? ) ? clients[0].chop.chop : ''
+			# row['operators'] = ( !operators[0].blank? ) ? operators[0].chop.chop : ''
+			# row['clients'] = ( !clients[0].blank? ) ? clients[0].chop.chop : ''
 
 			if params[:document_ids].blank?
-				assignments_documents = assignment.cost_center.documents.actives
+				# assignments_documents = assignment.cost_center.documents.actives
+				assignments_documents = assignment.documents.actives
 			else
-				assignments_documents = assignment.cost_center.documents.actives.where( id: params[:document_ids][0].split(',') )
+				# assignments_documents = assignment.cost_center.documents.actives.where( id: params[:document_ids][0].split(',') )
+				assignments_documents = assignment.documents.actives.where( id: params[:document_ids][0].split(',') )
 			end
 
 			assignments_documents.map { |document|
@@ -223,14 +229,247 @@ class ReportsController < ApplicationController
 		s = p.to_stream()
 		File.open(Rails.root.join("app/assets/reports/reporte_vehiculos.xlsx"), mode: 'w', encoding: 'ASCII-8BIT') { |f| f.write(s.read) }
 		data = render_to_string handlers: [:axlsx], formats: [:xlsx], template: 'reports/matriz_vehicles.xlsx.axlsx'
-		#File.write(Rails.root.join("app/assets/reports/prueba.xlsx"),"w")
-		# File.open(Rails.root.join("app/assets/reports/prueba2.xlsx"),"w") {|f| f.write(data) }
+
 		send_data data, filename: "prueba.xlsx", type: Mime[:xlsx], disposition: 'inline'
 		export_file_path = [Rails.root, "public", "uploads", "exports", "excel.xlsx"].join("/")
-		# s.write export_file_path
-		# p.write export_file_path
-		# send_file export_file_path, :content_type => "application/vnd.ms-excel", :disposition => 'inline'
+
 		NotifyMailer.vehicles_report().deliver_later
 	end
 
+	def vehicle_document_report
+		@column_titles = ['INT', 'DOMINIO','EMPRESA']
+		@index_name = {'code'=> '' , 'domain'=> '', 'company' => ''}
+		@data = Array.new
+
+		if params[:document_ids].blank?
+			@documents = Document.where(d_type: :vehicles).actives.order(:name).pluck(:id, :name)
+		else
+			@documents = Document.where(id: params[:document_ids][0].split(',')).order(:name).pluck(:id, :name)
+		end
+
+		@title = 'Matriz vehiculos final '
+		if !params[:start_date].blank?
+			start_date = Date.parse(params[:start_date])
+			@title += "desde #{ start_date.strftime('%d-%m-%y') }"
+		end
+		
+		if !params[:end_date].blank?
+			end_date = Date.parse(params[:end_date])
+			@title += " hasta #{ end_date.strftime('%d-%m-%y') }"
+		end
+
+		@documents.map { |document|
+			@index_name["#{document[0]}"] = ''
+			@column_titles << document[1]
+		} 
+
+		row = @index_name.clone
+		vehicles = Vehicle.actives.order(:code)
+		vehicles.map { |vehicle|
+			row['code'] = vehicle.code
+			row['domain'] = vehicle.domain 
+			row['company'] = vehicle.company.name
+
+			if params[:document_ids].blank?
+				assignments_documents = vehicle.documents.actives
+			else
+				assignments_documents = vehicle.documents.actives.where( id: params[:document_ids][0].split(',') )
+			end
+
+			assignments_documents.map { |document|
+				renovation = vehicle.assignments_documents.find_by( assignated: vehicle, document_id: document.id ).last_renovation_between_dates( params[:start_date], params[:end_date] )
+				if renovation.blank?
+					row["#{document.id}"] = 'No cargado'
+				elsif renovation === '---'
+					# esta el documento cargado pero no hay vencimiento en estas fechas
+					row["#{document.id}"] = ''
+				else
+					row["#{document.id}"] = ( document.expires? ) ? renovation : 'Cargado'
+				end
+			}
+			
+			@data.push(row) 
+			row = @index_name.clone
+		}
+		respond_to do |format|
+			format.xlsx {
+        response.headers['Content-Disposition'] = 'attachment; filename="informe_matriz_vehiculos.xlsx"'
+      }
+		end
+	end
+
+	def vehicle_document_mail
+		@column_titles = ['INT', 'DOMINIO','EMPRESA']
+		@index_name = {'code'=> '' , 'domain'=> '', 'company' => ''}
+
+		@data = Array.new
+		@documents = Document.where(d_type: :vehicles).actives.pluck(:id, :name)
+		@title = 'Matriz vehiculos final'
+		@documents.map { |document|
+			@index_name["#{document[0]}"] = ''
+			@column_titles << document[1]
+		} 
+
+		row = @index_name.clone
+		vehicles = Vehicle.actives.order(:code)
+		vehicles.map { |vehicle|
+			row['code'] = vehicle.code
+			row['domain'] = vehicle.domain 
+			row['company'] = vehicle.company.name
+
+			if params[:document_ids].blank?
+				assignments_documents = vehicle.documents.actives
+			else
+				assignments_documents = vehicle.documents.actives.where( id: params[:document_ids][0].split(',') )
+			end
+
+			assignments_documents.map { |document|
+				renovation = vehicle.assignments_documents.find_by( assignated: vehicle, document_id: document.id ).last_renovation_between_dates( params[:start_date], params[:end_date] )
+				if renovation.blank?
+					row["#{document.id}"] = 'No cargado'
+				elsif renovation === '---'
+					# esta el documento cargado pero no hay vencimiento en estas fechas
+					row["#{document.id}"] = ''
+				else
+					row["#{document.id}"] = ( document.expires? ) ? renovation : 'Cargado'
+				end
+			}
+			
+			@data.push(row) 
+			row = @index_name.clone
+		}
+
+
+		p = Axlsx::Package.new
+		p.workbook do |wb|
+			wb.styles do |style|
+				grey_cell = style.add_style(bg_color: "C4C4C4", border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center })
+				no_bg_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center })
+				title_cell = style.add_style( :b => true, :sz => 12, :bg_color => "4BE9FF",
+					:alignment => { :horizontal=> :center }, 
+					border: Axlsx::STYLE_THIN_BORDER )
+				wb.add_worksheet(name: "Unificador") do |sheet|
+					sheet.add_row [@title], style: title_cell
+					sheet.add_row @column_titles, style: title_cell
+					sheet.merge_cells("A1:L1")
+				  @data.each_with_index do |d, index|
+				  	styles = []
+
+				  	d.each do |expire_date|
+				  		if expire_date[0].to_i >= 1
+				  			styles << style.add_style( bg_color: Report.set_color( expire_date[1] ), border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center } )
+				  		else
+				  			styles << style.add_style( border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center } )
+				  		end
+				  	end
+
+				  	sheet.add_row d.values, style: styles
+				  end
+				end # add worksheet
+			end # style
+		end
+		p.serialize("app/assets/reports/reporte_vehiculos.xlsx")
+
+		# Serialize to a stream
+		s = p.to_stream()
+		File.open(Rails.root.join("app/assets/reports/reporte_vehiculos.xlsx"), mode: 'w', encoding: 'ASCII-8BIT') { |f| f.write(s.read) }
+		data = render_to_string handlers: [:axlsx], formats: [:xlsx], template: 'reports/vehicle_document_report.xlsx.axlsx'
+
+		people_document_email
+		
+		# send_data data, filename: "reporte_vehiculos.xlsx", type: Mime[:xlsx], disposition: 'inline'
+		# export_file_path = [Rails.root, "public", "uploads", "exports", "excel.xlsx"].join("/")
+
+		NotifyMailer.vehicles_report().deliver_later
+	end
+
+	def people_document_email
+		@column_titles = ['LEGAJO', 'APELLIDO/S, NOMBRE/S (DNI)']
+		@index_name = {'file' => '', 'fullname' => ''}
+		@data = Array.new
+		if params[:document_ids].blank?
+			@documents = Document.where(d_type: :people).actives.order(:name).pluck(:id, :name)
+		else
+			@documents = Document.where(id: params[:document_ids][0].split(',')).order(:name).pluck(:id, :name)
+		end
+
+		@title = 'Matriz personas final '
+		if !params[:start_date].blank?
+			start_date = Date.parse(params[:start_date])
+			@title += "desde #{ start_date.strftime('%d-%m-%y') }"
+		end
+		
+		if !params[:end_date].blank?
+			end_date = Date.parse(params[:end_date])
+			@title += " hasta #{ end_date.strftime('%d-%m-%y') }"
+		end
+
+		@documents.map { |document|
+			@index_name["#{document[0]}"] = ''
+			@column_titles << document[1]
+		}
+
+		row = @index_name.clone
+		people = Person.actives.order(:file)
+		people.map { |person|
+			row['file'] = person.file
+			row['fullname'] = person.fullname
+
+			if params[:document_ids].blank?
+				assignments_documents = person.documents.actives
+			else
+				assignments_documents = person.documents.actives.where( id: params[:document_ids][0].split(',') )
+			end
+
+			assignments_documents.map { |document|
+				renovation = person.assignments_documents.find_by( assignated: person, document_id: document.id ).last_renovation_between_dates( params[:start_date], params[:end_date] )
+				if renovation.blank?
+					row["#{document.id}"] = 'No cargado'
+				elsif renovation === '---'
+					# esta el documento cargado pero no hay vencimiento en estas fechas
+					row["#{document.id}"] = ''
+				else
+					row["#{document.id}"] = ( document.expires? ) ? renovation : 'Cargado'
+				end
+			}
+			
+			@data.push(row) 
+			row = @index_name.clone
+		}
+
+		p = Axlsx::Package.new
+		p.workbook do |wb|
+			wb.styles do |style|
+				grey_cell = style.add_style(bg_color: "C4C4C4", border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center })
+				no_bg_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center })
+				title_cell = style.add_style( :b => true, :sz => 12, :bg_color => "4BE9FF",
+					:alignment => { :horizontal=> :center }, 
+					border: Axlsx::STYLE_THIN_BORDER )
+				wb.add_worksheet(name: "Unificador") do |sheet|
+					sheet.add_row [@title], style: title_cell
+					sheet.add_row @column_titles, style: title_cell
+					sheet.merge_cells("A1:L1")
+				  @data.each_with_index do |d, index|
+				  	styles = []
+
+				  	d.each do |expire_date|
+				  		if expire_date[0].to_i >= 1
+				  			styles << style.add_style( bg_color: Report.set_color( expire_date[1] ), border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center } )
+				  		else
+				  			styles << style.add_style( border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center } )
+				  		end
+				  	end
+
+				  	sheet.add_row d.values, style: styles
+				  end
+				end # add worksheet
+			end # style
+		end
+		p.serialize("app/assets/reports/reporte_personas.xlsx")
+
+		# Serialize to a stream
+		s = p.to_stream()
+		File.open(Rails.root.join("app/assets/reports/reporte_personas.xlsx"), mode: 'w', encoding: 'ASCII-8BIT') { |f| f.write(s.read) }
+
+	end
 end

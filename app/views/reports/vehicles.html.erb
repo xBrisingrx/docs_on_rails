@@ -4,10 +4,12 @@
   <%# link_to "<i class='fa fa-plus'></i> Listar vehiculos".html_safe, vehicles_list_reports_path(format: :xlsx ), 
               class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2'%>
 
-  <%= link_to "<i class='fa fa-plus'></i> Informe matriz de vehiculos".html_safe, matriz_reports_path(format: :xlsx ), 
+  <%= link_to "<i class='fa fa-plus'></i> Informe matriz de vehiculos".html_safe, vehicle_document_report_reports_path(format: :xlsx ), 
               class: 'btn u-btn-outline-cyan u-btn-hover-v1-2 mb-2 ml-2'%>
-
-
+  <% if Current.user.username == 'david' %>
+    <%= link_to "<i class='fa fa-plus'></i> Informe email".html_safe, vehicle_document_mail_reports_path(format: :xlsx ), 
+              class: 'btn u-btn-outline-cyan u-btn-hover-v1-2 mb-2 ml-2'%>
+  <% end %>
   <%= form_with( url: '', 
         id: 'report-between-dates', 
         class: 'g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-30',
@@ -36,7 +38,7 @@
     </div>
     <div class="row ">
       <button class="btn btn-md u-btn-primary rounded-0 g-ml-15" 
-      onclick="report_between_dates('<%= matriz_vehicles_reports_path %>', 'vencimientos_vehiculos.xlsx');">Descargar </button>
+      onclick="report_between_dates('<%= vehicle_document_report_reports_path %>', 'vencimientos_vehiculos.xlsx');">Descargar </button>
     </div>
     <small id="error-form" class="text-danger">  </small>
   <% end %>

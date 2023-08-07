@@ -38,4 +38,8 @@ class Report < ApplicationRecord
 		end
 
 	end
+
+	def self.email_report
+		NotifyMailer.vehicles_report().deliver_later
+	end
 end

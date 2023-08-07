@@ -23,5 +23,8 @@ module DocsOnRails
         ENV[key.to_s] = value
       end if File.exists?(env_file)
     end
+
+    # Background job
+    # config.active_job.queue_adapter = :sidekiq
   end
 end

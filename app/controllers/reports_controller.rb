@@ -23,7 +23,11 @@ class ReportsController < ApplicationController
 
 	def matriz
 		people_report_body
-		render xlsx: "document_report", template: 'reports/document_report.xlsx'
+		respond_to do |format|
+			format.xlsx {
+		    render xlsx: "reports/document_report", disposition: "attachment", filename: "vencimientos_personas.xlsx"
+		  }
+		end
 	end
 
 	def matriz_vehicles
@@ -187,7 +191,11 @@ class ReportsController < ApplicationController
 
 	def vehicle_document_report
 		vehicle_report_body
-		render xlsx: "document_report", template: 'reports/document_report.xlsx'
+		respond_to do |format|
+			format.xlsx {
+		    render xlsx: "reports/document_report", disposition: "attachment", filename: "vencimientos_vehiculos.xlsx"
+		  }
+		end
 	end
 
 	def vehicle_document_mail
@@ -201,7 +209,11 @@ class ReportsController < ApplicationController
 
 	def people_documents
 		people_report_body
-		render xlsx: "document_report", template: 'reports/document_report.xlsx'
+		respond_to do |format|
+			format.xlsx {
+		    render xlsx: "reports/document_report", disposition: "attachment", filename: "vencimientos_personas.xlsx"
+		  }
+		end
 	end
 
 	def people_document_email

@@ -9,7 +9,7 @@ wb.styles do |style|
 	wb.add_worksheet(name: "Unificador") do |sheet|
 		sheet.add_row [@title], style: title_cell
 		sheet.add_row @column_titles, style: title_cell
-		sheet.merge_cells("A1:L1")
+		sheet.merge_cells("A1:#{@letter_title}1")
 	  @data.each_with_index do |d, index|
 	  	styles = []
 

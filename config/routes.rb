@@ -125,11 +125,13 @@ Rails.application.routes.draw do
 
   resources :reports, only: [:index] do
     get 'people', on: :collection
+    post 'people_documents', on: :collection
     get 'vehicles', on: :collection
     get 'people_list', on: :collection
     get 'matriz', on: :collection
     get 'matriz_vehicles', on: :collection
     get 'vehicle_document_report', on: :collection
+    post 'vehicle_document_report', on: :collection
     post 'matriz_vehicles', on: :collection
     get 'matriz_vehicles_mail', on: :collection
     get 'vehicle_document_mail', on: :collection

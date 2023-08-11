@@ -313,7 +313,7 @@ class ReportsController < ApplicationController
 
 		@letter_title = get_letter( @index_name.count )
 		row = @index_name.clone
-		people = Person.actives.order(:file)
+		people = Person.actives.order(:file).select(:id, :file, :name, :last_name)
 		people.map { |person|
 			row['file'] = person.file
 			row['fullname'] = person.fullname

@@ -66,7 +66,7 @@ class VehiclesController < ApplicationController
   end
 
   def inactives
-    @vehicles = Vehicle.inactives
+    @vehicles = Vehicle.inactives.includes(:activity_histories)
   end
 
   def show_vehicle_history

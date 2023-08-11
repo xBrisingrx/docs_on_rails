@@ -8,7 +8,7 @@ class PeopleController < ApplicationController
       format.html
       format.json
       format.xlsx {
-        response.headers['Content-Disposition'] = 'attachment; filename="all_people.xlsx"'
+        response.headers['Content-Disposition'] = 'attachment; filename="listado_personas.xlsx"'
       }
     end
   end
@@ -95,7 +95,7 @@ class PeopleController < ApplicationController
   end
 
   def inactives
-    @people = Person.inactives
+    @people = Person.inactives.includes(:activity_histories)
   end
 
   def show_person_history

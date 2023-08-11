@@ -3,10 +3,11 @@
   <%= link_to "<i class='fa fa-plus'></i> Nueva persona".html_safe, new_person_path(), 
               class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2',
               remote: true %>
+  <%= link_to "<i class='fa fa-user-times'></i> Ver personal inactivo".html_safe, inactive_people_path(), 
+            class: 'btn u-btn-outline-orange u-btn-hover-v1-2 mb-2'%>
 <% end %>
 
-<%# link_to "<i class='fa fa-user-times'></i> Ver personal inactivo".html_safe, inactive_people_path(), 
-            class: 'btn u-btn-outline-orange u-btn-hover-v1-2 mb-2'%>
+
 
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'people', 

@@ -63,7 +63,7 @@ class PeopleController < ApplicationController
     if @person.update(active:false) && activity_history.save
       render json: { status: 'success', msg: 'Persona eliminada' }, status: :ok
     else
-      render json: { status: 'error', msg: 'Ocurrio un error al realizar la operación' }, status: :unprocessable_entity
+      render json: { status: 'error', msg: 'Ocurrio un error al realizar la operación', errors: @person.errors.messages }, status: :unprocessable_entity
     end
 
     rescue => e

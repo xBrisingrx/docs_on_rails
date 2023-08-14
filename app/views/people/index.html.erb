@@ -33,18 +33,23 @@
           <div class="form-group row g-mb-10">
             <label class="col-sm-2 col-form-label g-mb-10">Fecha baja (*)</label>
             <div class="col-sm-6">
-              <%= form.date_field :date, class: "form-control u-form-control"  %>
+              <%= form.date_field :date, class: "form-control u-form-control", required: true  %>
             </div>
           </div>
           <div class="form-group row g-mb-10">
             <label class="col-sm-2 col-form-label g-mb-10">Motivo baja (*)</label>
             <%= form.select(:reasons_to_disable_id, @reasons_to_disable.collect {|r| [r.reason, r.id]}, 
                           {:include_blank => "Seleccione motivo"},
-                          class: 'select-2-reasons form-control col-6 g-mb-10') %>
+                          class: 'select-2-reasons form-control col-6 g-mb-10', 
+                          required: true) %>
             <div class="invalid-feedback reasons_to_disable"></div>
           </div>
           <div class="form-group">
-            <%= form.text_area :description, class: 'form-control form-control-md u-textarea-expandable', rows: 3, placeholder: 'Detalle de la baja' %>
+            <%= form.text_area :description, 
+              class: 'form-control form-control-md u-textarea-expandable', 
+                rows: 3, 
+                placeholder: 'Detalle de la baja', 
+                required: true %>
           </div>
           <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
           <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>

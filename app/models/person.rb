@@ -40,9 +40,9 @@ class Person < ApplicationRecord
   validates :file, presence: true, uniqueness: { message: "Este legajo pertenece a otra persona" }
   validates :name, presence: true, length: { minimum: 3, too_short: "Minimo son %{count} caracteres." }
   validates :last_name, presence: true, length: { minimum: 3, too_short: "Minimo son %{count} caracteres." }
-  validates :dni, uniqueness: { message: "Este dni pertenece a otra persona" },
-    allow_blank: true,
-    length: { minimum: 8, too_short: "Minimo son %{count} caracteres." }
+  # validates :dni, uniqueness: { message: "Este dni pertenece a otra persona" },
+  #   allow_blank: true,
+  #   length: { minimum: 8, too_short: "Minimo son %{count} caracteres." }
   validates :email,
     uniqueness: { case_sensitive: false, message: "El email ya se encuentra en uso" }, 
     allow_blank: true,

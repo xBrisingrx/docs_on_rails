@@ -15,10 +15,11 @@
                       col_names: [ 'Nombre', 'Inicio vigencia', 'Fin vigencia','Estado','Descripcion','Acciones' ] }) %>
 
 <!-- <button class="btn u-btn-teal mb-2" onclick="hide_table('documents_profiles_table')"> <i class="fa fa-eye"></i> </button> -->
+
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'documents_profiles', 
-                      color: 'blue', 
-                      icon: 'fa-gear',
+                      color: 'purple', 
+                      icon: 'fa-book',
                       title: "Documentos asignados a perfiles", 
                       col_names: [ 'Perfil', 'Documento', 'Inicio vigencia','Inicio vigencia','Estado','Acciones' ] }) %>
 

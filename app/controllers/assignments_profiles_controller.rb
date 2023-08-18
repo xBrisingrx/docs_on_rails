@@ -64,6 +64,6 @@ class AssignmentsProfilesController < ApplicationController
 
     def assignments_profile_params
       params.require(:assignments_profile).permit(:assignated_type, :assignated_id, :zone_job_profile_id, 
-        :start_date, :end_date, :active)
+        :start_date, :end_date, :active, :profile_id)
     end
 end

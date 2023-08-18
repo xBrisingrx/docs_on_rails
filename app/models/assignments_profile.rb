@@ -96,7 +96,7 @@ class AssignmentsProfile < ApplicationRecord
     # busco mis documentos asociados al perfil a deshabilitar
     # deshabilito los que se puedan, si se comparte con otro perfil o es custom no se puede
     # deshabilito el perfil
-    @documents = ZoneJobProfileDoc.where( zone_job_profile_id: self.zone_job_profile_id ).actives
+    @documents = ZoneJobProfileDoc.where( profile_id: self.profile_id ).actives
     ActiveRecord::Base.transaction do 
       @documents.each do |document|
         assigned_document = AssignmentsDocument.where( assignated_id: self.assignated_id, 
@@ -112,7 +112,7 @@ class AssignmentsProfile < ApplicationRecord
   end
 
   def reactive_profile start_date
-    @documents = ZoneJobProfileDoc.where( zone_job_profile_id: self.zone_job_profile_id ).actives
+    @documents = ZoneJobProfileDoc.where( profile_id: self.profile_id ).actives
     ActiveRecord::Base.transaction do 
       @documents.each do |document|
         assigned_document = AssignmentsDocument.where( assignated_id: self.assignated_id, 
@@ -134,7 +134,7 @@ class AssignmentsProfile < ApplicationRecord
   private
   def unique_association
     @entry = AssignmentsProfile.find_by(assignated_id: self.assignated_id, assignated_type: self.assignated_type,
-        zone_job_profile_id: self.zone_job_profile_id)
+        profile_id: self.profile_id)
     if self.id.nil? 
       # Validacion para creacion
       if !@entry.nil? && @entry.active

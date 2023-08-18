@@ -11,7 +11,7 @@ class PeopleProfilesController < ApplicationController
   def new
     @people_profile = AssignmentsProfile.new( assignated_type: :Person )
     @people = Person.actives.order(:last_name)
-    @profiles = ZoneJobProfile.profile_type(:people).actives
+    @profiles = Profile.where( d_type: 1 ).actives.select(:id, :name)
     @title_modal = 'Asignar perfil a una persona'
   end
 
@@ -27,7 +27,7 @@ class PeopleProfilesController < ApplicationController
   def by_person
     @people_profiles = AssignmentsProfile.where( assignated_id: params[:person_id] ).where( assignated_type: 'Person')
     respond_to do |format|
-      format.json :index
+      format.json { render :index }
     end
   end
 

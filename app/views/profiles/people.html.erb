@@ -1,5 +1,5 @@
 <h1>Perfiles de <%= @profile_type %></h1>
-<% if current_user.admin? %>
+<% if Current.user.admin? %>
   <%= link_to "<i class='fa fa-plus'></i> Registrar perfil".html_safe, new_profile_path( d_type: :people ),
               remote: true, 
               class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
@@ -15,7 +15,12 @@
                       col_names: [ 'Nombre', 'Inicio vigencia', 'Fin vigencia','Estado','Descripcion','Acciones' ] }) %>
 
 <!-- <button class="btn u-btn-teal mb-2" onclick="hide_table('documents_profiles_table')"> <i class="fa fa-eye"></i> </button> -->
-
+<% if Current.user.admin? %>
+  <%= link_to "<i class='fa fa-plus'></i> Asociar documento a perfil".html_safe, 
+        new_documents_profile_path( d_type: :people ),
+        remote: true, 
+        class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+<% end %>
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'documents_profiles', 
                       color: 'purple', 

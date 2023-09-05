@@ -44,7 +44,7 @@ class Person < ApplicationRecord
   #   allow_blank: true,
   #   length: { minimum: 8, too_short: "Minimo son %{count} caracteres." }
   validates :email,
-    uniqueness: { case_sensitive: false, message: "El email ya se encuentra en uso" }, 
+    # uniqueness: { case_sensitive: false, message: "El email ya se encuentra en uso" }, 
     allow_blank: true,
     format: {
       with: /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,

@@ -37,7 +37,7 @@ class Person < ApplicationRecord
   has_many :assignments, as: :assignated # asignaciones a este vehiculo
   has_many :cost_centers, through: :assignments
 
-  validates :file, presence: true, uniqueness: { message: "Este legajo pertenece a otra persona" }
+  validates :file, presence: true
   validates :name, presence: true, length: { minimum: 3, too_short: "Minimo son %{count} caracteres." }
   validates :last_name, presence: true, length: { minimum: 3, too_short: "Minimo son %{count} caracteres." }
   # validates :dni, uniqueness: { message: "Este dni pertenece a otra persona" },

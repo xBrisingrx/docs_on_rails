@@ -51,8 +51,8 @@ class Person < ApplicationRecord
       message: :invalid
     }
     
-	validates :tramit_number, uniqueness: { message: "Este número de tramite pertenece a otra persona" }, 
-	    allow_blank: true
+	# validates :tramit_number, uniqueness: { message: "Este número de tramite pertenece a otra persona" }, 
+	#     allow_blank: true
 
   scope :actives, -> { where(active: true) }
   scope :inactives, -> { where(active: false) }

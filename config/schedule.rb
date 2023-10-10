@@ -25,8 +25,10 @@ set :output, { error: 'log/cron_error_log.log', standard: 'log/cron_log.log' }
 
 
 every 5.minutes do
-	puts "=============================== \n"
-	command "echo 'un echo copado'"
+  runner "Report.email_report"
+end
+
+every :monday, at: "8:00 AM" do
   runner "Report.email_report"
 end
 

@@ -40,6 +40,6 @@ class Report < ApplicationRecord
 	end
 
 	def self.email_report
-		NotifyMailer.vehicles_report().deliver_later
+		NotifyMailer.vehicles_report().deliver_now
 	end
 end

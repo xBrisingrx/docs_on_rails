@@ -21,16 +21,16 @@ env :PATH, ENV['PATH']
 set :output, { error: 'log/cron_error_log.log', standard: 'log/cron_log.log' }
 
 # Sets the environment to run during development mode (Set to production by default)
-set :environment, 'development'
+# set :environment, 'development'
 
 
-every 5.minutes do
-  # runner "Report.email_report"
-  rake "reports:send_weekly_report"
-end
+# every 5.minutes do
+#   # runner "Report.email_report"
+#   rake "reports:send_weekly_report"
+# end
 
 every :monday, at: "8:00 AM" do
-  runner "Report.email_report"
+  rake "reports:send_weekly_report"
 end
 
 # Learn more: http://github.com/javan/whenever

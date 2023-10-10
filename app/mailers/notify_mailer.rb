@@ -21,7 +21,8 @@ class NotifyMailer < ApplicationMailer
   #                 'delfincurapil@yahoo.com.ar',
   #                 'andrearamos@transportesetap.com.ar',
   #                 'etap@transportesetap.com.ar',
-  #                 'marianalemus@transportesetap.com.ar'],
+  #                 'marianalemus@transportesetap.com.ar',
+  #                 'mdavid.almiron@gmail.com'],
   #   :subject => 'Informe semanal' )
   # end
 

@@ -233,9 +233,9 @@ class ReportsController < ApplicationController
 		@data = Array.new
 
 		if params[:document_ids].blank?
-			@documents = Document.where(d_type: :vehicles).actives.order(:name).pluck(:id, :name)
+			@documents = Document.where(d_type: :vehicles).actives.expire.order(:name).pluck(:id, :name)
 		else
-			@documents = Document.where(id: params[:document_ids][0].split(',')).order(:name).pluck(:id, :name)
+			@documents = Document.where(id: params[:document_ids][0].split(',')).expire.order(:name).pluck(:id, :name)
 		end
 
 		@title = 'Matriz vehiculos final '
@@ -266,8 +266,10 @@ class ReportsController < ApplicationController
 			else
 				assignments_documents = vehicle.documents.actives.where( id: params[:document_ids][0].split(',') )
 			end
-
+			next if assignments_documents.blank? # this vehicle doesn't has assigned documents
+			empty_row = row.clone
 			assignments_documents.map { |document|
+				next if !document.expires
 				renovation = vehicle.assignments_documents.find_by( assignated: vehicle, document_id: document.id ).last_renovation_between_dates( params[:start_date], params[:end_date] )
 				if renovation.blank?
 					row["#{document.id}"] = ''
@@ -278,7 +280,7 @@ class ReportsController < ApplicationController
 					row["#{document.id}"] = ( document.expires? ) ? renovation : 'Cargado'
 				end
 			}
-			
+			next if row == empty_row
 			@data.push(row) 
 			row = @index_name.clone
 		}
@@ -289,9 +291,9 @@ class ReportsController < ApplicationController
 		@index_name = {'file' => '', 'fullname' => ''}
 		@data = Array.new
 		if params[:document_ids].blank?
-			@documents = Document.where(d_type: :people).actives.order(:name).pluck(:id, :name)
+			@documents = Document.where(d_type: :people).actives.expire.order(:name).pluck(:id, :name)
 		else
-			@documents = Document.where(id: params[:document_ids][0].split(',')).order(:name).pluck(:id, :name)
+			@documents = Document.where(id: params[:document_ids][0].split(',')).expire.order(:name).pluck(:id, :name)
 		end
 
 		@title = 'Matriz personas final '
@@ -323,8 +325,10 @@ class ReportsController < ApplicationController
 			else
 				assignments_documents = person.documents.actives.where( id: params[:document_ids][0].split(',') )
 			end
-
+			next if assignments_documents.blank? # this person doesn't has assigned documents
+			empty_row = row.clone
 			assignments_documents.map { |document|
+				next if !document.expires
 				renovation = person.assignments_documents.find_by( assignated: person, document_id: document.id ).last_renovation_between_dates( params[:start_date], params[:end_date] )
 				if renovation.blank?
 					row["#{document.id}"] = ''
@@ -335,7 +339,7 @@ class ReportsController < ApplicationController
 					row["#{document.id}"] = ( document.expires? ) ? renovation : 'Cargado'
 				end
 			}
-			
+			next if row == empty_row
 			@data.push(row) 
 			row = @index_name.clone
 		} # people.map

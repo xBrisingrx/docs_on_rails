@@ -270,7 +270,7 @@ class ReportsController < ApplicationController
 			assignments_documents.map { |document|
 				renovation = vehicle.assignments_documents.find_by( assignated: vehicle, document_id: document.id ).last_renovation_between_dates( params[:start_date], params[:end_date] )
 				if renovation.blank?
-					row["#{document.id}"] = 'No cargado'
+					row["#{document.id}"] = ''
 				elsif renovation === '---'
 					# esta el documento cargado pero no hay vencimiento en estas fechas
 					row["#{document.id}"] = ''
@@ -327,7 +327,7 @@ class ReportsController < ApplicationController
 			assignments_documents.map { |document|
 				renovation = person.assignments_documents.find_by( assignated: person, document_id: document.id ).last_renovation_between_dates( params[:start_date], params[:end_date] )
 				if renovation.blank?
-					row["#{document.id}"] = 'No cargado'
+					row["#{document.id}"] = ''
 				elsif renovation === '---'
 					# esta el documento cargado pero no hay vencimiento en estas fechas
 					row["#{document.id}"] = ''

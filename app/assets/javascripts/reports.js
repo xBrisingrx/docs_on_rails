@@ -20,8 +20,10 @@ let report_between_dates = (url, filename) => {
         selected.push(option.value);
     }
   }
-  form.append( 'document_ids[]', selected )
-  
+  if (selected.length > 0) {
+    form.append( 'document_ids[]', selected )
+  }
+
   fetch(url, {
   	method: 'POST',
   	headers: {       

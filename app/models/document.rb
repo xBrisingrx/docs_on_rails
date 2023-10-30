@@ -46,6 +46,8 @@ class Document < ApplicationRecord
 	}
 
 	scope :actives, -> { where(active: true) }
+	scope :expire, -> { where( expires: true ) }
+	scope :no_expire, -> { where( expires: false ) }
 
 	private 
 

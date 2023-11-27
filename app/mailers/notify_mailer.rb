@@ -24,7 +24,13 @@ class NotifyMailer < ApplicationMailer
                   'marianalemus@transportesetap.com.ar',
                   'mdavid.almiron@gmail.com'],
     :subject => 'Informe semanal' )
-  end  
+  end
+
+  def weekly_report email
+    attachments['reporte_vehiculos.xlsx'] = File.read( Rails.root.join("app/assets/reports/reporte_vehiculos.xlsx"))
+    attachments['reporte_personas.xlsx'] = File.read( Rails.root.join("app/assets/reports/reporte_personas.xlsx"))
+    mail( to: email, subject: "Informe semanal")
+  end
 end
 
 

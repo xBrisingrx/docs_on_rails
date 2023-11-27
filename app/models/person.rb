@@ -64,4 +64,17 @@ class Person < ApplicationRecord
   def enable
     self.update(active: true)
   end
+
+  def self.many_puts
+    person = Person.new( 
+      file: "700",
+      name: "Mauro",
+      last_name: "Almiron",
+      company_id: 2
+    )
+    pp person
+    puts person.errors.messages
+    puts "\n valida -> \n #{person.valid?} \n"
+    person.save!
+  end
 end

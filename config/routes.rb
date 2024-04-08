@@ -59,7 +59,9 @@ Rails.application.routes.draw do
   post 'vehicles/enable_vehicle', to: 'vehicles#enable_vehicle', as: 'enable_vehicle'
   resources :vehicle_locations
   resources :vehicle_models
-  resources :vehicle_brands
+  resources :vehicle_brands, except: [:destroy] do 
+    get 'disable', on: :collection
+  end
   resources :vehicle_types
   root 'people#index'
   get 'main/welcome'

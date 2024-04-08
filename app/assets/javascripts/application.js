@@ -28,6 +28,7 @@
 //= require document_renovations
 //= require reasons_to_disables
 //= require vehicles
+//= require vehicle_brands
 //= require jobs
 //= require zone_job_profiles
 //= require zone_job_profile_docs

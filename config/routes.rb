@@ -58,11 +58,15 @@ Rails.application.routes.draw do
   get 'vehicles/:id/modal_enable_vehicle', to: 'vehicles#modal_enable_vehicle', as: 'modal_enable_vehicle'
   post 'vehicles/enable_vehicle', to: 'vehicles#enable_vehicle', as: 'enable_vehicle'
   resources :vehicle_locations
-  resources :vehicle_models
-  resources :vehicle_brands, except: [:destroy] do 
-    get 'disable', on: :collection
+  resources :vehicle_models do
+    post 'disable', on: :collection
   end
-  resources :vehicle_types
+  resources :vehicle_brands, except: [:destroy] do 
+    post 'disable', on: :collection
+  end
+  resources :vehicle_types, except: [:destroy] do 
+    post 'disable', on: :collection
+  end
   root 'people#index'
   get 'main/welcome'
 

@@ -29,6 +29,8 @@
 //= require reasons_to_disables
 //= require vehicles
 //= require vehicle_brands
+//= require vehicle_models
+//= require vehicle_types
 //= require jobs
 //= require zone_job_profiles
 //= require zone_job_profile_docs

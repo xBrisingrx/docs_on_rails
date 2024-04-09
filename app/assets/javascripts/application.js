@@ -10,7 +10,7 @@
 //= require unify/components/hs.header
 //= require unify/helpers/hs.hamburgers
 //= require vendor/datatables/datatables
-//= require vendor/noty/noty.min
+//= require vendor/noty/noty
 //= require vendor/select2/select2.full
 //= require custom
 

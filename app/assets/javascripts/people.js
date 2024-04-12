@@ -13,7 +13,6 @@ $(document).ready(function(){
   people_table = $("#people_table").DataTable({
     'ajax': 'people',
     'processing': true,
-    'serverSide': true,
     'columns': [
     {'data': 'file'},
     {'data': 'last_name'},

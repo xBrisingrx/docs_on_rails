@@ -16,7 +16,7 @@
 class AssignmentsDocument < ApplicationRecord
   belongs_to :assignated, polymorphic: true
   belongs_to :document
-  has_many :document_renovations
+  has_many :document_renovations, dependent: :destroy
 
   accepts_nested_attributes_for :document_renovations
 
@@ -97,13 +97,28 @@ class AssignmentsDocument < ApplicationRecord
       self.save
     elsif !entry.first.active 
       entry.update(active: true, custom: self.custom)
-    elsif entry.active 
+    elsif entry.first.active 
       self.errors.add(:base, "Ya tiene asignado este documento.")
     else 
       self.errors.add(:base, "No se puede realizar esta asignacion.")
     end
   end
 
+  def self.acomodo_data
+    people = Person.all
+    people.each do |person|
+      entries = AssignmentsDocument.where(assignated: person)
+      document_ids = entries.pluck(:document_id)
+      document_ids = document_ids.select{|element| document_ids.count(element) > 1}
+      document_ids.uniq!
+      document_ids.each do |document_id|
+        assignment_document = entries.where(document_id: document_id)
+        if assignment_document.where(active: true)
+          assignment_document.where(active: false).destroy_all
+        end
+      end
+    end
+  end
 
   private
   def unique_association

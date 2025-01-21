@@ -2,7 +2,7 @@ class PeopleController < ApplicationController
   before_action :set_person, only: %i[ show edit update upload_person_file show_person_history modal_enable_person ]
 
   def index
-    @people = Person.actives
+    @people = Person.actives.includes(:company)
     @reasons_to_disable = ReasonsToDisable.people.actives
     respond_to do |format|
       format.html

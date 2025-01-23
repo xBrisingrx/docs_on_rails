@@ -4,7 +4,7 @@ class StatusDocumentationController < ApplicationController
   end
 
   def people
-    @people = Person.actives
+    @people = Person.all
     @assgined_type = 'people'
     @type = 'persona'
   end

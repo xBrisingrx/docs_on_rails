@@ -24,7 +24,7 @@ class Vehicle < ApplicationRecord
   belongs_to :vehicle_location
   has_one :vehicle_brand, through: :vehicle_model
   belongs_to :company
-  # has_many :assignments_profiles, as: :assignated # relacion entre perfil y vehiculo
+  has_many :assignments_profiles, as: :assignated # relacion entre perfil y vehiculo
   has_many :assignments, as: :assignated # asignaciones a este vehiculo
   # has_many :assignments_cost_centers, as: :assignated # relacion entre cost_center y vehiculo
   has_many :cost_centers, through: :assignments
@@ -43,7 +43,6 @@ class Vehicle < ApplicationRecord
   end
 
   def disable end_date
-    pp end_date
     ActiveRecord::Base.transaction do
       self.update(active: false)
       self.assignments_profiles.where(active: true).each do |profile|

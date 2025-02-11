@@ -55,24 +55,27 @@ class AssignmentsDocument < ApplicationRecord
       return 'Cargado'
     end 
     
-    if !start_date.blank?
-      renovation_date = renovation_date.where("expiration_date >= ?", start_date)
-    end
-
-    if !end_date.blank?
-      renovation_date = renovation_date.where("expiration_date <= ?", end_date)
-    end
     renovation_date = renovation_date.order(expiration_date: :DESC).first
 
     if renovation_date.blank?
       return '---'
     else
-      if renovation_date.expiration_date.nil?
-        return renovation_date.expiration_date
+      expiration_date = renovation_date.expiration_date
+      if expiration_date.nil?
+        return expiration_date
       else
-        return renovation_date.expiration_date.strftime('%d-%m-%y')
+        if !start_date.blank? && !end_date.blank? # buscan los vencimientos de un periodo en especifico
+          # buscamos los vencimientos que tenemos en esas fechas 
+          if (renovation_date.expiration_date < end_date.to_date && renovation_date.expiration_date > start_date.to_date)
+            return expiration_date.strftime('%d-%m-%y')
+          else
+            return ''
+          end
+        else
+          # devolvemos todos los vencimientos
+          return expiration_date.strftime('%d-%m-%y')
+        end
       end
-      
     end
   end
 
@@ -106,6 +109,7 @@ class AssignmentsDocument < ApplicationRecord
 
   def self.acomodo_data
     people = Person.all
+    afectados = Array.new
     people.each do |person|
       entries = AssignmentsDocument.where(assignated: person)
       document_ids = entries.pluck(:document_id)
@@ -115,9 +119,12 @@ class AssignmentsDocument < ApplicationRecord
         assignment_document = entries.where(document_id: document_id)
         if assignment_document.where(active: true)
           assignment_document.where(active: false).destroy_all
+          afectados.push(person.id)
         end
       end
     end
+    byebug
+    # [117, 387, 438, 559, 594, 610, 663, 684, 695, 699, 700, 700, 704, 704, 707, 759, 814, 814, 814, 845, 895, 903, 908, 910, 915, 915, 915, 934, 934, 934, 934, 934]
   end
 
   private

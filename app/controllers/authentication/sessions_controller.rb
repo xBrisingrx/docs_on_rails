@@ -5,7 +5,7 @@ class Authentication::SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by_username(params[:username])
+    user = User.find_by(username: params[:username], active: true)
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
       redirect_to root_path, notice: "Sessión iniciada!"
